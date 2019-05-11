@@ -2,10 +2,15 @@ package com.github.kroki.delegates
 
 import kotlin.reflect.KProperty
 
-class ThreadLocalDelegate<T>(initializer : () -> T) {
-	operator fun getValue(obj : Any?, property : KProperty<*>) {
-
-	}
+private class FunctionLiteralThreadLocal<T>(private val initializer: () -> T) : ThreadLocal<T>() {
+    override fun initialValue(): T = initializer()
 }
 
-fun <T> threadLocal(initializer : () -> T) = ThreadLocalDelegate(initializer)
+class ThreadLocalDelegate<T>(initializer: () -> T) {
+
+    private val threadLocal = FunctionLiteralThreadLocal(initializer)
+
+    operator fun getValue(obj: Any?, property: KProperty<*>): T = threadLocal.get()
+}
+
+fun <T> threadLocal(initializer: () -> T) = ThreadLocalDelegate(initializer)
