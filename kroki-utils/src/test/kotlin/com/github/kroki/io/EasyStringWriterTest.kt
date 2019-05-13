@@ -1,6 +1,5 @@
-package com.github.kroki.benchmark.io
+package com.github.kroki.io
 
-import com.github.kroki.io.EasyStringWriter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
