@@ -1,6 +1,12 @@
 package com.github.kroki.io
 
+import java.io.Reader
 import java.nio.charset.Charset
+
+fun Reader.readText() : String = EasyStringWriter(1024).use {
+    copyTo(it)
+    it.toString()
+}
 
 fun resource(resource: String) =
     requireNotNull(Thread.currentThread()
