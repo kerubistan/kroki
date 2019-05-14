@@ -9,3 +9,6 @@ fun String.isUUID() = this.matches(uuidPattern)
 
 fun String.toUUID(): UUID =
     UUID.fromString(this)
+
+fun String.substringBetween(prefix: String, postfix: String): String =
+    this.substringAfter(prefix, "").substringBefore(postfix, "")

@@ -19,4 +19,10 @@ internal class StringsKtTest {
         assertEquals(uuid, uuid.toString().toUUID())
     }
 
+    @Test
+    fun substringsBetween() {
+        assertEquals("world", "hello world!".substringBetween("hello ", "!"))
+        assertEquals("something", "blah blah (something) blah".substringBetween("(", ")"))
+    }
+
 }
