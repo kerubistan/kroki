@@ -30,3 +30,6 @@ fun String.substringBetween(prefix: String, postfix: String): String {
         }
     }
 }
+
+fun String.remove(regex: Regex)
+        = this.replace(regex, "")
