@@ -1,9 +1,7 @@
 package com.github.kroki.exceptions
 
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
-import java.lang.IllegalArgumentException
 
 internal class ExceptionsKtTest {
 

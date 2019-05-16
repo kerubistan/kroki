@@ -12,7 +12,7 @@ open class GetStackTraceAsStringBenchmark {
     private val exception = IllegalArgumentException("no problem")
 
     @Benchmark
-    fun getStackTraceAsString(hole : Blackhole) {
+    fun getStackTraceAsString(hole: Blackhole) {
         hole.consume(exception.getStackTraceAsString())
     }
 

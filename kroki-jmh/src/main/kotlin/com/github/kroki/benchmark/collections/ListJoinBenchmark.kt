@@ -16,7 +16,7 @@ open class ListJoinBenchmark {
     )
 
     @Benchmark
-    fun join(hole : Blackhole) {
+    fun join(hole: Blackhole) {
         hole.consume(list.join())
     }
 }

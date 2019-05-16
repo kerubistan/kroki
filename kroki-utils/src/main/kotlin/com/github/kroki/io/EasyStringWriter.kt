@@ -2,7 +2,7 @@ package com.github.kroki.io
 
 import java.io.Writer
 
-class EasyStringWriter(preAllocatedSize : Int = 64) : Writer() {
+class EasyStringWriter(preAllocatedSize: Int = 64) : Writer() {
 
     private val builder = StringBuilder(preAllocatedSize)
 

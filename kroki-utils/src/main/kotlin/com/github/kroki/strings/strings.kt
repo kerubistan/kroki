@@ -14,9 +14,9 @@ private const val notFound = -1
 
 fun String.substringBetween(prefix: String, postfix: String): String {
     val start = this.indexOf(prefix)
-    return if(start == notFound) {
+    return if (start == notFound) {
         val end = this.indexOf(postfix)
-        if(end == notFound) {
+        if (end == notFound) {
             ""
         } else {
             this.substring(0, end)
@@ -31,5 +31,4 @@ fun String.substringBetween(prefix: String, postfix: String): String {
     }
 }
 
-fun String.remove(regex: Regex)
-        = this.replace(regex, "")
+fun String.remove(regex: Regex) = this.replace(regex, "")

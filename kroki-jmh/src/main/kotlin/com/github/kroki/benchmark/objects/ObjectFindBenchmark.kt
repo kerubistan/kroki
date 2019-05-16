@@ -17,7 +17,7 @@ open class ObjectFindBenchmark {
     val tree = Folder("/", listOf(Folder("var"), Folder("etc"), Folder("home")))
 
     @Benchmark
-    fun find(hole : Blackhole) {
+    fun find(hole: Blackhole) {
         tree.find(Folder::subFolders) { it.name == "home" }
     }
 }

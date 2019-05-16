@@ -12,7 +12,7 @@ open class ThreadLocalDelegateBenchmark {
     private val testValue by threadLocal { 1 }
 
     @Benchmark
-    fun useThreadLocal(hole : Blackhole) {
+    fun useThreadLocal(hole: Blackhole) {
         hole.consume(testValue)
     }
 

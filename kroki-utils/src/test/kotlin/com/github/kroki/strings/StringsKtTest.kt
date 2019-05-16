@@ -23,9 +23,9 @@ internal class StringsKtTest {
     fun substringsBetween() {
         assertEquals("world", "hello world!".substringBetween("hello ", "!"))
         assertEquals("something", "blah blah (something) blah".substringBetween("(", ")"))
-        assertEquals( "blah","blah)".substringBetween("(", ")"))
-        assertEquals( "","blah".substringBetween("(", ")"))
-        assertEquals( "blah","(blah".substringBetween("(", ")"))
+        assertEquals("blah", "blah)".substringBetween("(", ")"))
+        assertEquals("", "blah".substringBetween("(", ")"))
+        assertEquals("blah", "(blah".substringBetween("(", ")"))
 
     }
 

@@ -7,12 +7,12 @@ internal class EasyStringWriterTest {
 
     @Test
     fun write() {
-            EasyStringWriter().use {
-                it.write("foo")
-                assertEquals(
-                    "foo",
-                    it.toString()
-                )
-            }
+        EasyStringWriter().use {
+            it.write("foo")
+            assertEquals(
+                "foo",
+                it.toString()
+            )
+        }
     }
 }

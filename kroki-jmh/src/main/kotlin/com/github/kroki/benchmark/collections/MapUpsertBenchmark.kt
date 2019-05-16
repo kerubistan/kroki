@@ -25,7 +25,7 @@ open class MapUpsertBenchmark {
     }
 
     @Benchmark
-    fun upsertNotexisting(hole : Blackhole) {
+    fun upsertNotexisting(hole: Blackhole) {
         hole.consume(
             map.upsert(key = "new_key", mapper = { it.plus(1) }, init = { "new value" })
         )

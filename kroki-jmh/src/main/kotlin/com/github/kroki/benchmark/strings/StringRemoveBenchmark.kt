@@ -12,7 +12,7 @@ open class StringRemoveBenchmark {
     private val spaces = "\\s+".toRegex()
 
     @Benchmark
-    fun remove(hole : Blackhole) {
+    fun remove(hole: Blackhole) {
         hole.consume("blah bla    blaaah".remove(spaces))
     }
 }

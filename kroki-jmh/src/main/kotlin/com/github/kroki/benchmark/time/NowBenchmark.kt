@@ -6,7 +6,7 @@ import org.openjdk.jmh.infra.Blackhole
 
 open class NowBenchmark {
     @Benchmark
-    fun benchmarkNow(hole : Blackhole) {
+    fun benchmarkNow(hole: Blackhole) {
         hole.consume(now())
     }
 }

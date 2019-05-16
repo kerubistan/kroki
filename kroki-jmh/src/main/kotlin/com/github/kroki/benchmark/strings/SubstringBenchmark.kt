@@ -12,7 +12,7 @@ open class SubstringBenchmark {
     private val str = """Some text "quotes" and some more text."""
 
     @Benchmark
-    fun substringBetween(hole : Blackhole) {
-        str.substringBetween("\"","\"")
+    fun substringBetween(hole: Blackhole) {
+        str.substringBetween("\"", "\"")
     }
 }
