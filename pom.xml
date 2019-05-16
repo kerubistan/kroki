@@ -9,6 +9,12 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>9</version>
+	</parent>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<kotlin.version>1.3.31</kotlin.version>
@@ -22,6 +28,14 @@
 		<url>https://github.com/kerubistan/kroki</url>
 		<tag>HEAD</tag>
 	</scm>
+
+	<inceptionYear>2019</inceptionYear>
+	<url>https://github.com/kerubistan/kroki</url>
+
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/kerubistan/kroki/issues</url>
+	</issueManagement>
 
 	<dependencyManagement>
 		<dependencies>
