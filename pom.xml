@@ -116,7 +116,10 @@
 
 	<modules>
 		<module>kroki-delegates</module>
+		<!--
+		it is blank, maybe it wont be used and will be deleted
 		<module>kroki-collection-utils</module>
+		-->
 		<module>kroki-utils</module>
 		<module>kroki-jmh</module>
 	</modules>
