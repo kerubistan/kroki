@@ -48,6 +48,10 @@
 		<testSourceDirectory>src/test/kotlin</testSourceDirectory>
 		<plugins>
 			<plugin>
+				<groupId>org.jetbrains.dokka</groupId>
+				<artifactId>dokka-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
 			<plugin>
