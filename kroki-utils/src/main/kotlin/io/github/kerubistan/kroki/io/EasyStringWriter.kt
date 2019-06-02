@@ -23,9 +23,13 @@ class EasyStringWriter(preAllocatedSize: Int = 64) : Writer() {
         builder.append(data, from, to)
     }
 
-    override fun flush() {}
+    override fun flush() {
+        // like StringWriter, it does nothing
+    }
 
-    override fun close() {}
+    override fun close() {
+        // like StringWriter, it does nothing
+    }
 
     override fun toString() = builder.toString()
 }
