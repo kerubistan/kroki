@@ -33,6 +33,11 @@ internal class NumbersKtTest {
         assertEquals(2, ("1".toBigDecimal() + 1.toDouble()).toInt())
 
         //BigInteger
+        assertEquals("2.1".toBigDecimal(), "1".toBigInteger() + "1.1".toBigDecimal())
+        assertEquals("2".toBigInteger(), "1".toBigInteger() + 1)
+        assertEquals("2".toBigInteger(), "1".toBigInteger() + 1.toLong())
+        assertEquals("2".toBigInteger(), "1".toBigInteger() + 1.toShort())
+        assertEquals("2".toBigInteger(), "1".toBigInteger() + 1.toByte())
     }
 
     @Test
