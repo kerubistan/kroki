@@ -21,6 +21,18 @@ operator fun BigDecimal.times(nr : Short) = this.times(nr.toInt().toBigDecimal()
 
 operator fun BigDecimal.times(nr : Byte) = this.times(nr.toInt().toBigDecimal())
 
+operator fun BigDecimal.plus(nr : Int) = this.plus(nr.toBigDecimal())
+
+operator fun BigDecimal.plus(nr : Long) = this.plus(nr.toBigDecimal())
+
+operator fun BigDecimal.plus(nr : Short) = this.plus(nr.toInt().toBigDecimal())
+
+operator fun BigDecimal.plus(nr : Byte) = this.plus(nr.toInt().toBigDecimal())
+
+operator fun BigDecimal.plus(nr : Float) = this.plus(nr.toBigDecimal())
+
+operator fun BigDecimal.plus(nr : Double) = this.plus(nr.toBigDecimal())
+
 operator fun BigDecimal.compareTo(other: BigInteger) = this.compareTo(other.toBigDecimal())
 
 operator fun BigDecimal.compareTo(other: Int) = this.compareTo(other.toBigDecimal())
