@@ -54,7 +54,15 @@ operator fun BigDecimal.compareTo(other: Float) = this.compareTo(other.toBigDeci
 
 operator fun BigInteger.times(multiplier : Double) = this.toBigDecimal() * multiplier.toBigDecimal()
 
+operator fun BigInteger.times(multiplier : Float) = this.toBigDecimal() * multiplier.toBigDecimal()
+
 operator fun BigInteger.times(multiplier : Int) = this * multiplier.toBigInteger()
+
+operator fun BigInteger.times(multiplier : Long) = this * multiplier.toBigInteger()
+
+operator fun BigInteger.times(multiplier : Short) = this * multiplier.toInt().toBigInteger()
+
+operator fun BigInteger.times(multiplier : Byte) = this * multiplier.toInt().toBigInteger()
 
 operator fun BigInteger.plus(nr : BigDecimal) = this.toBigDecimal() + nr
 

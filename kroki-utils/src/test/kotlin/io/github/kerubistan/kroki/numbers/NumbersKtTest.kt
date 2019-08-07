@@ -19,7 +19,11 @@ internal class NumbersKtTest {
 
         //BigInteger
         assertEquals(1024.toBigInteger(), 512.toBigInteger() * 2)
+        assertEquals(1024.toBigInteger(), 512.toBigInteger() * 2.toLong())
+        assertEquals(1024.toBigInteger(), 512.toBigInteger() * 2.toShort())
+        assertEquals(1024.toBigInteger(), 512.toBigInteger() * 2.toByte())
         assertEquals(1024.0.toBigDecimal(), 512.toBigInteger() * 2.0)
+        assertEquals(1024.0.toBigDecimal(), 512.toBigInteger() * 2.0.toFloat())
     }
 
     @Test
