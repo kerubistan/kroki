@@ -17,6 +17,13 @@ internal class ObjectsKtTest {
                 .find(selector = Folder::subFolders) { it.name.length == 3 }
                 .map { it.name }.toSet()
         )
+
+        assertEquals(
+            setOf("var", "etc", "home"),
+            Folder("/", listOf(Folder("var"), Folder("etc"), Folder("home")))
+                .find(selector = Folder::subFolders)
+                .map { it.name }.toSet()
+        )
     }
 
 }
