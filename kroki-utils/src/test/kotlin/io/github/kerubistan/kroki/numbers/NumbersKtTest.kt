@@ -58,6 +58,12 @@ internal class NumbersKtTest {
 
         // BigInteger
         assertTrue(1.toBigInteger() < "1.0001".toBigDecimal())
+        assertTrue(1.toBigInteger() < 1.01.toFloat())
+        assertTrue(1.toBigInteger() < 1.0001)
+        assertTrue(1.toBigInteger() < 2)
+        assertTrue(1.toBigInteger() < 2.toLong())
+        assertTrue(1.toBigInteger() < 2.toShort())
+        assertTrue(1.toBigInteger() < 2.toByte())
     }
 
 }

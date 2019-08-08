@@ -75,3 +75,15 @@ operator fun BigInteger.plus(nr : Short) = this + nr.toInt().toBigInteger()
 operator fun BigInteger.plus(nr : Byte) = this + nr.toInt().toBigInteger()
 
 operator fun BigInteger.compareTo(other : BigDecimal) = this.toBigDecimal().compareTo(other)
+
+operator fun BigInteger.compareTo(other : Int) = this.compareTo(other.toBigInteger())
+
+operator fun BigInteger.compareTo(other : Long) = this.compareTo(other.toBigInteger())
+
+operator fun BigInteger.compareTo(other : Short) = this.compareTo(other.toInt().toBigInteger())
+
+operator fun BigInteger.compareTo(other : Byte) = this.compareTo(other.toInt().toBigInteger())
+
+operator fun BigInteger.compareTo(other : Float) = this.compareTo(other.toBigDecimal())
+
+operator fun BigInteger.compareTo(other : Double) = this.compareTo(other.toBigDecimal())
