@@ -16,20 +16,31 @@ class ThreadLocalDelegate<T>(initializer: () -> T) {
 
 fun <T> threadLocal(initializer: () -> T) = ThreadLocalDelegate(initializer)
 
-class WeakDelegate<T>(val mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED, val initializer: () -> T) {
+interface WeakDelegate<T> {
+    val value: T
+    operator fun getValue(obj: Any?, property: KProperty<*>): T = value
+}
+
+private class WeakDelegateImpl<T>(
+    val mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
+    val initializer: () -> T
+) : WeakDelegate<T> {
 
     private var weakRef: WeakReference<Lazy<T>> = WeakReference(lazy(mode, initializer))
 
-    operator fun getValue(obj: Any?, property: KProperty<*>): T = weakRef.get()?.value ?: WeakReference(
-        lazy(
-            mode,
-            initializer
-        )
-    ).let {
-        val lazy = lazy(mode, initializer)
-        weakRef = WeakReference(lazy)
-        lazy.value
-    }
+    override val value
+        get() = weakRef.get()?.value ?: WeakReference(
+            lazy(
+                mode,
+                initializer
+            )
+        ).let {
+            val lazy = lazy(mode, initializer)
+            weakRef = WeakReference(lazy)
+            lazy.value
+        }
+
+    override operator fun getValue(obj: Any?, property: KProperty<*>): T = value
 
 }
 
@@ -41,6 +52,6 @@ class WeakDelegate<T>(val mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNC
  * may be recalculated again on demand.
  *
  */
-fun <T> weak(mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED, initializer: () -> T) =
-    WeakDelegate(mode = mode, initializer = initializer)
+fun <T> weak(mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED, initializer: () -> T): WeakDelegate<T> =
+    WeakDelegateImpl(mode = mode, initializer = initializer)
 
