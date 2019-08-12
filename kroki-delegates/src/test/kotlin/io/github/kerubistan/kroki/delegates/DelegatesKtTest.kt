@@ -1,6 +1,7 @@
 package io.github.kerubistan.kroki.delegates
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import java.lang.Thread.yield
 import java.text.SimpleDateFormat
@@ -31,5 +32,26 @@ internal class DelegatesKtTest {
 
         //THEN
         assertEquals(1, results.size)
+    }
+
+    @Test
+    fun weak() {
+        data class Image(val values : Int, val width: Int, val height : Int) {
+            val bitmap by weak {
+                Array(height) {
+                    IntArray(width) {values}
+                }
+            }
+        }
+
+        (1..4096*2).map { nr ->
+            Image(nr, width = 1024, height = 768)
+        }.forEach {
+            assertNotNull(it.bitmap)
+            it.bitmap.forEach { ints ->
+                assertNotNull(ints)
+            }
+        }
+
     }
 }
