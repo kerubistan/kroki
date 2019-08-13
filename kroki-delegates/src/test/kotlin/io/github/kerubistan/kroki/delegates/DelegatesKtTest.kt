@@ -36,6 +36,7 @@ internal class DelegatesKtTest {
 
     @Test
     fun weak() {
+
         data class Image(val values : Int, val width: Int, val height : Int) {
             val bitmap by weak {
                 Array(height) {
@@ -44,13 +45,18 @@ internal class DelegatesKtTest {
             }
         }
 
-        (1..4096*2).map { nr ->
+        val images = (1..8192).map { nr ->
             Image(nr, width = 1024, height = 768)
-        }.forEach {
+        }
+        images.forEach {
             assertNotNull(it.bitmap)
             it.bitmap.forEach { ints ->
                 assertNotNull(ints)
             }
+        }
+
+        repeat(1024) {
+            assertNotNull(images.random().bitmap)
         }
 
     }
