@@ -197,6 +197,7 @@
 		<module>kroki-coroutines</module>
 		<module>kroki-xml</module>
 		<module>kroki-flyweight</module>
+		<module>kroki-json</module>
 	</modules>
 
 </project>
