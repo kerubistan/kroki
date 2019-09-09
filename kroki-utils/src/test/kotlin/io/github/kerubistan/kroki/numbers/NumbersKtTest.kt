@@ -3,6 +3,7 @@ package io.github.kerubistan.kroki.numbers
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.math.BigInteger
 
 internal class NumbersKtTest {
 
@@ -64,6 +65,12 @@ internal class NumbersKtTest {
         assertTrue(1.toBigInteger() < 2.toLong())
         assertTrue(1.toBigInteger() < 2.toShort())
         assertTrue(1.toBigInteger() < 2.toByte())
+    }
+
+    @Test
+    fun sumBy() {
+        assertEquals("4".toBigInteger(), listOf("1", "2", "1").sumBy(String::toBigInteger))
+        assertEquals(BigInteger.ZERO, listOf<String>().sumBy(String::toBigInteger))
     }
 
 }

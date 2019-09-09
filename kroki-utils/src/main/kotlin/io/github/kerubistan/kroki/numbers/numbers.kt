@@ -87,3 +87,11 @@ operator fun BigInteger.compareTo(other : Byte) = this.compareTo(other.toInt().t
 operator fun BigInteger.compareTo(other : Float) = this.compareTo(other.toBigDecimal())
 
 operator fun BigInteger.compareTo(other : Double) = this.compareTo(other.toBigDecimal())
+
+inline fun <T> Iterable<T>.sumBy(selector: (T) -> BigInteger): BigInteger {
+    var sum = BigInteger.ZERO
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
