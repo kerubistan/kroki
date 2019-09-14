@@ -10,6 +10,14 @@ fun <T> Collection<Collection<T>>.join(): List<T> {
     return result.toList()
 }
 
+inline fun <X, reified T : X> List<X>.updateInstances(
+    selector: (T) -> Boolean = { true },
+    map : (T) -> T ) : List<X> = this.map { item ->
+    if(item is T && selector(item)) {
+        map(item)
+    } else item
+}
+
 inline fun <T, E : Comparable<E>> Iterable<T>.percentile(percentile: Double, crossinline expression: (T) -> E): E {
     require(percentile < 100) {
         "Percentile must be less than 100. Actual: $percentile"
