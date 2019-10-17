@@ -53,21 +53,56 @@ internal class ListsKtTest {
         )
     }
 
-    @org.junit.Test
+    @Test
     fun mergeInstancesWithUsingJoinProperties() {
         data class Hat (val color : String)
         abstract class Creature {
             abstract val weight : Double
         }
-        data class Human(val name: String, override val weight: Double, val favoriteColor: String, val hat: Hat? = null) : Creature()
-        data class Crocodile(val id : String, override val weight: Double) : Creature()
+        data class Human(
+            val name: String,
+            override val weight: Double,
+            val favoriteColor: String,
+            val hat: Hat? = null
+        ) : Creature()
+
+        data class Crocodile(val id: String, override val weight: Double) : Creature()
         assertEquals(
-            listOf(Human(name = "Bob", favoriteColor = "blue", weight = 80.0, hat = Hat(color = "blue")), Crocodile(id= "1", weight = 100.0)),
+            listOf(
+                Human(name = "Bob", favoriteColor = "blue", weight = 80.0, hat = Hat(color = "blue")),
+                Crocodile(id = "1", weight = 100.0)
+            ),
+            listOf(Human(name = "Bob", favoriteColor = "blue", weight = 80.0), Crocodile(id = "1", weight = 100.0))
+                .mergeInstancesWith(
+                    leftItems = listOf(Hat(color = "blue")),
+                    rightValue = Human::favoriteColor,
+                    leftValue = Hat::color,
+                    merge = { human, hat -> human.copy(hat = hat) }
+                )
+        )
+
+        assertEquals(
+            listOf(Human(name = "Bob", favoriteColor = "blue", weight = 80.0), Crocodile(id= "1", weight = 100.0)),
+            listOf(Human(name = "Bob", favoriteColor = "blue", weight = 80.0), Crocodile(id= "1", weight = 100.0))
+                .mergeInstancesWith(
+                    leftItems = listOf(),
+                    rightValue = Human::favoriteColor,
+                    leftValue = Hat::color,
+                    miss = { it },
+                    merge = { human, hat -> human.copy(hat = hat) })
+        )
+
+        assertEquals(
+            listOf(
+                Human(name = "Bob", favoriteColor = "blue", weight = 80.0, hat = Hat(color = "blue")),
+                Crocodile(id = "1", weight = 100.0)
+            ),
             listOf(Human(name = "Bob", favoriteColor = "blue", weight = 80.0), Crocodile(id= "1", weight = 100.0))
                 .mergeInstancesWith(
                     leftItems = listOf(Hat(color = "blue")),
                     rightValue = Human::favoriteColor,
                     leftValue = Hat::color,
+                    missLeft = { hat -> Human(name = "Bob", favoriteColor = "blue", weight = 80.0, hat = hat) },
                     merge = { human, hat -> human.copy(hat = hat) })
         )
 
@@ -116,8 +151,11 @@ internal class ListsKtTest {
         )
 
         assertEquals(
-            listOf(Human(name = "dead hat", favoriteColor = "red", weight = 0.0, hat = Hat(color = "red")), Crocodile(id = "1", weight = 100.0)),
-            listOf(Human(name = "Bob", favoriteColor = "blue", weight = 80.0), Crocodile(id= "1", weight = 100.0))
+            listOf(
+                Human(name = "dead hat", favoriteColor = "red", weight = 0.0, hat = Hat(color = "red")),
+                Crocodile(id = "1", weight = 100.0)
+            ),
+            listOf(Human(name = "Bob", favoriteColor = "blue", weight = 80.0), Crocodile(id = "1", weight = 100.0))
                 .mergeInstancesWith(
                     leftItems = listOf(Hat(color = "red")),
                     rightValue = Human::favoriteColor,
