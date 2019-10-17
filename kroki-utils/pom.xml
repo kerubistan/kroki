@@ -30,16 +30,18 @@
 			<artifactId>kotlin-test-junit</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-test</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.nhaarman</groupId>
+			<artifactId>mockito-kotlin</artifactId>
+			<version>1.5.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

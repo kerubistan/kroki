@@ -10,6 +10,12 @@ fun <T> Collection<Collection<T>>.join(): List<T> {
     return result.toList()
 }
 
+fun <T> Iterable<T>.isEmpty() =
+    if (this is Collection)
+        this.isEmpty()
+    else
+        !this.iterator().hasNext()
+
 /**
  * Merge two lists using properties on both sides.
  * This behaves very much like the join (left, right, inner, outer) in SQL, therefore it should be renamed
@@ -21,9 +27,26 @@ inline fun <R : Any, L, reified SUB : R, reified P> List<R>.mergeInstancesWith(
     rightValue: (SUB) -> P,
     leftValue: (L) -> P,
     merge: (SUB, L) -> SUB,
-    miss: (SUB) -> R? = { _ -> null },
-    missLeft: (L) -> R? = { _ -> null }
+    miss: (SUB) -> R? = { null },
+    missLeft: (L) -> R? = { null }
 ): List<R> {
+    // accelerator: if the left list is empty, then we can just map all of the right list
+    // and no merge will happen as there are no matches
+    if (leftItems.isEmpty()) {
+        return this.mapNotNull { item ->
+            if(item is SUB) {
+                miss(item)
+            } else {
+                item
+            }
+        }
+    }
+    // accelerator: if the right list is empty, then we can just map the left list
+    // and again no merge will happen as there are no matches
+    if(this.isEmpty()) {
+        return leftItems.mapNotNull(missLeft)
+    }
+    //none of the above, then let's do the expensive calculations and then we will have to merge
     val leftValuesByProp = leftItems.associateBy(leftValue)
     val rightValuesByProp = this.filterIsInstance<SUB>().associateBy(rightValue)
 

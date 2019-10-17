@@ -1,9 +1,12 @@
 package io.github.kerubistan.kroki.collections
 
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 internal class ListsKtTest {
@@ -168,5 +171,32 @@ internal class ListsKtTest {
 
     }
 
+    @Test
+    fun iterableIsEmpty() {
+        assertTrue((emptySet<String>() as Iterable<String>).isEmpty())
+        assertTrue((emptyList<String>() as Iterable<String>).isEmpty())
+        assertTrue((emptyMap<String, String>().entries as Iterable<Map.Entry<String, String>>).isEmpty())
+
+        assertFalse((listOf("") as Iterable<String>).isEmpty())
+        assertFalse((setOf("") as Iterable<String>).isEmpty())
+
+        assertTrue {
+            val iterable = mock<Iterable<String>>()
+            val iterator = mock<Iterator<String>>()
+            whenever(iterable.iterator()).thenReturn(iterator)
+            whenever(iterator.hasNext()).thenReturn(false)
+
+            iterable.isEmpty()
+        }
+
+        assertFalse {
+            val iterable = mock<Iterable<String>>()
+            val iterator = mock<Iterator<String>>()
+            whenever(iterable.iterator()).thenReturn(iterator)
+            whenever(iterator.hasNext()).thenReturn(true)
+
+            iterable.isEmpty()
+        }
+    }
 
 }
