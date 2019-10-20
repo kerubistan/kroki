@@ -2,10 +2,20 @@ package io.github.kerubistan.kroki.strings
 
 import java.util.*
 
-private val uuidPattern = "([0-9]|[a-f]){8}-([0-9]|[a-f]){4}-([0-9]|[a-f]){4}-([0-9]|[a-f]){4}-([0-9]|[a-f]){12}"
-    .toRegex()
+fun String.isUUID() =
+    this.length == 36
+            && (0..7).all(this::isHexadecimalDigit)
+            && this[8] == '-'
+            && (9..12).all(this::isHexadecimalDigit)
+            && this[13] == '-'
+            && (14..17).all(this::isHexadecimalDigit)
+            && this[18] == '-'
+            && (19..22).all(this::isHexadecimalDigit)
+            && this[23] == '-'
+            && (24..35).all(this::isHexadecimalDigit)
 
-fun String.isUUID() = this.matches(uuidPattern)
+private fun String.isHexadecimalDigit(idx: Int) =
+        this[idx].let { char -> char in '0'..'9' || char in 'a'..'f' || char in 'A'..'F' }
 
 fun String.toUUID(): UUID =
     UUID.fromString(this)
