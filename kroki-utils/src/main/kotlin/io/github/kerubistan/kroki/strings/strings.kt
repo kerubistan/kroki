@@ -2,20 +2,17 @@ package io.github.kerubistan.kroki.strings
 
 import java.util.*
 
+private val lines = arrayOf(8, 13, 18, 23)
+private val digits = arrayOf((0..7), (9..12), (14..17), (19..22), (24..35))
+
 fun String.isUUID() =
     this.length == 36
-            && (0..7).all(this::isHexadecimalDigit)
-            && this[8] == '-'
-            && (9..12).all(this::isHexadecimalDigit)
-            && this[13] == '-'
-            && (14..17).all(this::isHexadecimalDigit)
-            && this[18] == '-'
-            && (19..22).all(this::isHexadecimalDigit)
-            && this[23] == '-'
-            && (24..35).all(this::isHexadecimalDigit)
-
-private fun String.isHexadecimalDigit(idx: Int) =
-        this[idx].let { char -> char in '0'..'9' || char in 'a'..'f' || char in 'A'..'F' }
+            && lines.all { idx -> this[idx] == '-' }
+            && digits.all { range ->
+        range.all { idx ->
+            this[idx].let { char -> char in '0'..'9' || char in 'a'..'f' || char in 'A'..'F' }
+        }
+    }
 
 fun String.toUUID(): UUID =
     UUID.fromString(this)
