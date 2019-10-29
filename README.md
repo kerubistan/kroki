@@ -7,7 +7,6 @@
 
 A library for kotlin
 
- * kroki-delegates a few more types of delegates for kotlin
- * kroki-collection-utils extension functions for collections
- * kroki-utils a few more utils for kotlin
+ * kroki-delegates a few more types of delegates for kotlin [![kroki-delegates @ Maven Central](https://img.shields.io/maven-central/v/io.github.kerubistan.kroki/kroki-delegates.svg?label=kroki-delegates%20Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.kerubistan.kroki%22%20AND%20a:%22kroki-delegates%22)
+ * kroki-utils a few more utils for kotlin [![kroki-utils @ Maven Central](https://img.shields.io/maven-central/v/io.github.kerubistan.kroki/kroki-utils.svg?label=kroki-utils%20Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.kerubistan.kroki%22%20AND%20a:%22kroki-utils%22)
  
