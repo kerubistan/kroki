@@ -34,7 +34,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jmh.version>1.21</jmh.version>
         <javac.target>1.8</javac.target>
-        <kotlin.version>1.3.31</kotlin.version>
         <jmh.generator>default</jmh.generator>
         <uberjar.name>benchmarks</uberjar.name>
     </properties>
