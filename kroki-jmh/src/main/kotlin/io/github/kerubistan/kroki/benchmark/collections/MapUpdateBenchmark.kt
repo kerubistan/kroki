@@ -18,6 +18,11 @@ open class MapUpdateBenchmark {
     }
 
     @Benchmark
+    fun plus(hole : Blackhole) {
+        hole.consume(map + ("key-0" to "${map["key-0"]} updated" ))
+    }
+
+    @Benchmark
     fun hit(hole : Blackhole) {
         hole.consume(map.update("key-0") { value -> "$value updated" })
     }
