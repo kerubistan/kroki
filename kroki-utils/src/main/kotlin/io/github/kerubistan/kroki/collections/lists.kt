@@ -46,7 +46,7 @@ inline fun <R : Any, L, reified SUB : R, reified P> List<R>.mergeInstancesWith(
     // and no merge will happen as there are no matches
     if (leftItems.isEmpty()) {
         return this.mapNotNull { item ->
-            if(item is SUB) {
+            if (item is SUB) {
                 miss(item)
             } else {
                 item
@@ -55,7 +55,7 @@ inline fun <R : Any, L, reified SUB : R, reified P> List<R>.mergeInstancesWith(
     }
     // accelerator: if the right list is empty, then we can just map the left list
     // and again no merge will happen as there are no matches
-    if(this.isEmpty()) {
+    if (this.isEmpty()) {
         return leftItems.mapNotNull(missLeft)
     }
     //none of the above, then let's do the expensive calculations and then we will have to merge
@@ -82,8 +82,9 @@ inline fun <R : Any, L, reified SUB : R, reified P> List<R>.mergeInstancesWith(
  */
 inline fun <X, reified T : X> List<X>.updateInstances(
     selector: (T) -> Boolean = { true },
-    map : (T) -> T ) : List<X> = this.map { item ->
-    if(item is T && selector(item)) {
+    map: (T) -> T
+): List<X> = this.map { item ->
+    if (item is T && selector(item)) {
         map(item)
     } else item
 }
