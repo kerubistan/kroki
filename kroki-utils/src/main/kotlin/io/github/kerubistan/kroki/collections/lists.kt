@@ -109,3 +109,19 @@ inline fun <T, E : Comparable<E>> Iterable<T>.percentile(percentile: Double, cro
 
     return expression(ordered[(ordered.size * (percentile / 100)).toInt()])
 }
+
+/**
+ * Replace any number of items in a collection.
+ * @param filter select which item to replace
+ * @param replacer replace the item
+ */
+fun <T> Collection<T>.replace(
+    filter: (T) -> Boolean,
+    replacer: (T) -> T
+): List<T> = this.map {
+    if (filter(it)) {
+        replacer(it)
+    } else {
+        it
+    }
+}
