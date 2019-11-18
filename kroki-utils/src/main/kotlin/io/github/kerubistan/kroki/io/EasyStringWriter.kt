@@ -2,6 +2,10 @@ package io.github.kerubistan.kroki.io
 
 import java.io.Writer
 
+/**
+ * An implementation of Writer that uses StringBuilder instead of StringBuffer.
+ * Therefore it is not thread-safe, but on a single thread it outperforms the StringWriter.
+ */
 class EasyStringWriter(preAllocatedSize: Int = 64) : Writer() {
 
     private val builder = StringBuilder(preAllocatedSize)

@@ -1,5 +1,8 @@
 package io.github.kerubistan.kroki.collections
 
+/**
+ * Concatenate a "list of list of items" into a "list of items".
+ */
 fun <T> Collection<Collection<T>>.join(): List<T> {
     val result = ArrayList<T>(this.sumBy { it.size })
     this.forEach {
@@ -10,6 +13,9 @@ fun <T> Collection<Collection<T>>.join(): List<T> {
     return result.toList()
 }
 
+/**
+ * Check if an iterable object is empty.
+ */
 fun <T> Iterable<T>.isEmpty() =
     if (this is Collection)
         this.isEmpty()
@@ -21,6 +27,12 @@ fun <T> Iterable<T>.isEmpty() =
  * This behaves very much like the join (left, right, inner, outer) in SQL, therefore it should be renamed
  * to join once the function now being called 'join' is called something else.
  * @param leftItems the left-side list of items that should be
+ * @param rightValue extracts the join value from the right side (*this* list)
+ * @param leftValue extracts the join value from the left side (param leftItems)
+ * @param merge merges values from the right and from the left into one value
+ * @param miss what to do with values from the left where there is no match on the left side (null means skip)
+ * @param missLeft what to do with values from the right side where there is no match on the right side
+ *      (null means skip)
  */
 inline fun <R : Any, L, reified SUB : R, reified P> List<R>.mergeInstancesWith(
     leftItems: Iterable<L>,
@@ -76,6 +88,13 @@ inline fun <X, reified T : X> List<X>.updateInstances(
     } else item
 }
 
+/**
+ * Calculate percentile from am iterable.
+ * @param percentile the percentile - must be less than 100 and more than 0
+ * @param expression extract a numeric value from the item
+ *
+ * @throws IllegalArgumentException if percentile is not between 0 and 100 or if the *this* iterable is empty.
+ */
 inline fun <T, E : Comparable<E>> Iterable<T>.percentile(percentile: Double, crossinline expression: (T) -> E): E {
     require(percentile < 100) {
         "Percentile must be less than 100. Actual: $percentile"

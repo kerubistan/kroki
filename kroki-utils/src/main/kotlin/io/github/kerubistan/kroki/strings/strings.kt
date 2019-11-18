@@ -5,6 +5,9 @@ import java.util.*
 private val lines = arrayOf(8, 13, 18, 23)
 private val digits = arrayOf((0..7), (9..12), (14..17), (19..22), (24..35))
 
+/**
+ * Check if a string is in UUID format.
+ */
 fun String.isUUID() =
     this.length == 36
             && lines.all { idx -> this[idx] == '-' }
