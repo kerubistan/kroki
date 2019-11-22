@@ -13,10 +13,10 @@ import kotlin.test.assertTrue
 
 internal class ListsKtTest {
     @Test
-    fun join() {
-        assertEquals(listOf("A", "B", "C", "D"), listOf(listOf("A"), listOf("B", "C", "D")).join())
-        assertEquals(listOf("A", "B", "C", "D"), listOf(listOf("A", "B"), listOf("C", "D")).join())
-        assertEquals(listOf(), listOf(listOf(), listOf<String>()).join())
+    fun concat() {
+        assertEquals(listOf("A", "B", "C", "D"), listOf(listOf("A"), listOf("B", "C", "D")).concat())
+        assertEquals(listOf("A", "B", "C", "D"), listOf(listOf("A", "B"), listOf("C", "D")).concat())
+        assertEquals(listOf(), listOf(listOf(), listOf<String>()).concat())
     }
 
     @Test

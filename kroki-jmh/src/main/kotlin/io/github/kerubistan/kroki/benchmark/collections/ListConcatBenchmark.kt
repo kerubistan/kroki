@@ -1,13 +1,13 @@
 package io.github.kerubistan.kroki.benchmark.collections
 
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
 
 @State(Scope.Benchmark)
-open class ListJoinBenchmark {
+open class ListConcatBenchmark {
 
     private val list = listOf(
         listOf("A", "B"),
@@ -16,7 +16,7 @@ open class ListJoinBenchmark {
     )
 
     @Benchmark
-    fun join(hole: Blackhole) {
-        hole.consume(list.join())
+    fun concat(hole: Blackhole) {
+        hole.consume(list.concat())
     }
 }

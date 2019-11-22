@@ -3,7 +3,7 @@ package io.github.kerubistan.kroki.collections
 /**
  * Concatenate a "list of list of items" into a "list of items".
  */
-fun <T> Collection<Collection<T>>.join(): List<T> {
+fun <T> Collection<Collection<T>>.concat(): List<T> {
     val result = ArrayList<T>(this.sumBy { it.size })
     this.forEach {
         if (it.isNotEmpty()) {
