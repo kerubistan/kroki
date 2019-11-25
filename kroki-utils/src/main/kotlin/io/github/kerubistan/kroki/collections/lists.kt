@@ -131,8 +131,8 @@ fun <T> Collection<T>.replace(
  * Creates multiple groups out of a list. Each item can be grouped into more than one group.
  */
 // this should be checked for performance and likely there is a better solution
-inline fun <V : Any, K: Any> Collection<V>.groupsBy( keys : (V) -> Iterable<K> ) : Map<K, Set<V>> =
-    map(keys).map { it.toList() }.concat().map {
+inline fun <V : Any, K: Any> Collection<V>.groupsBy(crossinline keys : (V) -> Iterable<K> ) : Map<K, Set<V>> =
+    map(keys).map { it.toList() }.concat().toSet().map {
             key ->
-        key to this.filter { keys(it).contains(key) }.toSet()
+        key to this.filter { key in keys(it) }.toSet()
     }.toMap()
