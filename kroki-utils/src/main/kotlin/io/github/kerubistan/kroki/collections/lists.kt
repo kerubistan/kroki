@@ -116,7 +116,7 @@ inline fun <T, E : Comparable<E>> Iterable<T>.percentile(percentile: Double, cro
  * @param filter select which item to replace
  * @param replacer replace the item
  */
-fun <T> Collection<T>.replace(
+inline fun <T> Collection<T>.replace(
     filter: (T) -> Boolean,
     replacer: (T) -> T
 ): List<T> = this.map {
