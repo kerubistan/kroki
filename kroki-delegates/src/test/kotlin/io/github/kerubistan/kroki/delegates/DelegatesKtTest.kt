@@ -3,6 +3,11 @@ package io.github.kerubistan.kroki.delegates
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
+import java.io.Serializable
 import java.lang.Thread.yield
 import java.text.SimpleDateFormat
 import java.util.*
@@ -60,4 +65,65 @@ internal class DelegatesKtTest {
         }
 
     }
+
+    @Test
+    fun weakSerialization() {
+
+        data class BankAccount(
+            val accountId : String,
+            val balance : Double,
+            val currency : String
+        ) : Serializable
+
+        data class Person(
+            val name : String,
+            val accounts : List<BankAccount> = listOf()
+        ) : Serializable {
+            val bankAccountsByAccountId by weak { accounts.associateBy { it.accountId } }
+        }
+
+        val testPerson = Person(
+            name = "Bob",
+            accounts = listOf(
+                BankAccount(
+                    accountId = "HUF00001234",
+                    balance = 12345678.toDouble(),
+                    currency = "HUF"
+                ),
+                BankAccount(
+                    accountId = "CHF00003456",
+                    balance = 20000.toDouble(),
+                    currency = "CHF"
+                )
+            )
+        )
+        val serialized = ByteArrayOutputStream().use { byteArrayOutputStream ->
+            ObjectOutputStream(byteArrayOutputStream).use {
+                it.writeObject(
+                    testPerson
+                )
+            }
+            byteArrayOutputStream.toByteArray()
+        }
+
+        val deserialized = ObjectInputStream(ByteArrayInputStream(serialized)).use { it.readObject() as Person }
+
+        assertEquals(testPerson, deserialized)
+        assertEquals(
+            mapOf(
+                "HUF00001234" to BankAccount(
+                    accountId = "HUF00001234",
+                    balance = 12345678.toDouble(),
+                    currency = "HUF"
+                ),
+                "CHF00003456" to BankAccount(
+                    accountId = "CHF00003456",
+                    balance = 20000.toDouble(),
+                    currency = "CHF"
+                )
+            ),
+            deserialized.bankAccountsByAccountId
+        )
+    }
+
 }
