@@ -15,6 +15,10 @@ class ThreadLocalDelegate<T>(initializer: () -> T) {
     operator fun getValue(obj: Any?, property: KProperty<*>): T = threadLocal.get()
 }
 
+/**
+ * Allows having one instance created by thread.
+ * @param initializer a function literal that initializes the instance for the thread
+ */
 fun <T> threadLocal(initializer: () -> T) = ThreadLocalDelegate(initializer)
 
 interface WeakDelegate<T> : Serializable {
