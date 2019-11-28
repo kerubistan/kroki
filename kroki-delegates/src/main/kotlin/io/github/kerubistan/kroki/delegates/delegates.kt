@@ -1,5 +1,6 @@
 package io.github.kerubistan.kroki.delegates
 
+import java.io.Serializable
 import java.lang.ref.WeakReference
 import kotlin.reflect.KProperty
 
@@ -16,7 +17,7 @@ class ThreadLocalDelegate<T>(initializer: () -> T) {
 
 fun <T> threadLocal(initializer: () -> T) = ThreadLocalDelegate(initializer)
 
-interface WeakDelegate<T> {
+interface WeakDelegate<T> : Serializable {
     val value: T
     operator fun getValue(obj: Any?, property: KProperty<*>): T = value
 }
@@ -26,10 +27,19 @@ private class WeakDelegateImpl<T>(
     val initializer: () -> T
 ) : WeakDelegate<T> {
 
-    private var weakRef: WeakReference<Lazy<T>> = WeakReference(lazy(mode, initializer))
+    @Transient
+    private var weakRef: WeakReference<Lazy<T>>? = WeakReference(lazy(mode, initializer))
+
+    private val safeWeak: WeakReference<Lazy<T>>
+        get() = if (weakRef == null) {
+            val temp = WeakReference(lazy(mode, initializer))
+            weakRef = temp
+            temp
+        } else weakRef!!
+
 
     override val value
-        get() = weakRef.get()?.value ?: WeakReference(
+        get() = safeWeak.get()?.value ?: WeakReference(
             lazy(
                 mode,
                 initializer
