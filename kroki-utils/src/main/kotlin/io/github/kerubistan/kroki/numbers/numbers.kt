@@ -4,7 +4,7 @@ import java.math.BigDecimal
 import java.math.BigInteger
 
 /*
- BigDecmal
+ BigDecimal
  */
 
 operator fun BigDecimal.times(nr : BigInteger) = this.times(nr.toBigDecimal())
