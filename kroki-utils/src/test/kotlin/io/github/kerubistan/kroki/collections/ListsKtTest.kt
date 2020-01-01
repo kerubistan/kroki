@@ -265,4 +265,12 @@ internal class ListsKtTest {
         )
     }
 
+    @Test
+    fun skip() {
+        assertEquals(listOf("B", "C"), listOf("A", "B", "C").skip())
+        assertEquals(listOf("C"), listOf("A", "B", "C").skip().skip())
+        assertEquals(listOf(), listOf<String>().skip())
+        assertEquals(listOf(), listOf("A").skip())
+    }
+
 }

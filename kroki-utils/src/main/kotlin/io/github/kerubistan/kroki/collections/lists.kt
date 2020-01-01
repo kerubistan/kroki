@@ -146,3 +146,10 @@ inline fun <V : Any, K: Any> Collection<V>.groupsBy(crossinline keys : (V) -> It
     }
     return result
 }
+
+fun <T> List<T>.skip(): List<T> =
+    if (this.isEmpty()) {
+        listOf()
+    } else {
+        this.subList(1, this.size)
+    }
