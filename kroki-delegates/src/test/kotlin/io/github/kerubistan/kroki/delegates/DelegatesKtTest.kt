@@ -67,6 +67,33 @@ internal class DelegatesKtTest {
     }
 
     @Test
+    fun soft() {
+
+        data class Image(val values : Int, val width: Int, val height : Int) {
+            val bitmap by soft {
+                Array(height) {
+                    IntArray(width) {values}
+                }
+            }
+        }
+
+        val images = (1..8192).map { nr ->
+            Image(nr, width = 1024, height = 768)
+        }
+        images.forEach {
+            assertNotNull(it.bitmap)
+            it.bitmap.forEach { ints ->
+                assertNotNull(ints)
+            }
+        }
+
+        repeat(1024) {
+            assertNotNull(images.random().bitmap)
+        }
+
+    }
+
+    @Test
     fun weakSerialization() {
 
         data class BankAccount(

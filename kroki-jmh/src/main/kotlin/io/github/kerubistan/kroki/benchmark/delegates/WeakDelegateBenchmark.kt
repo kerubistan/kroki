@@ -1,6 +1,6 @@
 package io.github.kerubistan.kroki.benchmark.delegates
 
-import io.github.kerubistan.kroki.delegates.WeakDelegate
+import io.github.kerubistan.kroki.delegates.ReferenceDelegate
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.infra.Blackhole
 import io.github.kerubistan.kroki.delegates.weak
@@ -12,7 +12,7 @@ open class WeakDelegateBenchmark {
     private fun lazyAccess (lazy : Lazy<Int>) =
         (1..1024).map {lazy.value}.max()!!
 
-    private fun weakAccess (weak : WeakDelegate<Int>) =
+    private fun weakAccess (weak : ReferenceDelegate<Int>) =
         (1..1024).map {weak.value}.max()!!
 
     @Benchmark
