@@ -23,6 +23,9 @@ class ThreadLocalDelegate<T>(initializer: () -> T) {
  */
 fun <T> threadLocal(initializer: () -> T) = ThreadLocalDelegate(initializer)
 
+/**
+ * Delegate interface for all kind of reference (weak, soft) delegates.
+ */
 interface ReferenceDelegate<T> : Serializable {
     val value: T
     operator fun getValue(obj: Any?, property: KProperty<*>): T = value

@@ -93,6 +93,17 @@ internal class DelegatesKtTest {
 
     }
 
+    private inline fun <reified T :  Serializable> serializeDeserialize(obj : T)  : T {
+        val serialized = ByteArrayOutputStream().use { byteArrayOutputStream ->
+            ObjectOutputStream(byteArrayOutputStream).use {
+                it.writeObject(obj)
+            }
+            byteArrayOutputStream.toByteArray()
+        }
+
+        return ObjectInputStream(ByteArrayInputStream(serialized)).use { it.readObject() as T }
+    }
+
     @Test
     fun weakSerialization() {
 
@@ -124,16 +135,60 @@ internal class DelegatesKtTest {
                 )
             )
         )
-        val serialized = ByteArrayOutputStream().use { byteArrayOutputStream ->
-            ObjectOutputStream(byteArrayOutputStream).use {
-                it.writeObject(
-                    testPerson
+
+        val deserialized = serializeDeserialize(testPerson)
+
+        assertEquals(testPerson, deserialized)
+        assertEquals(
+            mapOf(
+                "HUF00001234" to BankAccount(
+                    accountId = "HUF00001234",
+                    balance = 12345678.toDouble(),
+                    currency = "HUF"
+                ),
+                "CHF00003456" to BankAccount(
+                    accountId = "CHF00003456",
+                    balance = 20000.toDouble(),
+                    currency = "CHF"
                 )
-            }
-            byteArrayOutputStream.toByteArray()
+            ),
+            deserialized.bankAccountsByAccountId
+        )
+    }
+
+    @Test
+    fun softSerialization() {
+
+        data class BankAccount(
+            val accountId : String,
+            val balance : Double,
+            val currency : String
+        ) : Serializable
+
+        data class Person(
+            val name : String,
+            val accounts : List<BankAccount> = listOf()
+        ) : Serializable {
+            val bankAccountsByAccountId by soft { accounts.associateBy { it.accountId } }
         }
 
-        val deserialized = ObjectInputStream(ByteArrayInputStream(serialized)).use { it.readObject() as Person }
+        val testPerson = Person(
+            name = "Bob",
+            accounts = listOf(
+                BankAccount(
+                    accountId = "HUF00001234",
+                    balance = 12345678.toDouble(),
+                    currency = "HUF"
+                ),
+                BankAccount(
+                    accountId = "CHF00003456",
+                    balance = 20000.toDouble(),
+                    currency = "CHF"
+                )
+            )
+        )
+
+        val deserialized = serializeDeserialize(testPerson)
 
         assertEquals(testPerson, deserialized)
         assertEquals(
