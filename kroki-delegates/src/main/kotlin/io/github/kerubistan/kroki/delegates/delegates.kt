@@ -80,6 +80,8 @@ private class SoftDelegateImpl<T>(
  * it is tracked with a weak reference, may loose its value and therefore
  * may be recalculated again on demand.
  *
+ * @param mode the initialization mode of the lazy delegate
+ * @param initializer the function literal that initializes the value referenced
  */
 fun <T> weak(
     mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
@@ -88,7 +90,10 @@ fun <T> weak(
     WeakDelegateImpl(mode = mode, initializer = initializer)
 
 /**
- * Delegate to weak references.
+ * Delegate to soft references.
+ *
+ * @param mode the initialization mode of the lazy delegate
+ * @param initializer the function literal that initializes the value referenced
  */
 fun <T> soft(
     mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
