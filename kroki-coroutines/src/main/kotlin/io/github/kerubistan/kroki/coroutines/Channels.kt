@@ -106,9 +106,7 @@ internal class PriorityChannel<T>(
 				buffer.add(received)
 				while (buffer.isNotFull() && received != null) {
 					received = inChannel.poll()
-					if (received != null) {
-						buffer.add(received)
-					}
+					received?.let { buffer.add(it) }
 				}
 			}
 		}
