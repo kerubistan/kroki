@@ -1,8 +1,11 @@
 package io.github.kerubistan.kroki.coroutines
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.*
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.RENDEZVOUS
+import kotlinx.coroutines.channels.ChannelIterator
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.channels.ValueOrClosed
 import kotlinx.coroutines.selects.SelectClause1
 import kotlinx.coroutines.selects.SelectClause2
 import java.util.*
@@ -10,8 +13,10 @@ import java.util.*
 /**
  * Hides a coroutine between two channels, uniting them as a single channel.
  */
-internal class ProcessChannel<T>(private val inChannel: SendChannel<T>, private val outChannel: ReceiveChannel<T>) :
-		Channel<T> {
+internal open class ProcessChannel<T>(
+	internal val inChannel: Channel<T>,
+	internal val outChannel: Channel<T>
+) :	Channel<T> {
 	@ExperimentalCoroutinesApi
 	override val isClosedForReceive: Boolean
 		get() = outChannel.isClosedForReceive
@@ -69,6 +74,98 @@ internal class ProcessChannel<T>(private val inChannel: SendChannel<T>, private 
 
 }
 
+@ExperimentalCoroutinesApi
+internal class PriorityChannel<T>(
+	private val maxCapacity: Int = 4096,
+	scope: CoroutineScope = GlobalScope,
+	comparator: Comparator<T>
+) : ProcessChannel<T>(
+	// why a rendezvous channel should be the input channel?
+	// because we buffer and sort the messages in the co-routine
+	// that is where the capacity constraint is enforced
+	// and the buffer we keep sorted, the input channel we can't
+	inChannel = Channel<T>(RENDEZVOUS),
+	// output channel is rendezvous channel because we may still
+	// get higher priority input meanwhile and we will send that
+	// when output consumer is ready to take it
+	outChannel = Channel<T>(RENDEZVOUS)
+) {
+	private val buffer = PriorityQueue<T>(comparator)
+
+	private fun PriorityQueue<T>.isNotFull() = this.size < maxCapacity
+
+	private fun PriorityQueue<T>.isFull() = this.size >= maxCapacity
+
+	// non-suspending way to get all messages available at the moment
+	// as long as we have anything to receive and the buffer is not full
+	// we should keep receiving
+	private fun tryGetSome() {
+		if (buffer.isNotFull()) {
+			var received = inChannel.poll()
+			if (received != null) {
+				buffer.add(received)
+				while (buffer.isNotFull() && received != null) {
+					received = inChannel.poll()
+					if (received != null) {
+						buffer.add(received)
+					}
+				}
+			}
+		}
+	}
+
+	private suspend fun getAtLeastOne() {
+		buffer.add(inChannel.receive())
+		tryGetSome()
+	}
+
+	private suspend fun trySendSome() {
+		when {
+			buffer.isEmpty() -> {
+				yield()
+			}
+			buffer.isFull() -> {
+				outChannel.send(buffer.poll())
+			}
+			else -> {
+				while (buffer.isNotEmpty() && outChannel.offer(buffer.peek())) {
+					buffer.poll()
+					tryGetSome()
+				}
+			}
+		}
+	}
+
+	private suspend fun sendAll() {
+		while (buffer.isNotEmpty()) {
+			outChannel.send(buffer.poll())
+		}
+	}
+
+	init {
+		require(maxCapacity >= 2) {
+			"priorityChannel maxCapacity < 2 does not make any sense"
+		}
+
+		scope.async {
+			try {
+				getAtLeastOne()
+
+				while (!inChannel.isClosedForReceive) {
+					trySendSome()
+					tryGetSome()
+				}
+			} finally {
+				// input channel closed, send the buffer to out channel
+				sendAll()
+				// and finally close the output channel, signaling that that this was it
+				outChannel.close()
+			}
+		}.start()
+
+	}
+}
+
 /**
  * Creates a channel that always outputs the highest priority element received so far.
  * It is important to note here that while the coroutine API channels are all FIFO, this
@@ -78,92 +175,9 @@ internal class ProcessChannel<T>(private val inChannel: SendChannel<T>, private 
  * @param comparator a comparator for the
  */
 @ExperimentalCoroutinesApi
-fun <T> priorityChannel(maxCapacity: Int = 4096,
-						scope: CoroutineScope = GlobalScope,
-						comparator: Comparator<T>): Channel<T> {
-
-	require(maxCapacity >= 2) {
-		"priorityChannel maxCapacity < 2 does not make any sense"
-	}
-
-	// why a rendezvous channel should be the input channel?
-	// because we buffer and sort the messages in the co-routine
-	// that is where the capacity constraint is enforced
-	// and the buffer we keep sorted, the input channel we can't
-	val inputChannel = Channel<T>(RENDEZVOUS)
-	// output channel is rendezvous channel because we may still
-	// get higher priority input meanwhile and we will send that
-	// when output consumer is ready to take it
-	val outputChannel = Channel<T>(RENDEZVOUS)
-	scope.async {
-		// this what sorts the input
-		val buffer = PriorityQueue<T>(comparator)
-
-		fun PriorityQueue<T>.isNotFull() = this.size < maxCapacity
-
-		fun PriorityQueue<T>.isFull() = this.size >= maxCapacity
-
-		// non-suspending way to get all messages available at the moment
-		// as long as we have anything to receive and the buffer is not full
-		// we should keep receiving
-		fun tryGetSome() {
-			if (buffer.isNotFull()) {
-				var received = inputChannel.poll()
-				if (received != null) {
-					buffer.add(received)
-					while (buffer.isNotFull() && received != null) {
-						received = inputChannel.poll()
-						if (received != null) {
-							buffer.add(received)
-						}
-					}
-				}
-			}
-		}
-
-		suspend fun getAtLeastOne() {
-			buffer.add(inputChannel.receive())
-			tryGetSome()
-		}
-
-		suspend fun trySendSome() {
-			when {
-				buffer.isEmpty() -> {
-					yield()
-				}
-				buffer.isFull() -> {
-					outputChannel.send(buffer.poll())
-				}
-				else -> {
-					while (buffer.isNotEmpty() && outputChannel.offer(buffer.peek())) {
-						buffer.poll()
-						tryGetSome()
-					}
-				}
-			}
-		}
-
-		suspend fun sendAll() {
-			while (buffer.isNotEmpty()) {
-				outputChannel.send(buffer.poll())
-			}
-		}
-
-		try {
-			getAtLeastOne()
-
-			while (!inputChannel.isClosedForReceive) {
-				trySendSome()
-				tryGetSome()
-			}
-		} finally {
-			// input channel closed, send the buffer to out channel
-			sendAll()
-			// and finally close the output channel, signaling that that this was it
-			outputChannel.close()
-		}
-
-	}
-	return ProcessChannel(inputChannel, outputChannel)
-}
+fun <T> priorityChannel(
+	maxCapacity: Int = 4096,
+	scope: CoroutineScope = GlobalScope,
+	comparator: Comparator<T>
+): Channel<T> = PriorityChannel(maxCapacity, scope, comparator)
 
