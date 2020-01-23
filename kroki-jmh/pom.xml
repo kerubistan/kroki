@@ -25,6 +25,11 @@
         </dependency>
         <dependency>
             <groupId>io.github.kerubistan.kroki</groupId>
+            <artifactId>kroki-coroutines</artifactId>
+            <version>1.9-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.kerubistan.kroki</groupId>
             <artifactId>kroki-delegates</artifactId>
             <version>1.9-SNAPSHOT</version>
         </dependency>
@@ -50,7 +55,11 @@
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <version>${kotlin.version}</version>
-
+                <configuration>
+                    <args>
+                        <arg>-Xcoroutines=enable</arg>
+                    </args>
+                </configuration>
                 <executions>
                     <execution>
                         <id>process-sources</id>
