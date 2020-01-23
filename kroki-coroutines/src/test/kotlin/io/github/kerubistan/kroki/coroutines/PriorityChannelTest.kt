@@ -1,12 +1,10 @@
 package io.github.kerubistan.kroki.coroutines
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.channels.Channel.Factory.RENDEZVOUS
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import java.lang.System.currentTimeMillis
 import kotlin.random.Random
@@ -24,15 +22,15 @@ class PriorityChannelTest {
 					channel.send(item)
 				}
 				channel.close()
-			}
+			}.start()
 
-			val received = async {
+			val received = withContext(Dispatchers.Default) {
 				val result = mutableListOf<Long>()
 				for (num in channel) {
 					result.add(num)
 				}
 				result.toList()
-			}.await()
+			}
 
 			assertEquals(randomNumbers.size, received.size)
 			assertEquals(randomNumbers.sorted(), received.sorted())
