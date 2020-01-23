@@ -6,6 +6,7 @@ import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.channels.Channel.Factory.RENDEZVOUS
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.lang.System.currentTimeMillis
 import kotlin.random.Random
 import kotlin.test.assertEquals
@@ -64,5 +65,14 @@ class PriorityChannelTest {
 
 	}
 
+	@ExperimentalCoroutinesApi
+	@Test
+	fun validations() {
+		assertThrows<IllegalArgumentException>("too small buffer") {
+			priorityChannel<String>(
+				maxCapacity = 0,
+				comparator = Comparator { first, second -> first.compareTo(second) })
+		}
+	}
 
 }

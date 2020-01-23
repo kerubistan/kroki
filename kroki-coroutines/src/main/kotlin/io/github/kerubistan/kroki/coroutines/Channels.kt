@@ -1,22 +1,11 @@
 package io.github.kerubistan.kroki.coroutines
 
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.*
 import kotlinx.coroutines.channels.Channel.Factory.RENDEZVOUS
-import kotlinx.coroutines.channels.ChannelIterator
-import kotlinx.coroutines.channels.ReceiveChannel
-import kotlinx.coroutines.channels.SendChannel
-import kotlinx.coroutines.channels.ValueOrClosed
 import kotlinx.coroutines.selects.SelectClause1
 import kotlinx.coroutines.selects.SelectClause2
-import kotlinx.coroutines.yield
-import java.util.PriorityQueue
+import java.util.*
 
 /**
  * Hides a coroutine between two channels, uniting them as a single channel.
@@ -92,6 +81,11 @@ internal class ProcessChannel<T>(private val inChannel: SendChannel<T>, private 
 fun <T> priorityChannel(maxCapacity: Int = 4096,
 						scope: CoroutineScope = GlobalScope,
 						comparator: Comparator<T>): Channel<T> {
+
+	require(maxCapacity >= 2) {
+		"priorityChannel maxCapacity < 2 does not make any sense"
+	}
+
 	// why a rendezvous channel should be the input channel?
 	// because we buffer and sort the messages in the co-routine
 	// that is where the capacity constraint is enforced
