@@ -73,6 +73,10 @@ class PriorityChannelTest {
 				maxCapacity = 0,
 				comparator = Comparator { first, second -> first.compareTo(second) })
 		}
+		assertThrows<IllegalArgumentException>("too small buffer - same thing with the inline method") {
+			priorityChannel<String>(
+				maxCapacity = 0)
+		}
 	}
 
 }

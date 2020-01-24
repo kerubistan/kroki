@@ -9,6 +9,7 @@ import kotlinx.coroutines.channels.ValueOrClosed
 import kotlinx.coroutines.selects.SelectClause1
 import kotlinx.coroutines.selects.SelectClause2
 import java.util.*
+import io.github.kerubistan.kroki.objects.comparator
 
 /**
  * Hides a coroutine between two channels, uniting them as a single channel.
@@ -179,3 +180,8 @@ fun <T> priorityChannel(
 	comparator: Comparator<T>
 ): Channel<T> = PriorityChannel(maxCapacity, scope, comparator)
 
+@ExperimentalCoroutinesApi
+inline fun <reified T : Comparable<T>> priorityChannel(
+	maxCapacity: Int = 4096,
+	scope: CoroutineScope = GlobalScope
+): Channel<T> = priorityChannel(maxCapacity, scope, T::class.comparator())
