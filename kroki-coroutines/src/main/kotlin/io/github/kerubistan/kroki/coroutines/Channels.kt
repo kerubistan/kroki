@@ -1,15 +1,12 @@
 package io.github.kerubistan.kroki.coroutines
 
+import io.github.kerubistan.kroki.objects.comparator
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.*
 import kotlinx.coroutines.channels.Channel.Factory.RENDEZVOUS
-import kotlinx.coroutines.channels.ChannelIterator
-import kotlinx.coroutines.channels.SendChannel
-import kotlinx.coroutines.channels.ValueOrClosed
 import kotlinx.coroutines.selects.SelectClause1
 import kotlinx.coroutines.selects.SelectClause2
 import java.util.*
-import io.github.kerubistan.kroki.objects.comparator
 
 /**
  * Hides a coroutine between two channels, uniting them as a single channel.
@@ -165,6 +162,74 @@ internal class PriorityChannel<T>(
 	}
 }
 
+@Suppress("deprecated")
+class TransformChannel<I, O>(val transform : (I) -> O, private val wrapped : Channel<O>)
+	: ReceiveChannel<O>, SendChannel<I> {
+
+	// receive channel
+
+	@ExperimentalCoroutinesApi
+	override val isClosedForReceive: Boolean
+		get() = wrapped.isClosedForReceive
+	@ExperimentalCoroutinesApi
+	override val isEmpty: Boolean
+		get() = wrapped.isEmpty
+	override val onReceive: SelectClause1<O>
+		get() = wrapped.onReceive
+	@InternalCoroutinesApi
+	override val onReceiveOrClosed: SelectClause1<ValueOrClosed<O>>
+		get() = wrapped.onReceiveOrClosed
+	@ObsoleteCoroutinesApi
+	override val onReceiveOrNull: SelectClause1<O?>
+		get() = wrapped.onReceiveOrNull
+
+	override fun cancel(cause: Throwable?): Boolean {
+		wrapped.cancel()
+		return true
+	}
+
+	override fun cancel(cause: CancellationException?) {
+		wrapped.cancel(cause)
+	}
+
+	override fun iterator(): ChannelIterator<O> =
+		wrapped.iterator()
+
+	override fun poll(): O? = wrapped.poll()
+
+	override suspend fun receive(): O = wrapped.receive()
+
+	@InternalCoroutinesApi
+	override suspend fun receiveOrClosed(): ValueOrClosed<O> = wrapped.receiveOrClosed()
+
+	@ObsoleteCoroutinesApi
+	override suspend fun receiveOrNull(): O? = wrapped.receiveOrNull()
+
+	// send channel
+
+	@ExperimentalCoroutinesApi
+	override val isClosedForSend: Boolean
+		get() = wrapped.isClosedForSend
+	@ExperimentalCoroutinesApi
+	override val isFull: Boolean
+		get() = false // because the super-method is deprecated-error
+
+	override val onSend: SelectClause2<I, SendChannel<I>>
+		get() = TODO("not implemented")
+
+	override fun close(cause: Throwable?): Boolean = wrapped.close(cause)
+
+	@ExperimentalCoroutinesApi
+	override fun invokeOnClose(handler: (cause: Throwable?) -> Unit) = wrapped.invokeOnClose(handler)
+
+	override fun offer(element: I): Boolean = wrapped.offer(transform(element))
+
+	override suspend fun send(element: I) {
+		wrapped.send(transform(element))
+	}
+
+}
+
 /**
  * Creates a channel that always outputs the highest priority element received so far.
  * It is important to note here that while the coroutine API channels are all FIFO, this
@@ -185,3 +250,10 @@ inline fun <reified T : Comparable<T>> priorityChannel(
 	maxCapacity: Int = 4096,
 	scope: CoroutineScope = GlobalScope
 ): Channel<T> = priorityChannel(maxCapacity, scope, T::class.comparator())
+
+/**
+ * Creates a channel that transforms the input to the required output.
+ * @param channel output channel
+ * @param transform transformation logic
+ */
+fun <I, O> transformChannel(channel: Channel<O> = Channel(), transform: (I) -> O) = TransformChannel(transform, channel)
