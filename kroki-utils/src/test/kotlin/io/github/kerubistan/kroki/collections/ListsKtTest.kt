@@ -273,4 +273,9 @@ internal class ListsKtTest {
         assertEquals(listOf(), listOf("A").skip())
     }
 
+    @Test
+    fun toList() {
+        assertEquals(listOf(1,2,3,4), listOf(1,2,3,4).iterator().toList())
+    }
+
 }

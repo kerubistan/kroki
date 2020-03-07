@@ -23,6 +23,15 @@ fun <T> Iterable<T>.isEmpty() =
         !this.iterator().hasNext()
 
 /**
+ * Builds a list in case only an iterator is available.s
+ */
+fun <T> Iterator<T>.toList() : List<T> = mutableListOf<T>().apply {
+    while (this@toList.hasNext()) {
+        add(this@toList.next())
+    }
+}
+
+/**
  * Merge two lists using properties on both sides.
  * This behaves very much like the join (left, right, inner, outer) in SQL, therefore it should be renamed
  * to join once the function now being called 'join' is called something else.
