@@ -16,8 +16,20 @@ class StaxXmlBuilder(outputStream: OutputStream) : XmlBuilder {
 
     override fun tag(name: String, vararg atts: Pair<String, Any>, builder: XmlBuilder.() -> Unit) {
         xml.writeStartElement(name)
+        writeAttributes(atts)
         this.builder()
         xml.writeEndElement()
+    }
+
+    private fun writeAttributes(atts: Array<out Pair<String, Any>>) {
+        atts.forEach {
+            xml.writeAttribute(it.first, it.second.toString())
+        }
+    }
+
+    override fun tag(name: String, vararg atts: Pair<String, Any>) {
+        xml.writeEmptyElement(name)
+        writeAttributes(atts)
     }
 
     override fun cdata(data : String) {

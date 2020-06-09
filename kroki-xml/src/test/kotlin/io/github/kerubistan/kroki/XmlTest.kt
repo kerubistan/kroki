@@ -22,6 +22,10 @@ class XmlTest {
 
         println(xml("test").reader().readText())
 
+        println(xml("test") { tag("pass") } .reader().readText())
+
+        println(xml("test") { tag("pass", "really" to true) } .reader().readText())
+
     }
 
 }
