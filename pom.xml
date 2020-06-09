@@ -159,6 +159,7 @@
 		<module>kroki-utils</module>
 		<module>kroki-jmh</module>
 		<module>kroki-coroutines</module>
+		<module>kroki-xml</module>
 	</modules>
 
 </project>
