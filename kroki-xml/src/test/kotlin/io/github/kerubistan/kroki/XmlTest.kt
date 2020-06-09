@@ -5,7 +5,7 @@ import org.junit.Test
 class XmlTest {
     @Test
     fun generation() {
-        val generated = xml("test") {
+        println(xml("test") {
             ! "comment"
             tag("hello", "a" to "1", "b" to "2") {
                 cdata("world")
@@ -18,8 +18,10 @@ class XmlTest {
             }
             text("")
             text { ('a'..'z').forEach { append(it) } }
-        }.reader().readText()
-        println(generated)
+        }.reader().readText())
+
+        println(xml("test").reader().readText())
+
     }
 
 }

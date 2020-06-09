@@ -15,7 +15,7 @@ interface XmlBuilder {
     operator fun String.not() = comment(this)
 }
 
-fun xml(root : String, builder : XmlBuilder.() -> Unit) : InputStream = ByteArrayOutputStream().use {
+fun xml(root : String, builder : XmlBuilder.() -> Unit = {}) : InputStream = ByteArrayOutputStream().use {
     StaxXmlBuilder(it).apply {
         tag(root) { builder() }
     }
