@@ -8,7 +8,7 @@ open class XmlGenerationBenchmark {
     @Benchmark
     fun generate(hole : Blackhole) {
         hole.consume(
-            xml("root") {
+            xml(root = "root") {
                 ! "comment"
                 tag("tag", "attribute" to "value")
             }.reader().readText()
