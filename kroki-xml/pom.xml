@@ -8,8 +8,6 @@
     <version>1.12-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>io.github.kerubistan.kroki kroki-xml</name>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.version>1.3.72</kotlin.version>

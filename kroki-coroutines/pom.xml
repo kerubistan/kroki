@@ -13,8 +13,6 @@
     <version>1.12-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>io.github.kerubistan.kroki kroki-coroutines</name>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

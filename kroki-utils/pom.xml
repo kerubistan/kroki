@@ -11,8 +11,6 @@
 	<artifactId>kroki-utils</artifactId>
 	<packaging>jar</packaging>
 
-	<name>io.github.kerubistan.kroki kroki-utils</name>
-
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>

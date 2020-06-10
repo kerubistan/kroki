@@ -11,8 +11,6 @@
     <artifactId>kroki-delegates</artifactId>
     <packaging>jar</packaging>
 
-    <name>io.github.kerubistan.kroki kroki-delegates</name>
-
     <dependencies>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
