@@ -9,11 +9,11 @@ import org.openjdk.jmh.infra.Blackhole
 @State(Scope.Benchmark)
 open class BigDecimalTimesBigIntegerBenchmark {
 
-    private val decimal = "0.123".toBigDecimal()
-    private val integer = 2.toBigInteger()
+	private val decimal = "0.123".toBigDecimal()
+	private val integer = 2.toBigInteger()
 
-    @Benchmark
-    fun calculate(hole: Blackhole) {
-        hole.consume(decimal * integer)
-    }
+	@Benchmark
+	fun calculate(hole: Blackhole) {
+		hole.consume(decimal * integer)
+	}
 }

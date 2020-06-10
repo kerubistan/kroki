@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test
 
 internal class TimeKtTest {
 
-    @Test
-    fun nowTest() {
-        assertTrue(now() > 0)
-    }
+	@Test
+	fun nowTest() {
+		assertTrue(now() > 0)
+	}
 }

@@ -6,9 +6,9 @@ import org.openjdk.jmh.infra.Blackhole
 
 open class ResourceToStringBenchmark {
 
-    @Benchmark
-    fun resourceToStringBenchmark(hole: Blackhole) {
-        hole.consume(resourceToString("io/github/kerubistan/kroki/benchmark/io/1k.txt"))
-    }
+	@Benchmark
+	fun resourceToStringBenchmark(hole: Blackhole) {
+		hole.consume(resourceToString("io/github/kerubistan/kroki/benchmark/io/1k.txt"))
+	}
 
 }

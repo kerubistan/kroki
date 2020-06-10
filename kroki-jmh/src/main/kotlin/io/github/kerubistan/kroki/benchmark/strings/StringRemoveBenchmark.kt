@@ -9,10 +9,10 @@ import org.openjdk.jmh.infra.Blackhole
 @State(Scope.Benchmark)
 open class StringRemoveBenchmark {
 
-    private val spaces = "\\s+".toRegex()
+	private val spaces = "\\s+".toRegex()
 
-    @Benchmark
-    fun remove(hole: Blackhole) {
-        hole.consume("blah bla    blaaah".remove(spaces))
-    }
+	@Benchmark
+	fun remove(hole: Blackhole) {
+		hole.consume("blah bla    blaaah".remove(spaces))
+	}
 }

@@ -8,4 +8,4 @@ import io.github.kerubistan.kroki.collections.concat
  * @param filter filters objects from the result
  */
 fun <T : Any> T.find(selector: (T) -> Iterable<T>?, filter: (T) -> Boolean = { true }): Iterable<T> =
-    selector(this)?.filter(filter)?.map { listOf(it) + it.find(selector, filter) }?.concat() ?: listOf()
+	selector(this)?.filter(filter)?.map { listOf(it) + it.find(selector, filter) }?.concat() ?: listOf()

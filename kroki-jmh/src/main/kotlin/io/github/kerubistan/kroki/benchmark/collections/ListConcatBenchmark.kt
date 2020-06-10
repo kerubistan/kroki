@@ -9,14 +9,14 @@ import org.openjdk.jmh.infra.Blackhole
 @State(Scope.Benchmark)
 open class ListConcatBenchmark {
 
-    private val list = listOf(
-        listOf("A", "B"),
-        listOf("C"),
-        listOf("D", "E", "F")
-    )
+	private val list = listOf(
+		listOf("A", "B"),
+		listOf("C"),
+		listOf("D", "E", "F")
+	)
 
-    @Benchmark
-    fun concat(hole: Blackhole) {
-        hole.consume(list.concat())
-    }
+	@Benchmark
+	fun concat(hole: Blackhole) {
+		hole.consume(list.concat())
+	}
 }

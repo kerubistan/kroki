@@ -7,14 +7,14 @@ import java.lang.ref.WeakReference
 import kotlin.reflect.KProperty
 
 private class FunctionLiteralThreadLocal<T>(private val initializer: () -> T) : ThreadLocal<T>() {
-    override fun initialValue(): T = initializer()
+	override fun initialValue(): T = initializer()
 }
 
 class ThreadLocalDelegate<T>(initializer: () -> T) {
 
-    private val threadLocal = FunctionLiteralThreadLocal(initializer)
+	private val threadLocal = FunctionLiteralThreadLocal(initializer)
 
-    operator fun getValue(obj: Any?, property: KProperty<*>): T = threadLocal.get()
+	operator fun getValue(obj: Any?, property: KProperty<*>): T = threadLocal.get()
 }
 
 /**
@@ -27,52 +27,52 @@ fun <T> threadLocal(initializer: () -> T) = ThreadLocalDelegate(initializer)
  * Delegate interface for all kind of reference (weak, soft) delegates.
  */
 interface ReferenceDelegate<T> : Serializable {
-    val value: T
-    operator fun getValue(obj: Any?, property: KProperty<*>): T = value
+	val value: T
+	operator fun getValue(obj: Any?, property: KProperty<*>): T = value
 }
 
 private abstract class AbstractReferenceDelegateImpl<T, R : Reference<Lazy<T>>>(
-    val mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
-    val initializer: () -> T
+	val mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
+	val initializer: () -> T
 ) : ReferenceDelegate<T> {
-    @Transient
-    private var weakRef: Reference<Lazy<T>>? = this.initRef()
+	@Transient
+	private var weakRef: Reference<Lazy<T>>? = this.initRef()
 
-    private val safeWeak: Reference<Lazy<T>>
-        get() = if (weakRef == null) {
-            val temp = WeakReference(lazy(mode, initializer))
-            weakRef = temp
-            temp
-        } else weakRef!!
+	private val safeWeak: Reference<Lazy<T>>
+		get() = if (weakRef == null) {
+			val temp = WeakReference(lazy(mode, initializer))
+			weakRef = temp
+			temp
+		} else weakRef!!
 
-    abstract fun initRef(): R
+	abstract fun initRef(): R
 
-    override val value
-        get() = safeWeak.get()?.value ?: initRef().let {
-            val lazy = lazy(mode, initializer)
-            weakRef = WeakReference(lazy)
-            lazy.value
-        }
+	override val value
+		get() = safeWeak.get()?.value ?: initRef().let {
+			val lazy = lazy(mode, initializer)
+			weakRef = WeakReference(lazy)
+			lazy.value
+		}
 
-    override operator fun getValue(obj: Any?, property: KProperty<*>): T = value
+	override operator fun getValue(obj: Any?, property: KProperty<*>): T = value
 
 }
 
 private class WeakDelegateImpl<T>(
-    mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
-    initializer: () -> T
+	mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
+	initializer: () -> T
 ) : AbstractReferenceDelegateImpl<T, WeakReference<Lazy<T>>>(mode, initializer) {
 
-    override fun initRef() = WeakReference(lazy(mode, initializer))
+	override fun initRef() = WeakReference(lazy(mode, initializer))
 
 }
 
 private class SoftDelegateImpl<T>(
-    mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
-    initializer: () -> T
+	mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
+	initializer: () -> T
 ) : AbstractReferenceDelegateImpl<T, SoftReference<Lazy<T>>>(mode, initializer) {
 
-    override fun initRef() = SoftReference(lazy(mode, initializer))
+	override fun initRef() = SoftReference(lazy(mode, initializer))
 
 }
 
@@ -87,10 +87,10 @@ private class SoftDelegateImpl<T>(
  * @param initializer the function literal that initializes the value referenced
  */
 fun <T> weak(
-    mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
-    initializer: () -> T
+	mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
+	initializer: () -> T
 ): ReferenceDelegate<T> =
-    WeakDelegateImpl(mode = mode, initializer = initializer)
+	WeakDelegateImpl(mode = mode, initializer = initializer)
 
 /**
  * Delegate to soft references.
@@ -99,7 +99,7 @@ fun <T> weak(
  * @param initializer the function literal that initializes the value referenced
  */
 fun <T> soft(
-    mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
-    initializer: () -> T
+	mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
+	initializer: () -> T
 ): ReferenceDelegate<T> =
-    SoftDelegateImpl(mode = mode, initializer = initializer)
+	SoftDelegateImpl(mode = mode, initializer = initializer)

@@ -38,14 +38,16 @@ class XmlTest {
 
 	@Test
 	fun prettyPrint() {
-		assertEquals("""
+		assertEquals(
+			"""
 <test>
 	<pass really="true"/>
 </test>""",
 			xml(formatMode = FormatMode.PRETTY_TABS, root = "test") { tag("pass", "really" to true) }.reader()
 				.readText()
 		)
-		assertEquals("""
+		assertEquals(
+			"""
 <test>
     <pass really="true"/>
 </test>""",

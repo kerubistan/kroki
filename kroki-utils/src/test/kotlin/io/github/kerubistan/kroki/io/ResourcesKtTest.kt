@@ -8,19 +8,19 @@ import kotlin.test.assertEquals
 
 internal class ResourcesKtTest {
 
-    @Test
-    fun resourceToString() {
-        val data = resourceToString("io/github/kerubistan/kroki/io/urlToStringTest.txt")
-        assertEquals("Hello World!", data)
-    }
+	@Test
+	fun resourceToString() {
+		val data = resourceToString("io/github/kerubistan/kroki/io/urlToStringTest.txt")
+		assertEquals("Hello World!", data)
+	}
 
-    @Test
-    fun resourceToStringNotExisting() {
-        assertThrows<IllegalArgumentException> { resourceToString("notexisting-${now()}") }
-    }
+	@Test
+	fun resourceToStringNotExisting() {
+		assertThrows<IllegalArgumentException> { resourceToString("notexisting-${now()}") }
+	}
 
-    @Test
-    fun readText() {
-        assertEquals("OK", StringReader("OK").readText())
-    }
+	@Test
+	fun readText() {
+		assertEquals("OK", StringReader("OK").readText())
+	}
 }

@@ -4,8 +4,8 @@ import org.junit.Test
 
 
 class PrettyXmlStreamWriterTest {
-    @Test
-    fun integration() {
-        
-    }
+	@Test
+	fun integration() {
+
+	}
 }

@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test
 
 internal class ExceptionsKtTest {
 
-    @Test
-    fun getStackTraceAsString() {
-        val stackTrace = IllegalArgumentException("TEST").getStackTraceAsString()
-        assertTrue(stackTrace.contains("TEST"))
-    }
+	@Test
+	fun getStackTraceAsString() {
+		val stackTrace = IllegalArgumentException("TEST").getStackTraceAsString()
+		assertTrue(stackTrace.contains("TEST"))
+	}
 }

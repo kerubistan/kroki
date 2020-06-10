@@ -14,21 +14,25 @@ import java.util.*
 internal open class ProcessChannel<T>(
 	internal val inChannel: Channel<T>,
 	internal val outChannel: Channel<T>
-) :	Channel<T> {
+) : Channel<T> {
 	@ExperimentalCoroutinesApi
 	override val isClosedForReceive: Boolean
 		get() = outChannel.isClosedForReceive
+
 	@ExperimentalCoroutinesApi
 	override val isClosedForSend: Boolean
 		get() = inChannel.isClosedForSend
+
 	@ExperimentalCoroutinesApi
 	override val isEmpty: Boolean
 		get() = outChannel.isEmpty
+
 	@ExperimentalCoroutinesApi
 	override val isFull: Boolean
 		get() = false
 
 	override val onReceive: SelectClause1<T> get() = outChannel.onReceive
+
 	@InternalCoroutinesApi
 	override val onReceiveOrClosed: SelectClause1<ValueOrClosed<T>>
 		get() = outChannel.onReceiveOrClosed
@@ -163,22 +167,25 @@ internal class PriorityChannel<T>(
 }
 
 @Suppress("deprecated")
-class TransformChannel<I, O>(val transform : (I) -> O, private val wrapped : Channel<O>)
-	: ReceiveChannel<O>, SendChannel<I> {
+class TransformChannel<I, O>(val transform: (I) -> O, private val wrapped: Channel<O>) : ReceiveChannel<O>,
+	SendChannel<I> {
 
 	// receive channel
 
 	@ExperimentalCoroutinesApi
 	override val isClosedForReceive: Boolean
 		get() = wrapped.isClosedForReceive
+
 	@ExperimentalCoroutinesApi
 	override val isEmpty: Boolean
 		get() = wrapped.isEmpty
 	override val onReceive: SelectClause1<O>
 		get() = wrapped.onReceive
+
 	@InternalCoroutinesApi
 	override val onReceiveOrClosed: SelectClause1<ValueOrClosed<O>>
 		get() = wrapped.onReceiveOrClosed
+
 	@ObsoleteCoroutinesApi
 	override val onReceiveOrNull: SelectClause1<O?>
 		get() = wrapped.onReceiveOrNull
@@ -210,6 +217,7 @@ class TransformChannel<I, O>(val transform : (I) -> O, private val wrapped : Cha
 	@ExperimentalCoroutinesApi
 	override val isClosedForSend: Boolean
 		get() = wrapped.isClosedForSend
+
 	@ExperimentalCoroutinesApi
 	override val isFull: Boolean
 		get() = false // because the super-method is deprecated-error

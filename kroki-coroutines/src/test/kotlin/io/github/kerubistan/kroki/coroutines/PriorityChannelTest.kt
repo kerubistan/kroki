@@ -14,10 +14,12 @@ import kotlin.test.assertEquals
 class PriorityChannelTest {
 	@ExperimentalCoroutinesApi
 	@Test
-	fun sendAndReceive() = runBlocking{
+	fun sendAndReceive() = runBlocking {
 
-		suspend fun verify(randomNumbers: List<Long>,
-												  channel: Channel<Long>) {
+		suspend fun verify(
+			randomNumbers: List<Long>,
+			channel: Channel<Long>
+		) {
 			async {
 				randomNumbers.forEachIndexed() { index, item ->
 					channel.send(item)
@@ -42,8 +44,8 @@ class PriorityChannelTest {
 		val randomNumbers = (0 until 100).map { random.nextLong() }
 
 		verify(randomNumbers, priorityChannel(
-				maxCapacity = 100,
-				comparator =  Comparator { a: Long, b: Long -> a.compareTo(b) }
+			maxCapacity = 100,
+			comparator = Comparator { a: Long, b: Long -> a.compareTo(b) }
 		))
 
 		verify(randomNumbers, Channel(RENDEZVOUS))
@@ -53,8 +55,8 @@ class PriorityChannelTest {
 		verify(randomNumbers, Channel(BUFFERED))
 
 		verify(listOf(), priorityChannel(
-				maxCapacity = 100,
-				comparator =  Comparator { a: Long, b: Long -> a.compareTo(b) }
+			maxCapacity = 100,
+			comparator = Comparator { a: Long, b: Long -> a.compareTo(b) }
 		))
 
 		verify(listOf(), Channel(RENDEZVOUS))
@@ -75,7 +77,8 @@ class PriorityChannelTest {
 		}
 		assertThrows<IllegalArgumentException>("too small buffer - same thing with the inline method") {
 			priorityChannel<String>(
-				maxCapacity = 0)
+				maxCapacity = 0
+			)
 		}
 	}
 

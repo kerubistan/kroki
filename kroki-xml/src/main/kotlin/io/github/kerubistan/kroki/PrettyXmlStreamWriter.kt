@@ -148,10 +148,10 @@ class PrettyXmlStreamWriter(
 	}
 
 	private fun indent() {
-			xmlStreamWriter.apply {
-				writeCharacters("\n")
-				repeat(depth) { writeCharacters(indent) }
-			}
+		xmlStreamWriter.apply {
+			writeCharacters("\n")
+			repeat(depth) { writeCharacters(indent) }
+		}
 	}
 
 }

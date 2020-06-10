@@ -10,40 +10,40 @@ import kotlin.random.Random
 
 @State(Scope.Benchmark)
 open class PriorityChannelBenchmark {
-    @Param("1", "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096")
-    var nrOfMessages = 0
+	@Param("1", "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096")
+	var nrOfMessages = 0
 
-    @Param( "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096")
-    var bufferSize = 0
+	@Param("2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096")
+	var bufferSize = 0
 
-    lateinit var messages: List<Long>
+	lateinit var messages: List<Long>
 
-    @Setup
-    fun setup() {
-        val random = Random(0)
-        messages = (0 until nrOfMessages).map { 100000 + random.nextLong(99999) }
-    }
+	@Setup
+	fun setup() {
+		val random = Random(0)
+		messages = (0 until nrOfMessages).map { 100000 + random.nextLong(99999) }
+	}
 
-    @ExperimentalCoroutinesApi
-    @Benchmark
-    fun priority(hole: Blackhole) = runBlocking {
-        val channel = priorityChannel(
-            maxCapacity = bufferSize,
-            comparator = Comparator<Long> { first, second -> first.compareTo(second) }
-        )
-        async {
-            messages.forEach {
-                channel.send(it)
-            }
-            channel.close()
-        }.start()
+	@ExperimentalCoroutinesApi
+	@Benchmark
+	fun priority(hole: Blackhole) = runBlocking {
+		val channel = priorityChannel(
+			maxCapacity = bufferSize,
+			comparator = Comparator<Long> { first, second -> first.compareTo(second) }
+		)
+		async {
+			messages.forEach {
+				channel.send(it)
+			}
+			channel.close()
+		}.start()
 
-        async {
-            for (msg in channel) {
-                hole.consume(msg)
-            }
-        }.start()
+		async {
+			for (msg in channel) {
+				hole.consume(msg)
+			}
+		}.start()
 
-    }
+	}
 
 }
