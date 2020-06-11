@@ -54,6 +54,14 @@ class XmlTest {
 			xml(formatMode = FormatMode.PRETTY_BIG_SPACE_NAZI, root = "test") { tag("pass", "really" to true) }.reader()
 				.readText()
 		)
+		assertEquals(
+			"""
+<test>
+  <pass really="true"/>
+</test>""",
+			xml(formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI, root = "test") { tag("pass", "really" to true) }.reader()
+				.readText()
+		)
 
 	}
 

@@ -16,8 +16,8 @@ class PrettyXmlStreamWriter(
 	}
 
 	override fun writeEndDocument() {
-		indent()
-		depth--
+		depth = 0
+		xmlStreamWriter.writeEndDocument()
 	}
 
 	override fun writeComment(comment: String) {
