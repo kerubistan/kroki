@@ -23,7 +23,7 @@
 
 	<scm>
 		<connection>scm:git:ssh://github.com/kerubistan/kroki</connection>
-		<developerConnection>scm:git:https://github.com/kerubistan/kroki</developerConnection>
+		<developerConnection>scm:git:ssh://github.com/kerubistan/kroki</developerConnection>
 		<url>https://github.com/kerubistan/kroki</url>
 		<tag>HEAD</tag>
 	</scm>
