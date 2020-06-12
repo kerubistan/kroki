@@ -22,8 +22,8 @@
 	</properties>
 
 	<scm>
-		<connection>scm:git:ssh://github.com/kerubistan/kroki</connection>
-		<developerConnection>scm:git:ssh://github.com/kerubistan/kroki</developerConnection>
+		<connection>scm:git:ssh://git@github.com/kerubistan/kroki</connection>
+		<developerConnection>scm:git:ssh://git@github.com/kerubistan/kroki</developerConnection>
 		<url>https://github.com/kerubistan/kroki</url>
 		<tag>HEAD</tag>
 	</scm>
