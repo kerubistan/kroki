@@ -15,9 +15,9 @@ open class XmlGenerationBenchmark {
 	@Param("blank", "tiny", "medium", "big", "huge")
 	var size: String = ""
 
-	lateinit var formatMode: FormatMode
+	private lateinit var formatMode: FormatMode
 
-	lateinit var builder: XmlBuilder.() -> Unit
+	private lateinit var builder: XmlBuilder.() -> Unit
 
 	private val blankBuilder : XmlBuilder.() -> Unit = {}
 
@@ -26,12 +26,10 @@ open class XmlGenerationBenchmark {
 		tag("tag", "attribute" to "value")
 	}
 
-	fun builder(size : Int) : XmlBuilder.() -> Unit {
-		return {
-			repeat(size) {
-				!"comment"
-				tag("tag", "attribute" to "value")
-			}
+	private fun builder(size : Int) : XmlBuilder.() -> Unit = {
+		repeat(size) {
+			!"comment"
+			tag("tag", "attribute" to "value")
 		}
 	}
 
