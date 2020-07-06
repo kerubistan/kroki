@@ -16,7 +16,7 @@ class XmlTest {
 			tag("hello") { -"world" }
 			tag("hello") {
 				!"lazy"
-				+"world"
+				"world"()
 			}
 			text("")
 			text { ('a'..'z').forEach { append(it) } }
@@ -32,6 +32,22 @@ class XmlTest {
 		assertEquals(
 			"<test><pass really=\"true\"/></test>",
 			xml(root = "test") { tag("pass", "really" to true) }.reader().readText()
+		)
+
+		assertEquals(
+			"<test><pass really=\"true\"/></test>",
+			xml(root = "test") { "pass"("really" to true) }.reader().readText()
+		)
+
+		assertEquals(
+			"<test><pass really=\"true\"><seriously>no</seriously></pass></test>",
+			xml(root = "test") {
+				"pass"("really" to true) {
+					"seriously" {
+						- "no"
+					}
+				}
+			}.reader().readText()
 		)
 
 	}
@@ -59,10 +75,16 @@ class XmlTest {
 <test>
   <pass really="true"/>
 </test>""",
-			xml(formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI, root = "test") { tag("pass", "really" to true) }.reader()
+			xml(formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI, root = "test") {
+				tag(
+					"pass",
+					"really" to true
+				)
+			}.reader()
 				.readText()
 		)
 
 	}
 
 }
+

@@ -16,8 +16,15 @@ interface XmlBuilder {
 	fun text(value: String)
 	fun comment(value: String)
 	operator fun String.unaryMinus() = text(this)
-	operator fun String.unaryPlus() = tag(this)
 	operator fun String.not() = comment(this)
+	operator fun String.invoke(vararg atts : Pair<String, Any>) : String {
+		tag(this, *atts)
+		return this
+	}
+	operator fun String.invoke(vararg atts : Pair<String, Any>, builder : XmlBuilder.() -> Unit) : String {
+		tag(this, *atts, builder = builder)
+		return this
+	}
 }
 
 fun xml(
