@@ -14,6 +14,7 @@ interface XmlBuilder {
 	fun cdata(data: String)
 	fun text(builder: StringBuilder.() -> Unit)
 	fun text(value: String)
+	fun text(value: Any?) = text(value?.toString() ?: "null")
 	fun comment(value: String)
 	operator fun Any?.unaryMinus() = text(this?.toString() ?: "null")
 	operator fun String.not() = comment(this)

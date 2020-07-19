@@ -59,6 +59,20 @@ class XmlTest {
 			}.reader().readText()
 		)
 
+		assertEquals(
+			"<test><value>1</value></test>",
+			xml(root = "test") {
+				"value" { text(1) }
+			}.reader().readText()
+		)
+
+		assertEquals(
+			"<test><value>null</value></test>",
+			xml(root = "test") {
+				"value" { - null }
+			}.reader().readText()
+		)
+
 	}
 
 	@Test
