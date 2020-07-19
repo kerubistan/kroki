@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>kroki</artifactId>
 		<groupId>io.github.kerubistan.kroki</groupId>
-		<version>1.15</version>
+		<version>1.16-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>kroki-jmh</artifactId>
@@ -21,22 +21,22 @@
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-utils</artifactId>
-			<version>1.15</version>
+			<version>1.16-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-coroutines</artifactId>
-			<version>1.15</version>
+			<version>1.16-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-xml</artifactId>
-			<version>1.15</version>
+			<version>1.16-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-delegates</artifactId>
-			<version>1.15</version>
+			<version>1.16-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
