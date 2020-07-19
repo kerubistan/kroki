@@ -15,7 +15,7 @@ interface XmlBuilder {
 	fun text(builder: StringBuilder.() -> Unit)
 	fun text(value: String)
 	fun comment(value: String)
-	operator fun String.unaryMinus() = text(this)
+	operator fun Any?.unaryMinus() = text(this?.toString() ?: "null")
 	operator fun String.not() = comment(this)
 	operator fun String.invoke(vararg atts : Pair<String, Any>) : String {
 		tag(this, *atts)
