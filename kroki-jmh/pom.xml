@@ -8,6 +8,13 @@
 	<artifactId>kroki-jmh</artifactId>
 	<packaging>jar</packaging>
 
+	<licenses>
+		<license>
+			<url>https://www.gnu.org/licenses/gpl-2.0.en.html</url>
+			<name>GNU General Public License version 2 only</name>
+		</license>
+	</licenses>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.openjdk.jmh</groupId>
