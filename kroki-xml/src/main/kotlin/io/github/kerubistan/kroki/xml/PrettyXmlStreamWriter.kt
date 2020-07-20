@@ -1,4 +1,4 @@
-package io.github.kerubistan.kroki
+package io.github.kerubistan.kroki.xml
 
 import javax.xml.namespace.NamespaceContext
 import javax.xml.stream.XMLStreamWriter

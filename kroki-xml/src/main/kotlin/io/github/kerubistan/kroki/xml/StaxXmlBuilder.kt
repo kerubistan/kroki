@@ -1,4 +1,4 @@
-package io.github.kerubistan.kroki
+package io.github.kerubistan.kroki.xml
 
 import java.io.Closeable
 import java.io.OutputStream

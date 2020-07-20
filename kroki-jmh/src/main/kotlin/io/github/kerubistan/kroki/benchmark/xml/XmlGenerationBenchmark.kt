@@ -1,8 +1,8 @@
 package io.github.kerubistan.kroki.benchmark.xml
 
-import io.github.kerubistan.kroki.FormatMode
-import io.github.kerubistan.kroki.XmlBuilder
-import io.github.kerubistan.kroki.xml
+import io.github.kerubistan.kroki.xml.FormatMode
+import io.github.kerubistan.kroki.xml.XmlBuilder
+import io.github.kerubistan.kroki.xml.xml
 import org.openjdk.jmh.annotations.*
 import org.openjdk.jmh.infra.Blackhole
 

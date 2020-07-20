@@ -1,4 +1,4 @@
-package io.github.kerubistan.kroki
+package io.github.kerubistan.kroki.xml
 
 import org.junit.Test
 import kotlin.test.assertEquals
