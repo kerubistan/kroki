@@ -1,17 +1,17 @@
-package io.github.kerubistan.kroki
+package io.github.kerubistan.kroki.xml
 
 import java.io.InputStream
+import javax.xml.stream.XMLEventReader
 import javax.xml.stream.XMLInputFactory
-import javax.xml.stream.XMLStreamReader
+import javax.xml.stream.events.*
 
 class StaxXmlParserBuilder<T>(input: InputStream) : XmlParserBuilder<T> {
-
 
 	companion object {
 		private val factory = XMLInputFactory.newFactory()
 	}
 
-	private val xml : XMLStreamReader = factory.createXMLStreamReader(input)
+	private val xml : XMLEventReader = factory.createXMLEventReader(input)
 
 	override fun tag(
 		name: String,
@@ -30,6 +30,23 @@ class StaxXmlParserBuilder<T>(input: InputStream) : XmlParserBuilder<T> {
 	}
 
 	fun read() : T {
+		while(xml.hasNext()) {
+			xml.next()
+			val event = xml.nextEvent()
+			when(event) {
+				is StartElement -> {
+					TODO()
+				}
+				is EndElement -> TODO()
+				is StartDocument -> TODO()
+				is EndDocument -> TODO()
+				is Characters -> TODO()
+				is Comment -> TODO()
+				else -> {
+					// ignored events, such as DTD, EntityReference, EntityDeclaration
+				}
+			}
+		}
 		TODO()
 	}
 

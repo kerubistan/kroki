@@ -1,4 +1,4 @@
-package io.github.kerubistan.kroki
+package io.github.kerubistan.kroki.xml
 
 data class Employee(
 	val name: String,
