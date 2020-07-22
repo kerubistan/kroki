@@ -1,6 +1,7 @@
 package io.github.kerubistan.kroki.xml
 
 import org.junit.Test
+import java.io.ByteArrayOutputStream
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -107,6 +108,43 @@ class XmlTest {
 				.readText()
 		)
 
+	}
+
+	@Test
+	fun xmlToOutputStream() {
+		assertEquals(
+			"""
+<test>
+  <pass really="true"/>
+</test>""",
+			ByteArrayOutputStream().let {
+				it.use {output ->
+					xml(formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI, root = "test", out = output) {
+						tag(
+							"pass",
+							"really" to true
+						)
+					}
+				}
+				it.toByteArray().toString(Charsets.UTF_8)
+			}
+		)
+		assertEquals(
+			"""
+<test pass="true">
+</test>""",
+			ByteArrayOutputStream().let {
+				it.use {output ->
+					xml(
+						formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI,
+						root = "test",
+						out = output,
+						atts = *arrayOf("pass" to true)
+					)
+				}
+				it.toByteArray().toString(Charsets.UTF_8)
+			}
+		)
 	}
 
 }
