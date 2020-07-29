@@ -15,7 +15,7 @@ A library for kotlin
 
 ## Release Notes
 
- See (release notes)[release-notes/index.md] page.
+ See [release notes](release-notes/index.md) page.
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkerubistan%2Fkroki.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkerubistan%2Fkroki?ref=badge_large)
