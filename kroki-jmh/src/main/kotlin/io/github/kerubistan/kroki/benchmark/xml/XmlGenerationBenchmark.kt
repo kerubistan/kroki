@@ -1,5 +1,6 @@
 package io.github.kerubistan.kroki.benchmark.xml
 
+import io.github.kerubistan.kroki.io.NullOutputStream
 import io.github.kerubistan.kroki.xml.FormatMode
 import io.github.kerubistan.kroki.xml.XmlBuilder
 import io.github.kerubistan.kroki.xml.xml
@@ -53,4 +54,12 @@ open class XmlGenerationBenchmark {
 			xml(formatMode = formatMode, root = "root", builder = builder).reader().readText()
 		)
 	}
+
+	@Benchmark
+	fun generateDirectly(hole: Blackhole) {
+		hole.consume(
+			xml(formatMode = formatMode, root = "root", out = NullOutputStream, builder = builder)
+		)
+	}
+
 }
