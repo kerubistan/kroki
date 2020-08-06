@@ -45,7 +45,7 @@ class XmlTest {
 			xml(root = "test") {
 				"pass"("really" to true) {
 					"seriously" {
-						- "no"
+						-"no"
 					}
 				}
 			}.reader().readText()
@@ -55,7 +55,7 @@ class XmlTest {
 			"<test><tag>null</tag></test>",
 			xml(root = "test") {
 				"tag" {
-					- null
+					-null
 				}
 			}.reader().readText()
 		)
@@ -70,7 +70,7 @@ class XmlTest {
 		assertEquals(
 			"<test><value>null</value></test>",
 			xml(root = "test") {
-				"value" { - null }
+				"value" { -null }
 			}.reader().readText()
 		)
 
@@ -118,7 +118,7 @@ class XmlTest {
   <pass really="true"/>
 </test>""",
 			ByteArrayOutputStream().let {
-				it.use {output ->
+				it.use { output ->
 					xml(formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI, root = "test", out = output) {
 						tag(
 							"pass",
@@ -134,7 +134,7 @@ class XmlTest {
 <test pass="true">
 </test>""",
 			ByteArrayOutputStream().let {
-				it.use {output ->
+				it.use { output ->
 					xml(
 						formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI,
 						root = "test",
@@ -147,7 +147,6 @@ class XmlTest {
 		)
 	}
 
-}
 	@Test
 	fun parseXml() {
 		assertEquals(
@@ -363,17 +362,67 @@ class XmlTest {
 			},
 			Employee(name = "Bob", skills = setOf(Skill.Engineering, Skill.Music))
 		)
-
-
 	}
 
+	@Test
+	fun xmlEventStream() {
+		assertTrue {
+			var value = ""
+			"""
+			<foo>
+				<bar>
+					<baz>text-1</baz>
+				</bar>
+			</foo>
+		""".trimIndent().byteInputStream().parseAsXmlEventStream {
+				"foo" {
+					"bar" {
+						use("baz") {
+							value = elementText
+						}
+					}
+				}
+			}
+			value == "text-1"
+		}
+		assertTrue {
+			var value = ""
+			"""
+			<foo>
+				<bar>
+					<baz>text-1</baz>
+				</bar>
+			</foo>
+		""".trimIndent().byteInputStream().parseAsXmlEventStream {
+				"foo" {
+					"bar" {
+						"baz" - {
+							value = this.elementText
+						}
+					}
+				}
+			}
+			value == "text-1"
+		}
+		assertTrue {
+			var values = listOf<String>()
+			"""
+			<foo>
+				<bar>
+					<baz>text-1</baz>
+					<baz>text-2</baz>
+				</bar>
+			</foo>
+		""".trimIndent().byteInputStream().parseAsXmlEventStream {
+				"foo" {
+					"bar" {
+						use("baz") {
+							values += elementText
+						}
+					}
+				}
+			}
+			values == listOf("text-1", "text-2")
+		}
+	}
 }
-
-
-
-
-
-
-
-
-
