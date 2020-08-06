@@ -32,7 +32,7 @@
 		<kotlin.version>1.4.0-rc</kotlin.version>
 		<kotlin.code.style>official</kotlin.code.style>
 		<junit.jupiter.version>5.4.2</junit.jupiter.version>
-		<dokka.version>0.9.18</dokka.version>
+		<dokka.version>1.4.0-rc</dokka.version>
 	</properties>
 
 	<scm>
