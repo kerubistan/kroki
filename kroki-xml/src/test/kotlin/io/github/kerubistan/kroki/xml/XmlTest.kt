@@ -405,7 +405,7 @@ class XmlTest {
 			value == "text-1"
 		}
 		assertTrue {
-			var values = listOf<String>()
+			val values = mutableListOf<String>()
 			"""
 			<foo>
 				<bar>
@@ -424,5 +424,28 @@ class XmlTest {
 			}
 			values == listOf("text-1", "text-2")
 		}
+
+		assertTrue {
+			val values = mutableListOf<String>()
+			"""
+			<foo>
+				<baz>this is to be ignored because it is not in the bar tag</baz>
+				<bar>
+					<baz>text-1</baz>
+					<baz>text-2</baz>
+				</bar>
+			</foo>
+		""".trimIndent().byteInputStream().parseAsXmlEventStream {
+				"foo" {
+					"bar" {
+						use("baz") {
+							values += elementText
+						}
+					}
+				}
+			}
+			values == listOf("text-1", "text-2")
+		}
+
 	}
 }

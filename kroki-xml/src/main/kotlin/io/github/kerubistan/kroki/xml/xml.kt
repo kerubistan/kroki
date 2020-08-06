@@ -151,6 +151,9 @@ class UseTagXmlEventStreamParser(private val fn : XMLEventReader.() -> Unit) : X
 	}
 }
 
+/**
+ * Only skips through the events until the end.
+ */
 object NoOperationStreamParser : XmlEventStreamParser {
 	override fun parse(events: XMLEventReader) {
 		while (events.hasNext()) {
@@ -159,7 +162,10 @@ object NoOperationStreamParser : XmlEventStreamParser {
 	}
 }
 
-
+/**
+ * Delegates control to a single configured event parser, ignores all other.
+ * Separate from MultipleTagsEventStreamParser for performance reason.
+ */
 class SingleTagEventStreamParser(private val tag : String, private val parser : XmlEventStreamParser) : XmlEventStreamParser {
 	override fun parse(events: XMLEventReader) {
 		while (events.hasNext()) {
@@ -171,6 +177,10 @@ class SingleTagEventStreamParser(private val tag : String, private val parser : 
 	}
 }
 
+/**
+ * Delegates control to XmlEventStreamParser objects based on the tag name.
+ * If there is only one, use SingleTagEventStreamParser.
+ */
 class MultipleTagsEventStreamParser(private val tags : Map<String, XmlEventStreamParser>) : XmlEventStreamParser {
 	override fun parse(events: XMLEventReader) {
 		TODO("not implemented")

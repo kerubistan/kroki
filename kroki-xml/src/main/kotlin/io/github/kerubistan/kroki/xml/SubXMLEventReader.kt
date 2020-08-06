@@ -22,15 +22,22 @@ class SubXMLEventReader (private val original : XMLEventReader, private val clos
 	override fun nextEvent(): XMLEvent {
 		checkOpen()
 		val event = original.nextEvent()
-		when(event) {
+		followEvent(event)
+		return event
+	}
+
+	private fun followEvent(event: XMLEvent?) {
+		when (event) {
 			is EndElement -> {
-				TODO("not implemented")
+				depth--
+				if (depth == 0 && event.name.localPart == closeTag) {
+					open = false
+				}
 			}
 			is StartElement -> {
-				TODO("not implemented")
+				depth++
 			}
 		}
-		return event
 	}
 
 	override fun remove() {
@@ -62,7 +69,7 @@ class SubXMLEventReader (private val original : XMLEventReader, private val clos
 
 	override fun peek(): XMLEvent {
 		checkOpen()
-		TODO("not implemented")
+		return original.peek()
 	}
 
 	override fun hasNext(): Boolean = open && original.hasNext()
@@ -72,6 +79,8 @@ class SubXMLEventReader (private val original : XMLEventReader, private val clos
 	}
 
 	override fun nextTag(): XMLEvent {
-		TODO("not implemented")
+		val event = original.nextTag()
+		followEvent(event)
+		return event
 	}
 }
