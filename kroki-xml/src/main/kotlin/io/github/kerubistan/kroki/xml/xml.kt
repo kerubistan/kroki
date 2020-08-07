@@ -142,11 +142,11 @@ interface XmlEventStreamTagParserBuilder: XmlEventStreamParserBuilder {
 }
 
 interface XmlEventStreamReader {
-	fun parse(events: XMLEventReader)
+	fun read(events: XMLEventReader)
 }
 
 class UseTagXmlEventStreamReader(private val fn : XMLEventReader.() -> Unit) : XmlEventStreamReader {
-	override fun parse(events: XMLEventReader) {
+	override fun read(events: XMLEventReader) {
 		events.fn()
 	}
 }
@@ -155,7 +155,7 @@ class UseTagXmlEventStreamReader(private val fn : XMLEventReader.() -> Unit) : X
  * Only skips through the events until the end.
  */
 object NoOperationStreamReader : XmlEventStreamReader {
-	override fun parse(events: XMLEventReader) {
+	override fun read(events: XMLEventReader) {
 		while (events.hasNext()) {
 			events.nextEvent()
 		}
@@ -167,11 +167,11 @@ object NoOperationStreamReader : XmlEventStreamReader {
  * Separate from MultipleTagsEventStreamParser for performance reason.
  */
 class SingleTagEventStreamReader(private val tag : String, private val reader : XmlEventStreamReader) : XmlEventStreamReader {
-	override fun parse(events: XMLEventReader) {
+	override fun read(events: XMLEventReader) {
 		while (events.hasNext()) {
 			val event = events.nextEvent()
 			if(event is StartElement && event.name.localPart == tag) {
-				reader.parse(SubXMLEventReader(events, event.name.localPart))
+				reader.read(SubXMLEventReader(events, event.name.localPart))
 			}
 		}
 	}
@@ -182,12 +182,12 @@ class SingleTagEventStreamReader(private val tag : String, private val reader : 
  * If there is only one, use SingleTagEventStreamParser.
  */
 class MultipleTagsEventStreamReader(private val tags : Map<String, XmlEventStreamReader>) : XmlEventStreamReader {
-	override fun parse(events: XMLEventReader) {
+	override fun read(events: XMLEventReader) {
 		while (events.hasNext()) {
 			val event = events.nextEvent()
 			if(event is StartElement && event.name.localPart in tags.keys) {
 				tags.getValue(event.name.localPart)
-					.parse(SubXMLEventReader(events, event.name.localPart))
+					.read(SubXMLEventReader(events, event.name.localPart))
 			}
 		}
 	}
@@ -245,7 +245,7 @@ inline fun InputStream.useAsXmlEventStream(crossinline builder: XmlEventStreamTa
  * @param builder the reader configuration
  */
 inline fun InputStream.readAsXmlEventStream(crossinline builder: XmlEventStreamTagParserBuilder.() -> Unit) {
-	buildXmlEventStreamReader(builder).parse(xmlInputFactory.createXMLEventReader(this))
+	buildXmlEventStreamReader(builder).read(xmlInputFactory.createXMLEventReader(this))
 }
 
 /**
@@ -261,7 +261,7 @@ fun InputStream.useAsXmlEventStream(reader : XmlEventStreamReader) {
  * @param reader the reader
  */
 fun InputStream.readAsXmlEventStream(reader : XmlEventStreamReader) {
-	reader.parse(xmlInputFactory.createXMLEventReader(this))
+	reader.read(xmlInputFactory.createXMLEventReader(this))
 }
 
 /**
