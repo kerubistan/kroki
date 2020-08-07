@@ -183,7 +183,13 @@ class SingleTagEventStreamReader(private val tag : String, private val reader : 
  */
 class MultipleTagsEventStreamReader(private val tags : Map<String, XmlEventStreamReader>) : XmlEventStreamReader {
 	override fun parse(events: XMLEventReader) {
-		TODO("not implemented")
+		while (events.hasNext()) {
+			val event = events.nextEvent()
+			if(event is StartElement && event.name.localPart in tags.keys) {
+				tags.getValue(event.name.localPart)
+					.parse(SubXMLEventReader(events, event.name.localPart))
+			}
+		}
 	}
 }
 
@@ -220,7 +226,6 @@ class XmlEventStreamTagParserBuilderImpl : XmlEventStreamTagParserBuilder {
 			}
 			else -> MultipleTagsEventStreamReader( tagMap.mapValues { it.value.build() } )
 		}
-
 }
 
 val xmlInputFactory: XMLInputFactory = XMLInputFactory.newInstance()

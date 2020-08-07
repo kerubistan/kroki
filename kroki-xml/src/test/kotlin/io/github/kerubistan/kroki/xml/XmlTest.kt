@@ -1,6 +1,7 @@
 package io.github.kerubistan.kroki.xml
 
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import java.io.ByteArrayOutputStream
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -446,6 +447,31 @@ class XmlTest {
 			}
 			values == listOf("text-1", "text-2")
 		}
+
+		assertTrue {
+			val values = mutableListOf<String>()
+			"""
+			<foo>
+				<baz>text-1</baz>
+				<bar>
+					<baz>text-2</baz>
+				</bar>
+			</foo>
+		""".trimIndent().byteInputStream().readAsXmlEventStream {
+				"foo" {
+					"baz" - {
+						values += elementText
+					}
+					"bar" {
+						"baz" - {
+							values += elementText
+						}
+					}
+				}
+			}
+			values == listOf("text-1", "text-2")
+		}
+
 	}
 
 	@Test
@@ -473,7 +499,18 @@ class XmlTest {
 	}
 
 	@Test
-	fun reUseParser() {
+	fun builderValidations() {
+		assertThrows<IllegalArgumentException>("one should not be able to add the same tag twice") {
+			buildXmlEventStreamReader {
+				"tag-1" {}
+				"tag-2" {}
+				"tag-1" {} // again - should throw exception
+			}
+		}
+	}
+
+	@Test
+	fun reUseReader() {
 		val values = mutableListOf<String>()
 		val reader = buildXmlEventStreamReader() {
 			"foo" {

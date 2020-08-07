@@ -26,11 +26,11 @@ class SubXMLEventReader (private val original : XMLEventReader, private val clos
 		return event
 	}
 
-	private fun followEvent(event: XMLEvent?) {
+	private fun followEvent(event: Any?) {
 		when (event) {
 			is EndElement -> {
 				depth--
-				if (depth == 0 && event.name.localPart == closeTag) {
+				if (depth < 0 && event.name.localPart == closeTag) {
 					open = false
 				}
 			}
@@ -58,12 +58,7 @@ class SubXMLEventReader (private val original : XMLEventReader, private val clos
 	override fun next(): Any? {
 		checkOpen()
 		val next = original.next()
-		when(next) {
-			is StartElement -> depth++
-			is EndElement -> {
-				depth--
-			}
-		}
+		followEvent(next)
 		return next
 	}
 
