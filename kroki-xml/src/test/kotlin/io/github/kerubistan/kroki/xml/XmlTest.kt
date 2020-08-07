@@ -507,6 +507,14 @@ class XmlTest {
 				"tag-1" {} // again - should throw exception
 			}
 		}
+		assertThrows<IllegalArgumentException>("one should not be able to add the same tag twice") {
+			buildXmlEventStreamReader {
+				"tag-1" {
+					"tag-2" - {}
+					"tag-2" - {}
+				}
+			}
+		}
 	}
 
 	@Test
@@ -542,5 +550,18 @@ class XmlTest {
 
 	}
 
+	@Test
+	fun testBlank() {
+		"""
+			<foo>
+				<bar>
+					<baz>second</baz>
+				</bar>
+			</foo>
+			""".trimIndent().byteInputStream().useAsXmlEventStream {
+
+		}
+
+	}
 
 }
