@@ -446,6 +446,64 @@ class XmlTest {
 			}
 			values == listOf("text-1", "text-2")
 		}
+	}
+
+	@Test
+	fun useAsXmlEventStream() {
+		assertTrue {
+			val values = mutableListOf<String>()
+			"""
+			<foo>
+				<bar>
+					<baz>text</baz>
+				</bar>
+			</foo>
+		""".trimIndent().byteInputStream().useAsXmlEventStream {
+				"foo" {
+					"bar" {
+						"baz" - {
+							values += elementText
+						}
+					}
+				}
+			}
+			values == listOf("text")
+		}
 
 	}
+
+	@Test
+	fun reUseParser() {
+		val values = mutableListOf<String>()
+		val reader = buildXmlEventStreamReader() {
+			"foo" {
+				"bar" {
+					"baz" - {
+						values += elementText
+					}
+				}
+			}
+		}
+		"""
+			<foo>
+				<bar>
+					<baz>first</baz>
+				</bar>
+			</foo>
+			""".trimIndent().byteInputStream().useAsXmlEventStream(reader)
+		assertEquals(listOf("first"), values)
+		values.clear()
+
+		"""
+			<foo>
+				<bar>
+					<baz>second</baz>
+				</bar>
+			</foo>
+			""".trimIndent().byteInputStream().useAsXmlEventStream(reader)
+		assertEquals(listOf("second"), values)
+
+	}
+
+
 }

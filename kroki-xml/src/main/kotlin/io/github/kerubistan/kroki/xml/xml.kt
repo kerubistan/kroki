@@ -225,10 +225,23 @@ class XmlEventStreamTagParserBuilderImpl : XmlEventStreamTagParserBuilder {
 
 val xmlInputFactory: XMLInputFactory = XMLInputFactory.newInstance()
 
+inline fun InputStream.useAsXmlEventStream(crossinline builder: XmlEventStreamTagParserBuilder.() -> Unit) {
+	this.use {
+		it.readAsXmlEventStream(builder)
+	}
+}
+
 inline fun InputStream.readAsXmlEventStream(crossinline builder: XmlEventStreamTagParserBuilder.() -> Unit) {
-	XmlEventStreamTagParserBuilderImpl().apply(builder).build().parse(xmlInputFactory.createXMLEventReader(this))
+	buildXmlEventStreamReader(builder).parse(xmlInputFactory.createXMLEventReader(this))
+}
+
+fun InputStream.useAsXmlEventStream(parser : XmlEventStreamParser) {
+	this.use { it.readAsXmlEventStream(parser) }
 }
 
 fun InputStream.readAsXmlEventStream(parser : XmlEventStreamParser) {
 	parser.parse(xmlInputFactory.createXMLEventReader(this))
 }
+
+inline fun buildXmlEventStreamReader(crossinline builder: XmlEventStreamTagParserBuilder.() -> Unit) =
+	XmlEventStreamTagParserBuilderImpl().apply(builder).build()
