@@ -12,8 +12,8 @@ import javax.xml.stream.events.XMLEvent
  */
 class SubXMLEventReader (private val original : XMLEventReader, private val closeTag: String) : XMLEventReader {
 
-	var open = true
-	var depth = 0
+	private var open = true
+	private var depth = 0
 
 	private fun checkOpen() {
 		check(open) { "Event reader closed already" }
