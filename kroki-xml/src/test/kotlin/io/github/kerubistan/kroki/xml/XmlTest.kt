@@ -374,7 +374,7 @@ class XmlTest {
 					<baz>text-1</baz>
 				</bar>
 			</foo>
-		""".trimIndent().byteInputStream().parseAsXmlEventStream {
+		""".trimIndent().byteInputStream().readAsXmlEventStream {
 				"foo" {
 					"bar" {
 						use("baz") {
@@ -393,7 +393,7 @@ class XmlTest {
 					<baz>text-1</baz>
 				</bar>
 			</foo>
-		""".trimIndent().byteInputStream().parseAsXmlEventStream {
+		""".trimIndent().byteInputStream().readAsXmlEventStream {
 				"foo" {
 					"bar" {
 						"baz" - {
@@ -413,7 +413,7 @@ class XmlTest {
 					<baz>text-2</baz>
 				</bar>
 			</foo>
-		""".trimIndent().byteInputStream().parseAsXmlEventStream {
+		""".trimIndent().byteInputStream().readAsXmlEventStream {
 				"foo" {
 					"bar" {
 						use("baz") {
@@ -435,7 +435,7 @@ class XmlTest {
 					<baz>text-2</baz>
 				</bar>
 			</foo>
-		""".trimIndent().byteInputStream().parseAsXmlEventStream {
+		""".trimIndent().byteInputStream().readAsXmlEventStream {
 				"foo" {
 					"bar" {
 						use("baz") {
