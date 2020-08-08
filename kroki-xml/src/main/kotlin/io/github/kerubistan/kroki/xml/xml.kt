@@ -270,3 +270,11 @@ fun InputStream.readAsXmlEventStream(reader : XmlEventStreamReader) {
  */
 inline fun buildXmlEventStreamReader(crossinline builder: XmlEventStreamTagParserBuilder.() -> Unit) =
 	XmlEventStreamTagParserBuilderImpl().apply(builder).build()
+
+fun XMLEventReader.readAsXmlEventStream(reader : XmlEventStreamReader) {
+	reader.read(this)
+}
+
+inline fun XMLEventReader.readAsXmlEventStream(crossinline builder: XmlEventStreamTagParserBuilder.() -> Unit) {
+	buildXmlEventStreamReader(builder).read(this)
+}
