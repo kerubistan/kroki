@@ -1,8 +1,11 @@
 package io.github.kerubistan.kroki.xml
 
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
 
 import org.junit.Assert.*
+import javax.xml.namespace.QName
 import javax.xml.stream.events.EndElement
 import javax.xml.stream.events.StartElement
 
@@ -24,7 +27,13 @@ class SubXMLEventReaderTest {
 		while (eventReader.hasNext() && !(event is StartElement && event.name.localPart == "start")) {
 			event = eventReader.nextEvent()
 		}
-		val subEventReader = SubXMLEventReader(eventReader, "start")
+		val qName = mock<QName>().apply {
+			whenever(this.localPart).thenReturn("start")
+		}
+		val startElement = mock<StartElement>().apply {
+			whenever(this.name).thenReturn(qName)
+		}
+		val subEventReader = SubXMLEventReader(eventReader, startElement)
 
 		val result = buildString {
 			while (subEventReader.hasNext()) {

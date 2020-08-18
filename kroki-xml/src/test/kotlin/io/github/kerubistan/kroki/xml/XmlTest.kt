@@ -1,8 +1,10 @@
 package io.github.kerubistan.kroki.xml
 
+import io.github.kerubistan.kroki.iteration.map
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.ByteArrayOutputStream
+import javax.xml.stream.events.Attribute
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -489,6 +491,30 @@ class XmlTest {
 					"bar" {
 						"baz" - {
 							values += elementText
+						}
+					}
+				}
+			}
+			values == listOf("text")
+		}
+
+	}
+
+	@Test
+	fun attributes() {
+		assertTrue {
+			val values = mutableMapOf<Int, String>()
+			"""
+			<foo>
+				<bar>
+					<baz id="1" value="one"></baz>
+				</bar>
+			</foo>
+		""".trimIndent().byteInputStream().useAsXmlEventStream {
+				"foo" {
+					"bar" {
+						"baz" - {
+							it.attributes.map { it as Attribute }
 						}
 					}
 				}

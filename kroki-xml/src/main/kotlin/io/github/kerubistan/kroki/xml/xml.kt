@@ -135,8 +135,8 @@ interface XmlEventStreamTagParserBuilder: XmlEventStreamParserBuilder {
 	operator fun String.invoke(builder: XmlEventStreamTagParserBuilder.() -> Unit) {
 		tag(name = this, builder = builder)
 	}
-	fun use(name : String, eventStream: XMLEventReader.() -> Unit)
-	operator fun String.minus(fn : (XMLEventReader.() -> Unit)) {
+	fun use(name : String, eventStream: XMLEventReader.(StartElement) -> Unit)
+	operator fun String.minus(fn : (XMLEventReader.(StartElement) -> Unit)) {
 		use(name = this, eventStream = fn)
 	}
 }
@@ -145,9 +145,9 @@ interface XmlEventStreamReader {
 	fun read(events: XMLEventReader)
 }
 
-class UseTagXmlEventStreamReader(private val fn : XMLEventReader.() -> Unit) : XmlEventStreamReader {
+class UseTagXmlEventStreamReader(private val fn : XMLEventReader.(StartElement) -> Unit) : XmlEventStreamReader {
 	override fun read(events: XMLEventReader) {
-		events.fn()
+		events.fn((events as SubXMLEventReader).startElement)
 	}
 }
 
@@ -171,7 +171,7 @@ class SingleTagEventStreamReader(private val tag : String, private val reader : 
 		while (events.hasNext()) {
 			val event = events.nextEvent()
 			if(event is StartElement && event.name.localPart == tag) {
-				reader.read(SubXMLEventReader(events, event.name.localPart))
+				reader.read(SubXMLEventReader(events, event))
 			}
 		}
 	}
@@ -187,13 +187,13 @@ class MultipleTagsEventStreamReader(private val tags : Map<String, XmlEventStrea
 			val event = events.nextEvent()
 			if(event is StartElement && event.name.localPart in tags.keys) {
 				tags.getValue(event.name.localPart)
-					.read(SubXMLEventReader(events, event.name.localPart))
+					.read(SubXMLEventReader(events, event))
 			}
 		}
 	}
 }
 
-class XmlEventStreamUseTagBuilderImpl(private val eventStream: XMLEventReader.() -> Unit) : XmlEventStreamParserBuilder {
+class XmlEventStreamUseTagBuilderImpl(private val eventStream: XMLEventReader.(StartElement) -> Unit) : XmlEventStreamParserBuilder {
 	override fun build(): XmlEventStreamReader = UseTagXmlEventStreamReader(eventStream)
 }
 
@@ -210,7 +210,7 @@ class XmlEventStreamTagParserBuilderImpl : XmlEventStreamTagParserBuilder {
 		tagMap[name] = sub
 	}
 
-	override fun use(name: String, eventStream: XMLEventReader.() -> Unit) {
+	override fun use(name: String, eventStream: XMLEventReader.(StartElement) -> Unit) {
 		require(!tagMap.containsKey(name)) {
 			"tag $name already defined"
 		}

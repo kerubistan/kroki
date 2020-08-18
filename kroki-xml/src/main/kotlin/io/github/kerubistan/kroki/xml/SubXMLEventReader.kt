@@ -10,10 +10,11 @@ import javax.xml.stream.events.XMLEvent
  * whole XML stream. Once the closing tag is reached, the reader object will respond as
  * if no more events available.
  */
-class SubXMLEventReader (private val original : XMLEventReader, private val closeTag: String) : XMLEventReader {
+class SubXMLEventReader (private val original : XMLEventReader, val startElement: StartElement) : XMLEventReader {
 
 	private var open = true
 	private var depth = 0
+	private val closeTag = startElement.name.localPart
 
 	private fun checkOpen() {
 		check(open) { "Event reader closed already" }

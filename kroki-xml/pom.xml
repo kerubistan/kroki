@@ -32,6 +32,11 @@
 			<version>${kotlin.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>io.github.kerubistan.kroki</groupId>
+			<artifactId>kroki-utils</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 		</dependency>
@@ -57,6 +62,12 @@
 			<artifactId>aalto-xml</artifactId>
 			<version>1.2.2</version>
 			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>com.nhaarman</groupId>
+			<artifactId>mockito-kotlin</artifactId>
+			<version>1.5.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
