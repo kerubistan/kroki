@@ -9,3 +9,12 @@ class MappingIterator<S, T>(private val internal : Iterator<S>, private val mapp
 }
 
 fun <S, T>  Iterator<S>.map(mapper : (S) -> T) : Iterator<T> = MappingIterator(this, mapper)
+
+/**
+ * Builds a list in case only an iterator is available.s
+ */
+fun <T> Iterator<T>.toList(): List<T> = mutableListOf<T>().apply {
+	while (this@toList.hasNext()) {
+		add(this@toList.next())
+	}
+}

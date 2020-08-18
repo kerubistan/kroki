@@ -1,8 +1,7 @@
 package io.github.kerubistan.kroki.iteration
 
-import io.github.kerubistan.kroki.collections.toList
 import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class IteratorsKtTest {
 
@@ -13,4 +12,11 @@ class IteratorsKtTest {
 			listOf(1, 2, 3, 4, 5).iterator().map { it + 1 }.toList()
 		)
 	}
+
+	@Test
+	fun toList() {
+		assertEquals(listOf(1, 2, 3, 4), listOf(1, 2, 3, 4).iterator().toList())
+	}
+
+
 }
