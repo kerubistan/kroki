@@ -1,11 +1,14 @@
 package io.github.kerubistan.kroki.xml
 
+import io.github.kerubistan.kroki.iteration.map
+import io.github.kerubistan.kroki.iteration.toList
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import javax.xml.stream.XMLEventReader
 import javax.xml.stream.XMLInputFactory
+import javax.xml.stream.events.Attribute
 import javax.xml.stream.events.StartElement
 import kotlin.reflect.KFunction0
 
@@ -278,3 +281,11 @@ fun XMLEventReader.readAsXmlEventStream(reader : XmlEventStreamReader) {
 inline fun XMLEventReader.readAsXmlEventStream(crossinline builder: XmlEventStreamTagParserBuilder.() -> Unit) {
 	buildXmlEventStreamReader(builder).read(this)
 }
+
+/**
+ * Reads all attributes of the StartElement into a map.
+ * Once this method is called, it will only return empty
+ * results for any subsequent calls.
+ */
+fun StartElement.readAttributes() : Map<String, String> =
+	this.attributes.map { (it as Attribute).let { it.name.localPart to it.value } }.toList().toMap()

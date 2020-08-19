@@ -516,7 +516,7 @@ class XmlTest {
 				"foo" {
 					"bar" {
 						"baz" - {
-							val atts = it.attributes.map { (it as Attribute).let { it.name.localPart to it.value } }.toList().toMap()
+							val atts = it.readAttributes()
 							values[atts.getValue("id")] = atts.getValue("value")
 						}
 					}
