@@ -73,7 +73,7 @@
 				<configuration>
 					<args>
 						<arg>-Xcoroutines=enable</arg>
-						<arg>-Xexplicit-api=warning</arg>
+						<arg>-Xexplicit-api=${explicit.api.mode}</arg>
 					</args>
 				</configuration>
 				<executions>
