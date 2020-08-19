@@ -1,6 +1,7 @@
 package io.github.kerubistan.kroki.xml
 
 import io.github.kerubistan.kroki.iteration.map
+import io.github.kerubistan.kroki.iteration.toList
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.ByteArrayOutputStream
@@ -503,23 +504,25 @@ class XmlTest {
 	@Test
 	fun attributes() {
 		assertTrue {
-			val values = mutableMapOf<Int, String>()
+			val values = mutableMapOf<String, String>()
 			"""
 			<foo>
 				<bar>
 					<baz id="1" value="one"></baz>
+					<baz id="2" value="two"></baz>
 				</bar>
 			</foo>
 		""".trimIndent().byteInputStream().useAsXmlEventStream {
 				"foo" {
 					"bar" {
 						"baz" - {
-							it.attributes.map { it as Attribute }
+							val atts = it.attributes.map { (it as Attribute).let { it.name.localPart to it.value } }.toList().toMap()
+							values[atts.getValue("id")] = atts.getValue("value")
 						}
 					}
 				}
 			}
-			values == listOf("text")
+			values == mapOf("1" to "one", "2" to "two")
 		}
 
 	}
