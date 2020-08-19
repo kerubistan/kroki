@@ -14,5 +14,12 @@ internal class EasyStringWriterTest {
 				it.toString()
 			)
 		}
+		EasyStringWriter().use {
+			it.append('f').append('o').append('o')
+			assertEquals(
+				"foo",
+				it.toString()
+			)
+		}
 	}
 }
