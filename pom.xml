@@ -99,7 +99,15 @@
 					<groupId>org.jetbrains.dokka</groupId>
 					<artifactId>dokka-maven-plugin</artifactId>
 					<version>${dokka.version}</version>
-
+					<dependencies>
+						<!-- temporary, until a dokka version with kotlin-1.4 is released -->
+						<dependency>
+							<groupId>org.jetbrains.kotlin</groupId>
+							<artifactId>kotlin-stdlib-jdk8</artifactId>
+							<version>${kotlin.version}</version>
+							<scope>runtime</scope>
+						</dependency>
+					</dependencies>
 					<executions>
 						<execution>
 							<id>prepare-package</id>
