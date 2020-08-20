@@ -33,8 +33,6 @@
 		<kotlin.code.style>official</kotlin.code.style>
 		<junit.jupiter.version>5.4.2</junit.jupiter.version>
 		<dokka.version>1.4.0-rc</dokka.version>
-		<!-- see https://github.com/Kotlin/KEEP/blob/master/proposals/explicit-api-mode.md -->
-		<explicit.api.mode>warning</explicit.api.mode>
 	</properties>
 
 	<scm>
@@ -143,9 +141,6 @@
 					<version>${kotlin.version}</version>
 					<configuration>
 						<jvmTarget>1.8</jvmTarget>
-						<args>
-							<arg>-Xexplicit-api=${explicit.api.mode}</arg>
-						</args>
 					</configuration>
 					<executions>
 						<execution>
