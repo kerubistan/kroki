@@ -24,6 +24,8 @@ open class XmlReaderBenchmark {
 
 	val domFactory by threadLocal { DocumentBuilderFactory.newInstance() }
 
+	val documentBuilder by threadLocal { domFactory.newDocumentBuilder() }
+
 	@Param("0", "1", "2", "4", "5", "6", "7", "8", "9", "10", "100", "1000", "10000")
 	var size = 1
 
@@ -56,7 +58,7 @@ open class XmlReaderBenchmark {
 	@Benchmark
 	fun domParse(hole : Blackhole) {
 		hole.consume(
-			domFactory.newDocumentBuilder().parse(xml.byteInputStream())
+			documentBuilder.parse(xml.byteInputStream())
 		)
 	}
 
