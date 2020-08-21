@@ -1,26 +1,17 @@
 package io.github.kerubistan.kroki.benchmark.xml
 
 import io.github.kerubistan.kroki.delegates.threadLocal
-import io.github.kerubistan.kroki.xml.XmlEventStreamReader
 import io.github.kerubistan.kroki.xml.buildXmlEventStreamReader
 import io.github.kerubistan.kroki.xml.readAsXmlEventStream
 import org.openjdk.jmh.annotations.*
 import org.openjdk.jmh.infra.Blackhole
+import org.w3c.dom.Element
 import javax.xml.parsers.DocumentBuilderFactory
 
 @State(Scope.Benchmark)
 open class XmlReaderBenchmark {
 
 	lateinit var xml: String
-	val reader: XmlEventStreamReader = buildXmlEventStreamReader {
-		"root" {
-			"tag" {
-				"data" - {
-					// do nothing with the data
-				}
-			}
-		}
-	}
 
 	val domFactory by threadLocal { DocumentBuilderFactory.newInstance() }
 
@@ -32,16 +23,16 @@ open class XmlReaderBenchmark {
 	@Setup
 	fun setup() {
 		xml = buildString {
-			append(
+			appendLine(
 				"""
 				<root>
 					<tag>
 				""".trimIndent()
 			)
 			(0..size).forEach {
-				append("<data>$it</data>")
+				appendLine("<data>$it</data>")
 			}
-			append(
+			appendLine(
 				"""
 					</tag>
 				</root>
@@ -51,15 +42,36 @@ open class XmlReaderBenchmark {
 	}
 
 	@Benchmark
-	fun readAsXmlEventStream() {
-		xml.byteInputStream().readAsXmlEventStream(reader)
+	fun readAsXmlEventStream(hole: Blackhole) {
+		val result = mutableListOf<String>()
+		xml.byteInputStream().readAsXmlEventStream(buildXmlEventStreamReader {
+			"root" {
+				"tag" {
+					"data" - {
+						result.add(elementText)
+					}
+				}
+			}
+		})
+
+		hole.consume(result)
 	}
 
 	@Benchmark
-	fun domParse(hole : Blackhole) {
-		hole.consume(
-			documentBuilder.parse(xml.byteInputStream())
-		)
+	fun domParse(hole: Blackhole) {
+		val result = mutableListOf<String>()
+		val document = documentBuilder.parse(xml.byteInputStream())
+		val tag = document.documentElement
+			.getElementsByTagName("tag").item(0) as Element
+		tag
+			.getElementsByTagName("data").let {
+			for (index in 0 until it.length) {
+				val elem = it.item(index) as Element
+				result.add(elem.textContent)
+			}
+		}
+
+		hole.consume(result)
 	}
 
 }
