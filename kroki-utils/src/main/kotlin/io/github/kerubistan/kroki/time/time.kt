@@ -5,6 +5,8 @@ package io.github.kerubistan.kroki.time
  */
 fun now() = System.currentTimeMillis()
 
+// considered temporary solution for readability while kotlin.time is experimental
+
 val Int.H : Long
 	get() = this * 60.MIN
 
