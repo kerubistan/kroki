@@ -9,11 +9,11 @@ import org.openjdk.jmh.infra.Blackhole
 @State(Scope.Benchmark)
 open class GetStackTraceAsStringBenchmark {
 
-    private val exception = IllegalArgumentException("no problem")
+	private val exception = IllegalArgumentException("no problem")
 
-    @Benchmark
-    fun getStackTraceAsString(hole: Blackhole) {
-        hole.consume(exception.getStackTraceAsString())
-    }
+	@Benchmark
+	fun getStackTraceAsString(hole: Blackhole) {
+		hole.consume(exception.getStackTraceAsString())
+	}
 
 }

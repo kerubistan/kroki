@@ -11,20 +11,20 @@ import java.util.UUID.randomUUID
 @State(Scope.Benchmark)
 open class UUIDBenchmark {
 
-    val id = randomUUID().toString()
+	val id = randomUUID().toString()
 
-    @Benchmark
-    fun toUUID(hole: Blackhole) {
-        hole.consume(id.toUUID())
-    }
+	@Benchmark
+	fun toUUID(hole: Blackhole) {
+		hole.consume(id.toUUID())
+	}
 
-    @Benchmark
-    fun isUUID(hole: Blackhole) {
-        hole.consume(id.isUUID())
-    }
+	@Benchmark
+	fun isUUID(hole: Blackhole) {
+		hole.consume(id.isUUID())
+	}
 
-    @Benchmark
-    fun isUUIDNotMatch(hole: Blackhole) {
-        hole.consume("".isUUID())
-    }
+	@Benchmark
+	fun isUUIDNotMatch(hole: Blackhole) {
+		hole.consume("".isUUID())
+	}
 }

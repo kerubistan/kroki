@@ -9,10 +9,10 @@ import org.openjdk.jmh.infra.Blackhole
 @State(Scope.Benchmark)
 open class SubstringBenchmark {
 
-    private val str = """Some text "quotes" and some more text."""
+	private val str = """Some text "quotes" and some more text."""
 
-    @Benchmark
-    fun substringBetween(hole: Blackhole) {
-        str.substringBetween("\"", "\"")
-    }
+	@Benchmark
+	fun substringBetween(hole: Blackhole) {
+		str.substringBetween("\"", "\"")
+	}
 }

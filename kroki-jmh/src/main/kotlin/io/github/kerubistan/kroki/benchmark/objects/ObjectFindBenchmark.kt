@@ -9,22 +9,22 @@ import org.openjdk.jmh.infra.Blackhole
 @State(Scope.Benchmark)
 open class ObjectFindBenchmark {
 
-    data class Folder(
-        val name: String,
-        val subFolders: List<Folder> = listOf()
-    )
+	data class Folder(
+		val name: String,
+		val subFolders: List<Folder> = listOf()
+	)
 
-    val tree = Folder(
-        "/",
-        listOf(
-            Folder("var"),
-            Folder("etc"),
-            Folder("home")
-        )
-    )
+	val tree = Folder(
+		"/",
+		listOf(
+			Folder("var"),
+			Folder("etc"),
+			Folder("home")
+		)
+	)
 
-    @Benchmark
-    fun find(hole: Blackhole) {
-        tree.find(Folder::subFolders) { it.name == "home" }
-    }
+	@Benchmark
+	fun find(hole: Blackhole) {
+		tree.find(Folder::subFolders) { it.name == "home" }
+	}
 }

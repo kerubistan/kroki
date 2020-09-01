@@ -3,15 +3,13 @@
 	<parent>
 		<artifactId>kroki</artifactId>
 		<groupId>io.github.kerubistan.kroki</groupId>
-		<version>1.9-SNAPSHOT</version>
+		<version>1.18-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>kroki-utils</artifactId>
 	<packaging>jar</packaging>
-
-	<name>io.github.kerubistan.kroki kroki-utils</name>
 
 	<licenses>
 		<license>

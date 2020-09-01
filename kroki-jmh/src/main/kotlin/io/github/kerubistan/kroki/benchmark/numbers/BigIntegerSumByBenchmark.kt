@@ -8,24 +8,24 @@ import java.math.BigInteger
 @State(Scope.Benchmark)
 open class BigIntegerSumByBenchmark {
 
-    @Param("2","4","8","16","32","64","128","256","512")
-    var size = 2
+	@Param("2", "4", "8", "16", "32", "64", "128", "256", "512")
+	var size = 2
 
-    @Param("0", "256", "4096", "16384", "268435456")
-    var offset = "0"
+	@Param("0", "256", "4096", "16384", "268435456")
+	var offset = "0"
 
-    var list = listOf<BigInteger>()
+	var list = listOf<BigInteger>()
 
-    @Setup
-    fun setUp() {
-        list = (0..size).map { offset.toBigInteger() + it.toBigInteger() }
-    }
+	@Setup
+	fun setUp() {
+		list = (0..size).map { offset.toBigInteger() + it.toBigInteger() }
+	}
 
-    @Benchmark
-    fun sumBy(hole : Blackhole) {
-        hole.consume(
-            list.sumBy { it }
-        )
-    }
+	@Benchmark
+	fun sumBy(hole: Blackhole) {
+		hole.consume(
+			list.sumBy { it }
+		)
+	}
 
 }

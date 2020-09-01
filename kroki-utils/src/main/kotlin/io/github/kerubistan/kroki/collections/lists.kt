@@ -4,23 +4,23 @@ package io.github.kerubistan.kroki.collections
  * Concatenate a "list of list of items" into a "list of items".
  */
 fun <T> Collection<Collection<T>>.concat(): List<T> {
-    val result = ArrayList<T>(this.sumBy { it.size })
-    this.forEach {
-        if (it.isNotEmpty()) {
-            result.addAll(it)
-        }
-    }
-    return result.toList()
+	val result = ArrayList<T>(this.sumBy { it.size })
+	this.forEach {
+		if (it.isNotEmpty()) {
+			result.addAll(it)
+		}
+	}
+	return result.toList()
 }
 
 /**
  * Check if an iterable object is empty.
  */
 fun <T> Iterable<T>.isEmpty() =
-    if (this is Collection)
-        this.isEmpty()
-    else
-        !this.iterator().hasNext()
+	if (this is Collection)
+		this.isEmpty()
+	else
+		!this.iterator().hasNext()
 
 /**
  * Merge two lists using properties on both sides.
@@ -35,58 +35,58 @@ fun <T> Iterable<T>.isEmpty() =
  *      (null means skip)
  */
 inline fun <R : Any, L, reified SUB : R, reified P> List<R>.mergeInstancesWith(
-    leftItems: Iterable<L>,
-    rightValue: (SUB) -> P,
-    leftValue: (L) -> P,
-    merge: (SUB, L) -> SUB,
-    miss: (SUB) -> R? = { null },
-    missLeft: (L) -> R? = { null }
+	leftItems: Iterable<L>,
+	rightValue: (SUB) -> P,
+	leftValue: (L) -> P,
+	merge: (SUB, L) -> SUB,
+	miss: (SUB) -> R? = { null },
+	missLeft: (L) -> R? = { null }
 ): List<R> {
-    // accelerator: if the left list is empty, then we can just map all of the right list
-    // and no merge will happen as there are no matches
-    if (leftItems.isEmpty()) {
-        return this.mapNotNull { item ->
-            if (item is SUB) {
-                miss(item)
-            } else {
-                item
-            }
-        }
-    }
-    // accelerator: if the right list is empty, then we can just map the left list
-    // and again no merge will happen as there are no matches
-    if (this.isEmpty()) {
-        return leftItems.mapNotNull(missLeft)
-    }
-    //none of the above, then let's do the expensive calculations and then we will have to merge
-    val leftValuesByProp = leftItems.associateBy(leftValue)
-    val rightValuesByProp = this.filterIsInstance<SUB>().associateBy(rightValue)
+	// accelerator: if the left list is empty, then we can just map all of the right list
+	// and no merge will happen as there are no matches
+	if (leftItems.isEmpty()) {
+		return this.mapNotNull { item ->
+			if (item is SUB) {
+				miss(item)
+			} else {
+				item
+			}
+		}
+	}
+	// accelerator: if the right list is empty, then we can just map the left list
+	// and again no merge will happen as there are no matches
+	if (this.isEmpty()) {
+		return leftItems.mapNotNull(missLeft)
+	}
+	//none of the above, then let's do the expensive calculations and then we will have to merge
+	val leftValuesByProp = leftItems.associateBy(leftValue)
+	val rightValuesByProp = this.filterIsInstance<SUB>().associateBy(rightValue)
 
-    return leftValuesByProp.filterKeys { it !in rightValuesByProp.keys }.mapNotNull { (_, v) -> missLeft(v) } +
-            this.mapNotNull { item ->
-                if (item is SUB) {
-                    val rightCounterpart = leftValuesByProp[rightValue(item)]
-                    if (rightCounterpart != null) {
-                        merge(item, rightCounterpart)
-                    } else {
-                        miss(item)
-                    }
-                } else {
-                    item
-                }
-            }
+	return leftValuesByProp.filterKeys { it !in rightValuesByProp.keys }.mapNotNull { (_, v) -> missLeft(v) } +
+			this.mapNotNull { item ->
+				if (item is SUB) {
+					val rightCounterpart = leftValuesByProp[rightValue(item)]
+					if (rightCounterpart != null) {
+						merge(item, rightCounterpart)
+					} else {
+						miss(item)
+					}
+				} else {
+					item
+				}
+			}
 }
 
 /**
  * Update only instances of a certain class in a list, leave the rest unchanged.
  */
 inline fun <X, reified T : X> List<X>.updateInstances(
-    selector: (T) -> Boolean = { true },
-    map: (T) -> T
+	selector: (T) -> Boolean = { true },
+	map: (T) -> T
 ): List<X> = this.map { item ->
-    if (item is T && selector(item)) {
-        map(item)
-    } else item
+	if (item is T && selector(item)) {
+		map(item)
+	} else item
 }
 
 /**
@@ -97,18 +97,18 @@ inline fun <X, reified T : X> List<X>.updateInstances(
  * @throws IllegalArgumentException if percentile is not between 0 and 100 or if the *this* iterable is empty.
  */
 inline fun <T, E : Comparable<E>> Iterable<T>.percentile(percentile: Double, crossinline expression: (T) -> E): E {
-    require(percentile < 100) {
-        "Percentile must be less than 100. Actual: $percentile"
-    }
-    require(percentile > 0) {
-        "Percentile must be more than 0. Actual: $percentile"
-    }
-    val ordered = this.sortedBy(expression)
-    require(ordered.isNotEmpty()) {
-        "There is nothing to calculate with. "
-    }
+	require(percentile < 100) {
+		"Percentile must be less than 100. Actual: $percentile"
+	}
+	require(percentile > 0) {
+		"Percentile must be more than 0. Actual: $percentile"
+	}
+	val ordered = this.sortedBy(expression)
+	require(ordered.isNotEmpty()) {
+		"There is nothing to calculate with. "
+	}
 
-    return expression(ordered[(ordered.size * (percentile / 100)).toInt()])
+	return expression(ordered[(ordered.size * (percentile / 100)).toInt()])
 }
 
 /**
@@ -117,39 +117,37 @@ inline fun <T, E : Comparable<E>> Iterable<T>.percentile(percentile: Double, cro
  * @param replacer replace the item
  */
 inline fun <T> Collection<T>.replace(
-    filter: (T) -> Boolean,
-    replacer: (T) -> T
+	filter: (T) -> Boolean,
+	replacer: (T) -> T
 ): List<T> = this.map {
-    if (filter(it)) {
-        replacer(it)
-    } else {
-        it
-    }
+	if (filter(it)) {
+		replacer(it)
+	} else {
+		it
+	}
 }
 
 /**
  * Creates multiple groups out of a list. Each item can be grouped into more than one group.
  */
-inline fun <V : Any, K: Any> Collection<V>.groupsBy(crossinline keys : (V) -> Iterable<K> ) : Map<K, Set<V>> {
-    val result = mutableMapOf<K, MutableSet<V>>()
-    this.forEach {
-        item ->
-        keys(item).forEach {
-            key ->
-            val items = result[key]
-            if(items == null) {
-                result[key] = mutableSetOf(item)
-            } else {
-                items.add(item)
-            }
-        }
-    }
-    return result
+inline fun <V : Any, K : Any> Collection<V>.groupsBy(crossinline keys: (V) -> Iterable<K>): Map<K, Set<V>> {
+	val result = mutableMapOf<K, MutableSet<V>>()
+	this.forEach { item ->
+		keys(item).forEach { key ->
+			val items = result[key]
+			if (items == null) {
+				result[key] = mutableSetOf(item)
+			} else {
+				items.add(item)
+			}
+		}
+	}
+	return result
 }
 
 fun <T> List<T>.skip(): List<T> =
-    if (this.isEmpty()) {
-        listOf()
-    } else {
-        this.subList(1, this.size)
-    }
+	if (this.isEmpty()) {
+		listOf()
+	} else {
+		this.subList(1, this.size)
+	}
