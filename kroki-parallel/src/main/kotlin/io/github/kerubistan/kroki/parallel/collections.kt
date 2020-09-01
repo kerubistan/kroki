@@ -9,7 +9,9 @@ import java.util.concurrent.Callable
 import java.util.concurrent.ExecutorService
 import kotlin.coroutines.CoroutineContext
 
-fun List<BigInteger>.pSum(context: CoroutineContext, blockSize: Int = 131072) =
+private const val defaultBlockSize = 128 * 1024
+
+fun List<BigInteger>.pSum(context: CoroutineContext, blockSize: Int = defaultBlockSize) =
     if (this.size < blockSize) this.sumBy { it } else runBlocking(context) {
         (this@pSum.indices.first until this@pSum.indices.last step blockSize).map { start ->
             val end = (start + blockSize).coerceAtMost(this@pSum.indices.last + 1)
@@ -23,7 +25,7 @@ fun List<BigInteger>.pSum(context: CoroutineContext, blockSize: Int = 131072) =
         }.map { it.await() }.sumBy { it }
     }
 
-fun List<BigInteger>.tSum(executor : ExecutorService, blockSize: Int = 131072) =
+fun List<BigInteger>.tSum(executor : ExecutorService, blockSize: Int = defaultBlockSize) =
     if (this.size < blockSize) this.sumBy { it } else
         (this.indices.first until this.indices.last step blockSize).map { start ->
             val end = (start + blockSize).coerceAtMost(this.indices.last + 1)
