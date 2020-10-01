@@ -22,6 +22,10 @@
             <artifactId>kotlin-stdlib</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>${parent.groupId}</groupId>
             <artifactId>kroki-utils</artifactId>
             <version>${parent.version}</version>
