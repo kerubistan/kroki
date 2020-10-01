@@ -15,3 +15,7 @@ fun <K : Any, V : Any> Map<K, V>.update(key: K, mapper: (V) -> V): Map<K, V> =
 			it.value
 		}
 	}
+
+@SuppressWarnings("unchecked")
+fun <K: Any, V : Any> Map<K, V?>.filterNotNullValues() : Map<K, V> =
+	this.filter { it.value != null } as Map<K, V>

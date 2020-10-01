@@ -47,5 +47,20 @@ internal class MapsKtTest {
 		)
 	}
 
+	@Test
+	fun filterNotNullValues() {
+		assertEquals(
+			mapOf(
+				"A" to "a",
+				"B" to "b"
+			),
+			mapOf(
+				"A" to "a",
+				"X" to null,
+				"B" to "b"
+			).filterNotNullValues()
+		)
+	}
+
 
 }
