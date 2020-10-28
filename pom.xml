@@ -33,6 +33,7 @@
 		<kotlin.code.style>official</kotlin.code.style>
 		<junit.jupiter.version>5.4.2</junit.jupiter.version>
 		<dokka.version>0.9.18</dokka.version>
+		<dokka.skip>false</dokka.skip>
 	</properties>
 
 	<scm>
@@ -121,6 +122,7 @@
 						<includes>
 							<file>packages.md</file>
 						</includes>
+						<skip>${dokka.skip}</skip>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -162,6 +164,15 @@
 
 		</pluginManagement>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>quick</id>
+			<properties>
+				<dokka.skip>true</dokka.skip>
+			</properties>
+		</profile>
+	</profiles>
 
 	<modules>
 		<module>kroki-delegates</module>
