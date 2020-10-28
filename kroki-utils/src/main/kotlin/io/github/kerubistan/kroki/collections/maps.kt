@@ -16,6 +16,9 @@ fun <K : Any, V : Any> Map<K, V>.update(key: K, mapper: (V) -> V): Map<K, V> =
 		}
 	}
 
+/**
+ * Filter out null values from the map.
+ */
 fun <K: Any, V : Any> Map<K, V?>.filterNotNullValues() : Map<K, V> =
 	mapNotNull { (key, nullableValue) ->
 		nullableValue?.let { key to it }
