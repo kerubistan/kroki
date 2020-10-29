@@ -112,4 +112,11 @@ fun <T> cached(
 	errorHandler: (t: Throwable) -> Unit = {},
 	loader: () -> T
 ): Delegate<T> =
-	CachedDelegate(scope = scope, errorHandler = errorHandler, loader = loader, ttl = ttl, retryOnFail = retryOnFail, delayOnLoadError = delayOnLoadError)
+	CachedDelegate(
+		scope = scope,
+		errorHandler = errorHandler,
+		loader = loader,
+		ttl = ttl,
+		retryOnFail = retryOnFail,
+		delayOnLoadError = delayOnLoadError
+	)
