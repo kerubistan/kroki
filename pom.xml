@@ -184,6 +184,8 @@
 		<module>kroki-jmh</module>
 		<module>kroki-coroutines</module>
 		<module>kroki-xml</module>
+		<module>kroki-dedup</module>
+		<module>kroki-dedup-annotations</module>
 	</modules>
 
 </project>
