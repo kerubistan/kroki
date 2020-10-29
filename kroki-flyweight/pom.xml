@@ -13,8 +13,8 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>kroki-dedup</module>
-		<module>kroki-dedup-annotations</module>
+		<module>kroki-flyweight-lib</module>
+		<module>kroki-flyweight-annotations</module>
 	</modules>
 
 </project>
