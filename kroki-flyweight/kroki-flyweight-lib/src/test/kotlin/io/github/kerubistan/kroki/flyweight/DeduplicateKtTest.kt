@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Assertions.*
 class DeduplicateKtTest {
 
 	@Test
-	fun deduplicate() {
+	fun flyweight() {
 
 		data class Astronaut(
 			val firstName : String,
@@ -42,14 +42,14 @@ class DeduplicateKtTest {
 				}
 			]
 			""".trimIndent()
-		).map { it.deduplicate() }
+		).map { it.flyWeight() }
 
 		assertTrue(candidates.all { it.lastName === candidates[0].lastName })
 
 	}
 
 	@Test
-	fun deepDeduplicate() {
+	fun deepFlyweight() {
 
 		data class Name (
 			val first : String,
@@ -91,7 +91,7 @@ class DeduplicateKtTest {
 				}
 			]
 			""".trimIndent()
-		).map { it.deduplicate() }
+		).map { it.flyWeight() }
 
 		assertTrue(candidates.all { it.name.last === candidates[0].name.last })
 
