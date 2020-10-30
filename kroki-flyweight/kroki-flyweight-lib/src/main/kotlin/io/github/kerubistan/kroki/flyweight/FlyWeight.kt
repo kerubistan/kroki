@@ -27,5 +27,14 @@ fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache) : 
 		copy.callBy(deDuplicatedFields) as T
 	} else this
 
+private val noFlyWeightTypes = setOf(
+	Boolean::class,
+	Short::class,
+	Byte::class,
+	Char::class,
+	Int::class,
+	Long::class
+)
+
 private fun noFlyWeightType(componentValue: Any, component: KFunction<*>) =
-	componentValue.javaClass.isEnum || component.javaClass.kotlin == Boolean::class
+	componentValue.javaClass.isEnum || component.javaClass.kotlin in noFlyWeightTypes

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.util.*
+import kotlin.test.assertEquals
 
 class FlyWeightKtTest {
 
@@ -165,6 +166,28 @@ class FlyWeightKtTest {
 			assertTrue(workTasks.all { it.requestedBy === workTasks[0].requestedBy })
 		}
 
+	}
+
+	@Test
+	fun flyWeightAtomicTypes() {
+		data class Foo(
+			val redundant : Boolean,
+			val redundancyFactor : Int,
+			val wat : String
+		)
+
+		val foo = objectMapper().readValue<Foo>(
+			"""
+			{
+				"redundant" : true,
+				"redundancyFactor" : 10,
+				"wat" : "30%"
+			}
+		""".trimIndent()
+		)
+
+		val flyFoo = foo.flyWeight()
+		assertEquals(flyFoo, foo)
 	}
 
 }
