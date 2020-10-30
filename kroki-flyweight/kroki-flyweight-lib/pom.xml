@@ -53,6 +53,11 @@
             <version>${kotlin.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>io.github.kerubistan.kroki</groupId>
+            <artifactId>kroki-flyweight-annotations</artifactId>
+            <version>1.20-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
