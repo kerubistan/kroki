@@ -4,14 +4,13 @@ import kotlin.reflect.KFunction
 
 fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache) : T =
 	if(this.javaClass.kotlin.isData) {
-		var workInstance = this
 		val memberFunctions = this.javaClass.kotlin.members.filterIsInstance<KFunction<*>>()
 		val copy = memberFunctions.single { it.name == "copy" }
 		val deDuplicatedFields = memberFunctions.filter { it.name.startsWith("component") }.sortedBy { it.name }.mapIndexed {
 			index, component ->
-			var componentValue = component.call(workInstance)
+			var componentValue = component.call(this)
 			copy.parameters[index + 1] to if(componentValue != null) {
-				if(componentValue.javaClass.isEnum) {
+				if(noFlyWeightType(componentValue, component)) {
 					componentValue
 				} else {
 					val componentCache = instanceCache.cacheForClass(componentValue.javaClass.kotlin)
@@ -24,7 +23,9 @@ fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache) : 
 					}
 				}
 			} else null
-		}.toMap() + (copy.parameters[0] to workInstance)
-		workInstance = copy.callBy(deDuplicatedFields) as T
-		workInstance
+		}.toMap() + (copy.parameters[0] to this)
+		copy.callBy(deDuplicatedFields) as T
 	} else this
+
+private fun noFlyWeightType(componentValue: Any, component: KFunction<*>) =
+	componentValue.javaClass.isEnum || component.javaClass.kotlin == Boolean::class
