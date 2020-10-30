@@ -11,13 +11,17 @@ fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache) : 
 			index, component ->
 			var componentValue = component.call(workInstance)
 			copy.parameters[index + 1] to if(componentValue != null) {
-				val componentCache = instanceCache.cacheForClass(componentValue.javaClass.kotlin)
-				if(componentCache.containsKey(componentValue)) {
-					componentCache[componentValue]
-				} else {
-					componentValue = componentValue.flyWeight(instanceCache)
-					componentCache.put(componentValue, componentValue)
+				if(componentValue.javaClass.isEnum) {
 					componentValue
+				} else {
+					val componentCache = instanceCache.cacheForClass(componentValue.javaClass.kotlin)
+					if(componentCache.containsKey(componentValue)) {
+						componentCache[componentValue]
+					} else {
+						componentValue = componentValue.flyWeight(instanceCache)
+						componentCache.put(componentValue, componentValue)
+						componentValue
+					}
 				}
 			} else null
 		}.toMap() + (copy.parameters[0] to workInstance)
