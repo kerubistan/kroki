@@ -1,5 +1,6 @@
 package io.github.kerubistan.kroki.flyweight
 
+import io.github.kerubistan.kroki.flyweight.annotations.IgnoreFlyWeight
 import kotlin.reflect.KFunction
 
 @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
@@ -59,4 +60,6 @@ private val noFlyWeightTypes = setOf(
 )
 
 private fun noFlyWeightType(componentValue: Any, component: KFunction<*>) =
-	componentValue.javaClass.isEnum || component.javaClass.kotlin in noFlyWeightTypes
+	componentValue.javaClass.isEnum
+			|| component.javaClass.kotlin in noFlyWeightTypes
+			|| componentValue.javaClass.annotations.any { it is IgnoreFlyWeight }

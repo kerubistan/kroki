@@ -3,6 +3,7 @@ package io.github.kerubistan.kroki.flyweight
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
+import io.github.kerubistan.kroki.flyweight.annotations.IgnoreFlyWeight
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
@@ -272,9 +273,31 @@ class FlyWeightKtTest {
 			val verySmallNumber : Byte = 1
 		)
 
-		val kitchenSink = KitchenSink().flyWeight()
+		assertNotNull(KitchenSink().flyWeight())
+	}
 
-		assertNotNull(kitchenSink)
+	@Test
+	fun testIgnoreAnnotation() {
+		@IgnoreFlyWeight
+		data class Name(
+			val first : String,
+			val last : String
+		)
+		data class Person(
+			val name : Name,
+			val age : Int
+		)
+
+		val person = Person(
+			name = Name(
+				first = "Bob",
+				last = "Kerman"
+			),
+			age = 25
+		)
+		val flyWeightPerson = person.flyWeight()
+
+		assertTrue(person.name === flyWeightPerson.name)
 	}
 
 }

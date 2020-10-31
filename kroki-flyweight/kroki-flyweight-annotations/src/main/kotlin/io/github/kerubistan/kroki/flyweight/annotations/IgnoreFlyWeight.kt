@@ -5,5 +5,5 @@ package io.github.kerubistan.kroki.flyweight.annotations
  * not try to deduplicate.
  */
 @Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.CLASS)
 annotation class IgnoreFlyWeight
