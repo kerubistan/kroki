@@ -2,25 +2,27 @@ package io.github.kerubistan.kroki.flyweight
 
 import kotlin.reflect.KFunction
 
+@Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
 fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache): T =
 	when {
 		this is String ->
-			this.intern() as T
+			this.intern()
 		this.javaClass.kotlin.isData ->
 			flyWeightDataObject(instanceCache)
 		this is Set<*> ->
-			this.map { it?.flyWeight(instanceCache) }.toSet() as T
+			this.map { it?.flyWeight(instanceCache) }.toSet()
 		this is List<*> -> {
-			this.map { it?.flyWeight(instanceCache) } as T
+			this.map { it?.flyWeight(instanceCache) }
 		}
 		this is Map<*, *> -> {
 			this.map { (key, value) ->
 				key?.flyWeight(instanceCache) to value?.flyWeight(instanceCache)
-			}.toMap() as T
+			}.toMap()
 		}
 		else -> this
-	}
+	} as T
 
+@Suppress("UNCHECKED_CAST")
 private fun <T : Any> T.flyWeightDataObject(instanceCache: InstanceCache): T {
 	val memberFunctions = this.javaClass.kotlin.members.filterIsInstance<KFunction<*>>()
 	val copy = memberFunctions.single { it.name == "copy" }
