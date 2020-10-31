@@ -6,31 +6,8 @@ fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache): T
 	when {
 		this is String ->
 			this.intern() as T
-		this.javaClass.kotlin.isData -> {
-			val memberFunctions = this.javaClass.kotlin.members.filterIsInstance<KFunction<*>>()
-			val copy = memberFunctions.single { it.name == "copy" }
-			val deDuplicatedFields = memberFunctions
-				.filter { it.name.startsWith("component") }
-				.sortedBy { it.name.substringAfter("component").toInt() }
-				.mapIndexed { index, component ->
-					var componentValue = component.call(this)
-					copy.parameters[index + 1] to if (componentValue != null) {
-						if (noFlyWeightType(componentValue, component)) {
-							componentValue
-						} else {
-							val componentCache = instanceCache.cacheForClass(componentValue.javaClass.kotlin)
-							if (componentCache.containsKey(componentValue)) {
-								componentCache[componentValue]
-							} else {
-								componentValue = componentValue.flyWeight(instanceCache)
-								componentCache.put(componentValue, componentValue)
-								componentValue
-							}
-						}
-					} else null
-				}.toMap() + (copy.parameters[0] to this)
-			copy.callBy(deDuplicatedFields) as T
-		}
+		this.javaClass.kotlin.isData ->
+			flyWeightDataObject(instanceCache)
 		this is Set<*> ->
 			this.map { it?.flyWeight(instanceCache) }.toSet() as T
 		this is List<*> -> {
@@ -43,6 +20,32 @@ fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache): T
 		}
 		else -> this
 	}
+
+private fun <T : Any> T.flyWeightDataObject(instanceCache: InstanceCache): T {
+	val memberFunctions = this.javaClass.kotlin.members.filterIsInstance<KFunction<*>>()
+	val copy = memberFunctions.single { it.name == "copy" }
+	val deDuplicatedFields = memberFunctions
+		.filter { it.name.startsWith("component") }
+		.sortedBy { it.name.substringAfter("component").toInt() }
+		.mapIndexed { index, component ->
+			var componentValue = component.call(this)
+			copy.parameters[index + 1] to if (componentValue != null) {
+				if (noFlyWeightType(componentValue, component)) {
+					componentValue
+				} else {
+					val componentCache = instanceCache.cacheForClass(componentValue.javaClass.kotlin)
+					if (componentCache.containsKey(componentValue)) {
+						componentCache[componentValue]
+					} else {
+						componentValue = componentValue.flyWeight(instanceCache)
+						componentCache.put(componentValue, componentValue)
+						componentValue
+					}
+				}
+			} else null
+		}.toMap() + (copy.parameters[0] to this)
+	return copy.callBy(deDuplicatedFields) as T
+}
 
 private val noFlyWeightTypes = setOf(
 	Boolean::class,
