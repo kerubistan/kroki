@@ -190,4 +190,34 @@ class FlyWeightKtTest {
 		assertEquals(flyFoo, foo)
 	}
 
+	@Test
+	fun flyWeightCollections() {
+		data class Message(
+			val id : UUID,
+			val text : String,
+			val labels : List<String>
+		)
+
+		val messages = objectMapper().readValue<List<Message>>(
+			"""
+				[
+					{
+						"id" : "71839f09-918a-4dc7-a908-a89d35bad2d8",
+						"text" : "test message 1",
+						"labels" : ["test", "foo", "bar"]
+					},
+					{
+						"id" : "6ee79a74-31e5-45a4-a266-27f90aec4d79",
+						"text" : "test message 2",
+						"labels" : ["test", "foo", "baz"]
+					}
+				]
+			""".trimIndent()
+		)
+
+		val flyWeightMessages = messages.flyWeight()
+
+		assertEquals(messages, flyWeightMessages)
+	}
+
 }
