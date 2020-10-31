@@ -198,6 +198,11 @@ class FlyWeightKtTest {
 			val labels : List<String>
 		)
 
+		data class Software(
+			val name : String,
+			val dependencies : Map<String, Software> = mapOf()
+		)
+
 		val messages = objectMapper().readValue<List<Message>>(
 			"""
 				[
@@ -214,10 +219,37 @@ class FlyWeightKtTest {
 				]
 			""".trimIndent()
 		)
+		val software = objectMapper().readValue<List<Software>>("""
+			[
+				{
+					"name" : "kroki",
+					"dependencies" : {
+						"jvm" : { "name" : "openjdk" },
+						"kotlin" : { "name" : "kotlin" }
+					}
+				},
+				{
+					"name" : "dokka",
+					"dependencies" : {
+						"jvm" : { "name" : "openjdk" },
+						"kotlin" : { "name" : "kotlin" }
+					}
+				}
+			]
+		""".trimIndent())
 
 		val flyWeightMessages = messages.flyWeight()
+		val flyWeightSoftware = software.flyWeight()
 
 		assertEquals(messages, flyWeightMessages)
+		assertEquals(software, flyWeightSoftware)
+		assertTrue(
+			flyWeightSoftware[0].dependencies["kotlin"] === flyWeightSoftware[1].dependencies["kotlin"]
+		)
+		assertTrue(
+			flyWeightSoftware[0].dependencies["jvm"] === flyWeightSoftware[1].dependencies["jvm"]
+		)
+
 	}
 
 }
