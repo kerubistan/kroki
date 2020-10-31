@@ -9,7 +9,9 @@ fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache): T
 		this.javaClass.kotlin.isData -> {
 			val memberFunctions = this.javaClass.kotlin.members.filterIsInstance<KFunction<*>>()
 			val copy = memberFunctions.single { it.name == "copy" }
-			val deDuplicatedFields = memberFunctions.filter { it.name.startsWith("component") }.sortedBy { it.name }
+			val deDuplicatedFields = memberFunctions
+				.filter { it.name.startsWith("component") }
+				.sortedBy { it.name.substringAfter("component").toInt() }
 				.mapIndexed { index, component ->
 					var componentValue = component.call(this)
 					copy.parameters[index + 1] to if (componentValue != null) {

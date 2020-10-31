@@ -5,8 +5,11 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
+import java.math.BigInteger
 import java.util.*
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 class FlyWeightKtTest {
 
@@ -250,6 +253,28 @@ class FlyWeightKtTest {
 			flyWeightSoftware[0].dependencies["jvm"] === flyWeightSoftware[1].dependencies["jvm"]
 		)
 
+	}
+
+	@Test
+	fun relativelyBigStructure() {
+		data class KitchenSink(
+			val number : Int = 1,
+			val enum : Status = Status.DONE,
+			val text : String = "yes",
+			val bigNumber : Long = 100000,
+			val veryBigNumber : BigInteger = BigInteger("100000000"),
+			val flag : Boolean = true,
+			val dataStructure : KitchenSink? = null,
+			val decimal : Double = 1.234,
+			val notVeryPreciseDecimal : Float = 1.2F,
+			val veryPreciseDecimal : BigDecimal = BigDecimal("100.00000001"),
+			val smallNumber : Short = 1,
+			val verySmallNumber : Byte = 1
+		)
+
+		val kitchenSink = KitchenSink().flyWeight()
+
+		assertNotNull(kitchenSink)
 	}
 
 }
