@@ -4,7 +4,7 @@
 
 	<groupId>io.github.kerubistan.kroki</groupId>
 	<artifactId>kroki</artifactId>
-	<version>1.20</version>
+	<version>1.21-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<licenses>
