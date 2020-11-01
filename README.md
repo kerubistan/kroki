@@ -19,4 +19,7 @@ A library for kotlin
  See [release notes](release-notes/index.md) page.
 
 ## License
+
+Kroki is licensed under the [Apache License version 2.0](https://apache.org/licenses/LICENSE-2.0.txt)
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkerubistan%2Fkroki.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkerubistan%2Fkroki?ref=badge_large)
