@@ -4,7 +4,7 @@ import io.github.kerubistan.kroki.flyweight.annotations.IgnoreFlyWeight
 import kotlin.reflect.KFunction
 
 /**
- * Creates a de-duplicated copy of the object, which will be equal (==) to the original.
+ * Creates a de-duplicated copy of the object, which will be equal (by value, as == in kotlin) to the original.
  */
 @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
 fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache): T =
