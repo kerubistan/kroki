@@ -160,7 +160,7 @@ class FlyWeightKtTest {
 				}
 			]
 		""".trimIndent()
-		).map { it.flyWeight() }
+		).map(Task::flyWeight)
 
 		tasks.filter { it.requestedBy == "me" }.let { myTasks ->
 			assertTrue(myTasks.all { it.requestedBy === myTasks[0].requestedBy })
