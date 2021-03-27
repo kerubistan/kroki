@@ -14,6 +14,8 @@ internal class JsonEventStreamReaderImpl :JsonEventStreamReader {
 
 interface JsonEventStreamTagParserBuilder {
 	val root : JsonEventStreamTagParserBuilder
+	val `$`
+			get() = root
 	operator fun JsonEventStreamTagParserBuilder.invoke(builder: JsonEventStreamTagParserBuilder.() -> Unit) : Unit = TODO()
 	operator fun (() -> Unit).unaryMinus() : Unit = TODO()
 	operator fun String.invoke(builder: JsonEventStreamTagParserBuilder.() -> Unit ) : Unit = TODO()
@@ -21,6 +23,9 @@ interface JsonEventStreamTagParserBuilder {
 }
 
 class JsonEventStreamTagParserBuilderImpl : JsonEventStreamTagParserBuilder {
+	override val root: JsonEventStreamTagParserBuilder
+		get() = TODO("not implemented")
+
 	override fun build(): JsonEventStreamReader {
 		TODO("not implemented")
 	}

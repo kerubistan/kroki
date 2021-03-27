@@ -198,6 +198,7 @@
 		<module>kroki-xml</module>
 		<module>kroki-flyweight</module>
 		<module>kroki-json</module>
+		<module>kroki-json-flow</module>
 	</modules>
 
 </project>

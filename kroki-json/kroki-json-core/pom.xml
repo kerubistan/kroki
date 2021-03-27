@@ -26,6 +26,11 @@
             <artifactId>jackson-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
             <groupId>${parent.groupId}</groupId>
             <artifactId>kroki-utils</artifactId>
             <version>${parent.version}</version>

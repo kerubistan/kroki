@@ -3,13 +3,26 @@ package io.github.kerubistan.kroki.json.core
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 
-internal class JsonTokenIterator(private val parser : JsonParser) : Iterator<JsonToken> {
-	override fun hasNext(): Boolean = parser.nextToken()
+internal class JsonTokenIterator(private val parser: JsonParser) : Iterator<JsonToken> {
+
+	private var nextToken: JsonToken? = null
+
+	init {
+		nextToken = parser.nextToken()
+	}
+
+	override fun hasNext(): Boolean = nextToken != null
 
 	override fun next(): JsonToken {
-		TODO("not implemented")
+		if (nextToken == null) {
+			throw IllegalStateException("there is no next element")
+		} else {
+			val temp: JsonToken = nextToken!!
+			nextToken = parser.nextToken()
+			return temp
+		}
 	}
 
 }
 
-fun JsonParser.iterator() = JsonTokenIterator(this)
+internal fun JsonParser.iterator() = JsonTokenIterator(this)
