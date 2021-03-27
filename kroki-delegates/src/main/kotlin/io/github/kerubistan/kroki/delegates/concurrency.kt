@@ -1,9 +1,5 @@
 package io.github.kerubistan.kroki.delegates
 
-import java.io.Serializable
-import java.lang.ref.Reference
-import java.lang.ref.SoftReference
-import java.lang.ref.WeakReference
 import kotlin.reflect.KProperty
 
 private class FunctionLiteralThreadLocal<T>(private val initializer: () -> T) : ThreadLocal<T>() {
