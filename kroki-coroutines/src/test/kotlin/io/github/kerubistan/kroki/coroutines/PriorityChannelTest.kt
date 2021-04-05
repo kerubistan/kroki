@@ -21,9 +21,7 @@ class PriorityChannelTest {
 			channel: Channel<Long>
 		) {
 			async {
-				randomNumbers.forEachIndexed() { index, item ->
-					channel.send(item)
-				}
+				randomNumbers.forEach { item -> channel.send(item) }
 				channel.close()
 			}.start()
 

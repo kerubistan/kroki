@@ -11,7 +11,7 @@ internal class NullOutputStreamTest {
 		NullOutputStream.writer().use {
 			it.write("blah")
 			it.write("x")
-			it.appendln("")
+			it.appendLine("")
 			it.flush()
 		}
 		NullOutputStream.use { output ->

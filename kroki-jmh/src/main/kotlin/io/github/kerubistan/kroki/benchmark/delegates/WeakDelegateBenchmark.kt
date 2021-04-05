@@ -10,10 +10,10 @@ open class WeakDelegateBenchmark {
 	private fun initializer() = 1
 
 	private fun lazyAccess(lazy: Lazy<Int>) =
-		(1..1024).map { lazy.value }.max()!!
+		(1..1024).map { lazy.value }.maxOrNull()!!
 
 	private fun weakAccess(weak: ReferenceDelegate<Int>) =
-		(1..1024).map { weak.value }.max()!!
+		(1..1024).map { weak.value }.maxOrNull()!!
 
 	@Benchmark
 	fun eager(hole: Blackhole) {
