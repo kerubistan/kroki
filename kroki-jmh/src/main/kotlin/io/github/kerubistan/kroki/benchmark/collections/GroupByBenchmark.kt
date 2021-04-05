@@ -27,7 +27,7 @@ open class GroupByBenchmark {
 		list = (0 until listSize).map { index ->
 			Product(
 				name = "Product $index",
-				categories = (0 until groupsPerItem).map { _ ->
+				categories = (0 until groupsPerItem).map {
 					"category-${random.nextInt(nrOfGroups)})"
 				}.toSet()
 			)

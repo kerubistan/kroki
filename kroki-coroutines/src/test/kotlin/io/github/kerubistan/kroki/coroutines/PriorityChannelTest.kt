@@ -21,9 +21,7 @@ class PriorityChannelTest {
 			channel: Channel<Long>
 		) {
 			async {
-				randomNumbers.forEachIndexed() { index, item ->
-					channel.send(item)
-				}
+				randomNumbers.forEach { item -> channel.send(item) }
 				channel.close()
 			}.start()
 
@@ -45,7 +43,7 @@ class PriorityChannelTest {
 
 		verify(randomNumbers, priorityChannel(
 			maxCapacity = 100,
-			comparator = Comparator { a: Long, b: Long -> a.compareTo(b) }
+			comparator = { a: Long, b: Long -> a.compareTo(b) }
 		))
 
 		verify(randomNumbers, Channel(RENDEZVOUS))
@@ -56,7 +54,7 @@ class PriorityChannelTest {
 
 		verify(listOf(), priorityChannel(
 			maxCapacity = 100,
-			comparator = Comparator { a: Long, b: Long -> a.compareTo(b) }
+			comparator = { a: Long, b: Long -> a.compareTo(b) }
 		))
 
 		verify(listOf(), Channel(RENDEZVOUS))

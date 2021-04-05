@@ -9,7 +9,7 @@ import kotlin.random.Random
 /**
  * Measures the difference between an algorithm (in this case a sort)
  * accessing flyweight and non-flyweight data.
- * To get an idea what why you see cuch difference, try running this
+ * To get an idea what why you see such a difference, try running this
  * benchmark with linux perf tool like this
  * sudo perf stat -B -e cache-references,cache-misses java -Djmh.ignoreLock=true \
  * -jar target/benchmarks.jar FlyWeightBenefitBenchmark -f 1 -p differentValues=1024 \

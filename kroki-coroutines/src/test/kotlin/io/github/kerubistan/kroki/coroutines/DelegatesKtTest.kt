@@ -23,12 +23,12 @@ internal class DelegatesKtTest {
 	@Test
 	fun cachedDelegate() {
 
-		var cntr = 0
-		val data by cached { ++cntr }
+		var counter = 0
+		val data by cached { ++counter }
 
 		assertEquals(1, data)
 		assertEquals(1, data)
-		assertEquals(1, cntr)
+		assertEquals(1, counter)
 
 	}
 
@@ -36,9 +36,9 @@ internal class DelegatesKtTest {
 	fun cachedDelegateErrorHandling() {
 
 		val errors = mutableListOf<Throwable>()
-		var cntr = 0
+		var counter = 0
 		val data by cached(retryOnFail = 10, errorHandler = { errors.add(it) }) {
-			if (cntr++ > 2)
+			if (counter++ > 2)
 				1
 			else throw UnknownHostException("blah.example.com not known")
 		}
@@ -53,9 +53,9 @@ internal class DelegatesKtTest {
 	@Test
 	fun cachedDelegateErrorHandlingFail() {
 
-		var cntr = 0
+		var counter = 0
 		val data by cached(retryOnFail = 1) {
-			if (cntr++ > 2)
+			if (counter++ > 2)
 				1
 			else throw UnknownHostException("blah.example.com not known")
 		}

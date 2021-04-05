@@ -329,7 +329,7 @@ class XmlTest {
 	@Test
 	fun reUseReader() {
 		val values = mutableListOf<String>()
-		val reader = buildXmlEventStreamReader() {
+		val reader = buildXmlEventStreamReader {
 			"foo" {
 				"bar" {
 					"baz" - {
