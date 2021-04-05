@@ -45,7 +45,7 @@ class PriorityChannelTest {
 
 		verify(randomNumbers, priorityChannel(
 			maxCapacity = 100,
-			comparator = Comparator { a: Long, b: Long -> a.compareTo(b) }
+			comparator = { a: Long, b: Long -> a.compareTo(b) }
 		))
 
 		verify(randomNumbers, Channel(RENDEZVOUS))
@@ -56,7 +56,7 @@ class PriorityChannelTest {
 
 		verify(listOf(), priorityChannel(
 			maxCapacity = 100,
-			comparator = Comparator { a: Long, b: Long -> a.compareTo(b) }
+			comparator = { a: Long, b: Long -> a.compareTo(b) }
 		))
 
 		verify(listOf(), Channel(RENDEZVOUS))
