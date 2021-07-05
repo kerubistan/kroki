@@ -47,7 +47,7 @@ private fun <T : Any> T.flyWeightDataInstance(instanceCache: InstanceCache): T {
 						componentCache[componentValue]
 					} else {
 						componentValue = componentValue.flyWeight(instanceCache)
-						componentCache.put(componentValue, componentValue)
+						componentCache[componentValue] = componentValue
 						componentValue
 					}
 				}
