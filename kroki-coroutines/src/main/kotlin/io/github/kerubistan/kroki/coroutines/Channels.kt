@@ -86,13 +86,13 @@ internal class PriorityChannel<T>(
 	// because we buffer and sort the messages in the co-routine
 	// that is where the capacity constraint is enforced
 	// and the buffer we keep sorted, the input channel we can't
-	inChannel = Channel<T>(RENDEZVOUS),
+	inChannel = Channel(RENDEZVOUS),
 	// output channel is rendezvous channel because we may still
 	// get higher priority input meanwhile and we will send that
 	// when output consumer is ready to take it
-	outChannel = Channel<T>(RENDEZVOUS)
+	outChannel = Channel(RENDEZVOUS)
 ) {
-	private val buffer = PriorityQueue<T>(comparator)
+	private val buffer = PriorityQueue(comparator)
 
 	private fun PriorityQueue<T>.isNotFull() = this.size < maxCapacity
 

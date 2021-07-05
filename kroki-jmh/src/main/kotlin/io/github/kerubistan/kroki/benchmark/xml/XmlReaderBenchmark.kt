@@ -13,9 +13,9 @@ open class XmlReaderBenchmark {
 
 	lateinit var xml: String
 
-	val domFactory by threadLocal { DocumentBuilderFactory.newInstance() }
+	private val domFactory by threadLocal { DocumentBuilderFactory.newInstance() }
 
-	val documentBuilder by threadLocal { domFactory.newDocumentBuilder() }
+	private val documentBuilder by threadLocal { domFactory.newDocumentBuilder() }
 
 	@Param("0", "1", "2", "4", "5", "6", "7", "8", "9", "10", "100", "1000", "10000")
 	var size = 1
