@@ -90,7 +90,7 @@ inline fun <X, reified T : X> List<X>.updateInstances(
 }
 
 /**
- * Calculate percentile from am iterable.
+ * Calculate percentile from an iterable.
  * @param percentile the percentile - must be less than 100 and more than 0
  * @param expression extract a numeric value from the item
  *
@@ -145,6 +145,10 @@ inline fun <V : Any, K : Any> Collection<V>.groupsBy(crossinline keys: (V) -> It
 	return result
 }
 
+/**
+ * Creates a new list without the first item.
+ * If the original list is empty, the result will be empty too.
+ */
 fun <T> List<T>.skip(): List<T> =
 	if (this.isEmpty()) {
 		listOf()
