@@ -27,19 +27,7 @@ internal open class ProcessChannel<T>(
 	override val isEmpty: Boolean
 		get() = outChannel.isEmpty
 
-	@ExperimentalCoroutinesApi
-	override val isFull: Boolean
-		get() = false
-
 	override val onReceive: SelectClause1<T> get() = outChannel.onReceive
-
-	@InternalCoroutinesApi
-	override val onReceiveOrClosed: SelectClause1<ValueOrClosed<T>>
-		get() = outChannel.onReceiveOrClosed
-
-	@ObsoleteCoroutinesApi
-	override val onReceiveOrNull: SelectClause1<T?>
-		get() = outChannel.onReceiveOrNull
 
 	override val onSend: SelectClause2<T, SendChannel<T>> get() = inChannel.onSend
 
@@ -66,13 +54,21 @@ internal open class ProcessChannel<T>(
 
 	override suspend fun receive(): T = outChannel.receive()
 
-	@InternalCoroutinesApi
-	override suspend fun receiveOrClosed(): ValueOrClosed<T> = outChannel.receiveOrClosed()
-
-	@ObsoleteCoroutinesApi
-	override suspend fun receiveOrNull(): T? = outChannel.receiveOrNull()
-
 	override suspend fun send(element: T) = inChannel.send(element)
+	override val onReceiveCatching: SelectClause1<ChannelResult<T>>
+		get() = TODO("not implemented")
+
+	override suspend fun receiveCatching(): ChannelResult<T> {
+		TODO("not implemented")
+	}
+
+	override fun tryReceive(): ChannelResult<T> {
+		TODO("not implemented")
+	}
+
+	override fun trySend(element: T): ChannelResult<Unit> {
+		TODO("not implemented")
+	}
 
 }
 
@@ -182,14 +178,6 @@ class TransformChannel<I, O>(val transform: (I) -> O, private val wrapped: Chann
 	override val onReceive: SelectClause1<O>
 		get() = wrapped.onReceive
 
-	@InternalCoroutinesApi
-	override val onReceiveOrClosed: SelectClause1<ValueOrClosed<O>>
-		get() = wrapped.onReceiveOrClosed
-
-	@ObsoleteCoroutinesApi
-	override val onReceiveOrNull: SelectClause1<O?>
-		get() = wrapped.onReceiveOrNull
-
 	override fun cancel(cause: Throwable?): Boolean {
 		wrapped.cancel()
 		return true
@@ -206,21 +194,11 @@ class TransformChannel<I, O>(val transform: (I) -> O, private val wrapped: Chann
 
 	override suspend fun receive(): O = wrapped.receive()
 
-	@InternalCoroutinesApi
-	override suspend fun receiveOrClosed(): ValueOrClosed<O> = wrapped.receiveOrClosed()
-
-	@ObsoleteCoroutinesApi
-	override suspend fun receiveOrNull(): O? = wrapped.receiveOrNull()
-
 	// send channel
 
 	@ExperimentalCoroutinesApi
 	override val isClosedForSend: Boolean
 		get() = wrapped.isClosedForSend
-
-	@ExperimentalCoroutinesApi
-	override val isFull: Boolean
-		get() = false // because the super-method is deprecated-error
 
 	override val onSend: SelectClause2<I, SendChannel<I>>
 		get() = TODO("not implemented")
@@ -234,6 +212,21 @@ class TransformChannel<I, O>(val transform: (I) -> O, private val wrapped: Chann
 
 	override suspend fun send(element: I) {
 		wrapped.send(transform(element))
+	}
+
+	override val onReceiveCatching: SelectClause1<ChannelResult<O>>
+		get() = wrapped.onReceiveCatching
+
+	override suspend fun receiveCatching(): ChannelResult<O> {
+		TODO("not implemented")
+	}
+
+	override fun tryReceive(): ChannelResult<O> {
+		TODO("not implemented")
+	}
+
+	override fun trySend(element: I): ChannelResult<Unit> {
+		TODO("not implemented")
 	}
 
 }
