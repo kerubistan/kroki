@@ -36,6 +36,9 @@ interface XmlBuilder {
 	}
 }
 
+/**
+ * Build XML output using builders.
+ */
 fun xml(
 	formatMode: FormatMode = FormatMode.COMPACT,
 	root: String,
