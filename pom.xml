@@ -34,6 +34,7 @@
 		<junit.jupiter.version>5.4.2</junit.jupiter.version>
 		<dokka.version>1.4.32</dokka.version>
 		<dokka.skip>false</dokka.skip>
+		<coroutines.api.version>1.5.0</coroutines.api.version>
 	</properties>
 
 	<scm>
