@@ -7,23 +7,19 @@ import javax.xml.stream.XMLStreamWriter
 
 class StaxXmlBuilder(outputStream: OutputStream, formatMode: FormatMode = FormatMode.COMPACT) : XmlBuilder, Closeable {
 
-	private val xml: XMLStreamWriter
-
-	init {
-		xml = when (formatMode) {
-			FormatMode.COMPACT -> xmlOutputFactory.createXMLStreamWriter(outputStream)
-			FormatMode.PRETTY_TABS -> PrettyXmlStreamWriter(xmlOutputFactory.createXMLStreamWriter(outputStream))
-			FormatMode.PRETTY_BIG_SPACE_NAZI -> {
-				PrettyXmlStreamWriter(
-					xmlOutputFactory.createXMLStreamWriter(outputStream),
-					FOUR_SPACES
-				)
-			}
-			FormatMode.PRETTY_SMALL_SPACE_NAZI -> PrettyXmlStreamWriter(
+	private val xml: XMLStreamWriter = when (formatMode) {
+		FormatMode.COMPACT -> xmlOutputFactory.createXMLStreamWriter(outputStream)
+		FormatMode.PRETTY_TABS -> PrettyXmlStreamWriter(xmlOutputFactory.createXMLStreamWriter(outputStream))
+		FormatMode.PRETTY_BIG_SPACE_NAZI -> {
+			PrettyXmlStreamWriter(
 				xmlOutputFactory.createXMLStreamWriter(outputStream),
-				TWO_SPACES
+				FOUR_SPACES
 			)
 		}
+		FormatMode.PRETTY_SMALL_SPACE_NAZI -> PrettyXmlStreamWriter(
+			xmlOutputFactory.createXMLStreamWriter(outputStream),
+			TWO_SPACES
+		)
 	}
 
 	companion object {
