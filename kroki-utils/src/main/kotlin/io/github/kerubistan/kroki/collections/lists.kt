@@ -4,7 +4,7 @@ package io.github.kerubistan.kroki.collections
  * Concatenate a "list of list of items" into a "list of items".
  */
 fun <T> Collection<Collection<T>>.concat(): List<T> {
-	val result = ArrayList<T>(this.sumBy { it.size })
+	val result = ArrayList<T>(this.sumOf { it.size })
 	this.forEach {
 		if (it.isNotEmpty()) {
 			result.addAll(it)
