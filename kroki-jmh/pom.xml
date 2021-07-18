@@ -80,7 +80,7 @@
 				<executions>
 					<execution>
 						<id>process-sources</id>
-						<phase>generate-sources</phase>
+						<phase>process-sources</phase>
 						<goals>
 							<goal>compile</goal>
 						</goals>
