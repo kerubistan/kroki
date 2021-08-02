@@ -48,9 +48,9 @@ internal open class ProcessChannel<T>(
 
 	override fun iterator(): ChannelIterator<T> = outChannel.iterator()
 
-	override fun offer(element: T): Boolean = inChannel.offer(element)
+	override fun offer(element: T): Boolean = inChannel.trySend(element).isSuccess
 
-	override fun poll(): T? = outChannel.poll()
+	override fun poll(): T? = outChannel.tryReceive().getOrNull()
 
 	override suspend fun receive(): T = outChannel.receive()
 
@@ -99,11 +99,11 @@ internal class PriorityChannel<T>(
 	// we should keep receiving
 	private fun tryGetSome() {
 		if (buffer.isNotFull()) {
-			var received = inChannel.poll()
+			var received = inChannel.tryReceive().getOrNull()
 			if (received != null) {
 				buffer.add(received)
 				while (buffer.isNotFull() && received != null) {
-					received = inChannel.poll()
+					received = inChannel.tryReceive().getOrNull()
 					received?.let { buffer.add(it) }
 				}
 			}
@@ -124,7 +124,7 @@ internal class PriorityChannel<T>(
 				outChannel.send(buffer.poll())
 			}
 			else -> {
-				while (buffer.isNotEmpty() && outChannel.offer(buffer.peek())) {
+				while (buffer.isNotEmpty() && outChannel.trySend(buffer.peek()).isSuccess) {
 					buffer.poll()
 					tryGetSome()
 				}
@@ -190,7 +190,7 @@ class TransformChannel<I, O>(val transform: (I) -> O, private val wrapped: Chann
 	override fun iterator(): ChannelIterator<O> =
 		wrapped.iterator()
 
-	override fun poll(): O? = wrapped.poll()
+	override fun poll(): O? = wrapped.tryReceive().getOrNull()
 
 	override suspend fun receive(): O = wrapped.receive()
 
@@ -208,7 +208,7 @@ class TransformChannel<I, O>(val transform: (I) -> O, private val wrapped: Chann
 	@ExperimentalCoroutinesApi
 	override fun invokeOnClose(handler: (cause: Throwable?) -> Unit) = wrapped.invokeOnClose(handler)
 
-	override fun offer(element: I): Boolean = wrapped.offer(transform(element))
+	override fun offer(element: I): Boolean = wrapped.trySend(transform(element)).isSuccess
 
 	override suspend fun send(element: I) {
 		wrapped.send(transform(element))
