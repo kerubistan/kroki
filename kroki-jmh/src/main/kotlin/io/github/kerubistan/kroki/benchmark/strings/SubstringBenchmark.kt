@@ -13,6 +13,8 @@ open class SubstringBenchmark {
 
 	@Benchmark
 	fun substringBetween(hole: Blackhole) {
-		str.substringBetween("\"", "\"")
+		hole.consume(
+			str.substringBetween("\"", "\"")
+		)
 	}
 }

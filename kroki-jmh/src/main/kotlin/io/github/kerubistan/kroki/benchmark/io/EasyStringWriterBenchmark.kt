@@ -16,7 +16,9 @@ open class EasyStringWriterBenchmark {
 
 	@Benchmark
 	fun easyStringWriter(hole: Blackhole) {
-		EasyStringWriter(64).use(::writeTestStrings)
+		hole.consume(
+			EasyStringWriter(64).use(::writeTestStrings)
+		)
 	}
 
 	private fun writeTestStrings(writer: Writer) {
@@ -27,7 +29,9 @@ open class EasyStringWriterBenchmark {
 
 	@Benchmark
 	fun stringWriter(hole: Blackhole) {
-		StringWriter(64).use(::writeTestStrings)
+		hole.consume(
+			StringWriter(64).use(::writeTestStrings)
+		)
 	}
 
 }
