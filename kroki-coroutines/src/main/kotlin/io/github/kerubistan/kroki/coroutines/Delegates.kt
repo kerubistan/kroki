@@ -51,7 +51,7 @@ private class CachedDelegate<T>(
 	 * Function literal that gets invoked when error occurs.
 	 * One can use this for logging or rethrowing the error.
 	 */
-	private val errorHandler: (t: Throwable) -> Unit = {},
+	private val errorHandler: (attempt: Int, t: Throwable) -> Unit = { _, _ -> },
 	/**
 	 * Function literal that loads the data.
 	 */
@@ -72,15 +72,15 @@ private class CachedDelegate<T>(
 	}
 
 	private suspend fun load(): T {
-		return insist(retryOnFail, onError = { handleError(it) }) {
+		return insist(retryOnFail, onError = { attempt, throwable -> handleError(attempt, throwable) }) {
 			val value = loader()
 			lastLoaded = now()
 			value
 		}
 	}
 
-	private suspend fun handleError(it: Throwable) {
-		errorHandler(it)
+	private suspend fun handleError(attempt: Int, throwable: Throwable) {
+		errorHandler(attempt, throwable)
 		delay(delayOnLoadError)
 	}
 
@@ -107,9 +107,9 @@ fun <T> eager(scope: CoroutineScope = GlobalScope, initializer: () -> T): Delega
 fun <T> cached(
 	scope: CoroutineScope = GlobalScope,
 	ttl: Long = 1.H,
-	retryOnFail : Int = 0,
-	delayOnLoadError : Long = 0,
-	errorHandler: (t: Throwable) -> Unit = {},
+	retryOnFail: Int = 0,
+	delayOnLoadError: Long = 0,
+	errorHandler: (attempt: Int, t: Throwable) -> Unit = { _, _ -> },
 	loader: () -> T
 ): Delegate<T> =
 	CachedDelegate(
