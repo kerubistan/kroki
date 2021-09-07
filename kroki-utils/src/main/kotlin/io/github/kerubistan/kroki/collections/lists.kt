@@ -23,6 +23,19 @@ fun <T> Iterable<T>.isEmpty() =
 		!this.iterator().hasNext()
 
 /**
+ * Checks if there is an instance of the specified class in the list that meets the criteria
+ */
+inline fun <reified C : Any> Iterable<*>.hasAny(predicate: (C) -> Boolean = { true }) =
+	this.any { it is C && predicate(it) }
+
+/**
+ * Checks if there is no instance of the specified class in the list that meets the criteria
+ */
+inline fun <reified C : Any> Iterable<*>.hasNone(crossinline predicate: (C) -> Boolean = { true }) =
+	!this.hasAny(predicate)
+
+
+/**
  * Merge two lists using properties on both sides.
  * This behaves very much like the join (left, right, inner, outer) in SQL, therefore it should be renamed
  * to join once the function now being called 'join' is called something else.

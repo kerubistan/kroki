@@ -275,4 +275,18 @@ internal class ListsKtTest {
 		assertEquals(listOf(), listOf("A").skip())
 	}
 
+	@org.junit.Test
+	fun anyInstanceWithPredicate() {
+		assertTrue(listOf("A", 1, "B").hasAny<String> { it.startsWith("A") })
+		assertFalse(listOf("A", 1).hasAny<Boolean> { it })
+	}
+
+	@org.junit.Test
+	fun hasNone() {
+		assertTrue(listOf("A", 1, "B", 2).hasNone<Int> { it > 3 })
+		assertTrue(listOf("A", 1, "B", 2).hasNone(String::isEmpty))
+		assertFalse(listOf("A", 1, "B", 2).hasNone<String> { it.startsWith("A") })
+	}
+
+
 }
