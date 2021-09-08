@@ -1,376 +1,1 @@
-package io.github.kerubistan.kroki.xml
-
-import org.junit.Test
-import org.junit.jupiter.api.assertThrows
-import java.io.ByteArrayOutputStream
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
-
-class XmlTest {
-	@Test
-	fun generation() {
-		xml(root = "test") {
-			!"comment"
-			tag("hello", "a" to "1", "b" to "2") {
-				cdata("world")
-			}
-			comment("there is a horse in my garden")
-			tag("hello") { -"world" }
-			tag("hello") {
-				!"lazy"
-				"world"()
-			}
-			text("")
-			text { ('a'..'z').forEach { append(it) } }
-		}.reader().readText().let {
-			assertTrue { it.isNotBlank() }
-			assertTrue { it.contains("there is a horse in my garden") }
-		}
-
-		assertEquals("<test/>", xml(root = "test").reader().readText())
-
-		assertEquals("<test><pass/></test>", xml(root = "test") { tag("pass") }.reader().readText())
-
-		assertEquals(
-			"<test><pass really=\"true\"/></test>",
-			xml(root = "test") { tag("pass", "really" to true) }.reader().readText()
-		)
-
-		assertEquals(
-			"<test><pass really=\"true\"/></test>",
-			xml(root = "test") { "pass"("really" to true) }.reader().readText()
-		)
-
-		assertEquals(
-			"<test><pass really=\"true\"><seriously>no</seriously></pass></test>",
-			xml(root = "test") {
-				"pass"("really" to true) {
-					"seriously" {
-						-"no"
-					}
-				}
-			}.reader().readText()
-		)
-
-		assertEquals(
-			"<test><tag>null</tag></test>",
-			xml(root = "test") {
-				"tag" {
-					-null
-				}
-			}.reader().readText()
-		)
-
-		assertEquals(
-			"<test><value>1</value></test>",
-			xml(root = "test") {
-				"value" { text(1) }
-			}.reader().readText()
-		)
-
-		assertEquals(
-			"<test><value>null</value></test>",
-			xml(root = "test") {
-				"value" { -null }
-			}.reader().readText()
-		)
-
-	}
-
-	@Test
-	fun prettyPrint() {
-		assertEquals(
-			"""
-<test>
-	<pass really="true"/>
-</test>""",
-			xml(formatMode = FormatMode.PRETTY_TABS, root = "test") { tag("pass", "really" to true) }.reader()
-				.readText()
-		)
-		assertEquals(
-			"""
-<test>
-    <pass really="true"/>
-</test>""",
-			xml(formatMode = FormatMode.PRETTY_BIG_SPACE_NAZI, root = "test") { tag("pass", "really" to true) }.reader()
-				.readText()
-		)
-		assertEquals(
-			"""
-<test>
-  <pass really="true"/>
-</test>""",
-			xml(formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI, root = "test") {
-				tag(
-					"pass",
-					"really" to true
-				)
-			}.reader()
-				.readText()
-		)
-
-	}
-
-	@Test
-	fun xmlToOutputStream() {
-		assertEquals(
-			"""
-<test>
-  <pass really="true"/>
-</test>""",
-			ByteArrayOutputStream().let {
-				it.use { output ->
-					xml(formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI, root = "test", out = output) {
-						tag(
-							"pass",
-							"really" to true
-						)
-					}
-				}
-				it.toByteArray().toString(Charsets.UTF_8)
-			}
-		)
-		assertEquals(
-			"""
-<test pass="true">
-</test>""",
-			ByteArrayOutputStream().let {
-				it.use { output ->
-					xml(
-						formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI,
-						root = "test",
-						out = output,
-						atts = *arrayOf("pass" to true)
-					)
-				}
-				it.toByteArray().toString(Charsets.UTF_8)
-			}
-		)
-	}
-
-	@Test
-	fun xmlEventStream() {
-		assertTrue {
-			var value = ""
-			"""
-			<foo>
-				<bar>
-					<baz>text-1</baz>
-				</bar>
-			</foo>
-		""".trimIndent().byteInputStream().readAsXmlEventStream {
-				"foo" {
-					"bar" {
-						use("baz") {
-							value = elementText
-						}
-					}
-				}
-			}
-			value == "text-1"
-		}
-		assertTrue {
-			var value = ""
-			"""
-			<foo>
-				<bar>
-					<baz>text-1</baz>
-				</bar>
-			</foo>
-		""".trimIndent().byteInputStream().readAsXmlEventStream {
-				"foo" {
-					"bar" {
-						"baz" - {
-							value = this.elementText
-						}
-					}
-				}
-			}
-			value == "text-1"
-		}
-		assertTrue {
-			val values = mutableListOf<String>()
-			"""
-			<foo>
-				<bar>
-					<baz>text-1</baz>
-					<baz>text-2</baz>
-				</bar>
-			</foo>
-		""".trimIndent().byteInputStream().readAsXmlEventStream {
-				"foo" {
-					"bar" {
-						use("baz") {
-							values += elementText
-						}
-					}
-				}
-			}
-			values == listOf("text-1", "text-2")
-		}
-
-		assertTrue {
-			val values = mutableListOf<String>()
-			"""
-			<foo>
-				<baz>this is to be ignored because it is not in the bar tag</baz>
-				<bar>
-					<baz>text-1</baz>
-					<baz>text-2</baz>
-				</bar>
-			</foo>
-		""".trimIndent().byteInputStream().readAsXmlEventStream {
-				"foo" {
-					"bar" {
-						use("baz") {
-							values += elementText
-						}
-					}
-				}
-			}
-			values == listOf("text-1", "text-2")
-		}
-
-		assertTrue {
-			val values = mutableListOf<String>()
-			"""
-			<foo>
-				<baz>text-1</baz>
-				<bar>
-					<baz>text-2</baz>
-				</bar>
-			</foo>
-		""".trimIndent().byteInputStream().readAsXmlEventStream {
-				"foo" {
-					"baz" - {
-						values += elementText
-					}
-					"bar" {
-						"baz" - {
-							values += elementText
-						}
-					}
-				}
-			}
-			values == listOf("text-1", "text-2")
-		}
-
-	}
-
-	@Test
-	fun useAsXmlEventStream() {
-		assertTrue {
-			val values = mutableListOf<String>()
-			"""
-			<foo>
-				<bar>
-					<baz>text</baz>
-				</bar>
-			</foo>
-		""".trimIndent().byteInputStream().useAsXmlEventStream {
-				"foo" {
-					"bar" {
-						"baz" - {
-							values += elementText
-						}
-					}
-				}
-			}
-			values == listOf("text")
-		}
-
-	}
-
-	@Test
-	fun attributes() {
-		assertTrue {
-			val values = mutableMapOf<String, String>()
-			"""
-			<foo>
-				<bar>
-					<baz id="1" value="one"></baz>
-					<baz id="2" value="two"></baz>
-				</bar>
-			</foo>
-		""".trimIndent().byteInputStream().useAsXmlEventStream {
-				"foo" {
-					"bar" {
-						"baz" - {
-							val atts = it.readAttributes()
-							values[atts.getValue("id")] = atts.getValue("value")
-						}
-					}
-				}
-			}
-			values == mapOf("1" to "one", "2" to "two")
-		}
-
-	}
-
-	@Test
-	fun builderValidations() {
-		assertThrows<IllegalArgumentException>("one should not be able to add the same tag twice") {
-			buildXmlEventStreamReader {
-				"tag-1" {}
-				"tag-2" {}
-				"tag-1" {} // again - should throw exception
-			}
-		}
-		assertThrows<IllegalArgumentException>("one should not be able to add the same tag twice") {
-			buildXmlEventStreamReader {
-				"tag-1" {
-					"tag-2" - {}
-					"tag-2" - {}
-				}
-			}
-		}
-	}
-
-	@Test
-	fun reUseReader() {
-		val values = mutableListOf<String>()
-		val reader = buildXmlEventStreamReader {
-			"foo" {
-				"bar" {
-					"baz" - {
-						values += elementText
-					}
-				}
-			}
-		}
-		"""
-			<foo>
-				<bar>
-					<baz>first</baz>
-				</bar>
-			</foo>
-			""".trimIndent().byteInputStream().useAsXmlEventStream(reader)
-		assertEquals(listOf("first"), values)
-		values.clear()
-
-		"""
-			<foo>
-				<bar>
-					<baz>second</baz>
-				</bar>
-			</foo>
-			""".trimIndent().byteInputStream().useAsXmlEventStream(reader)
-		assertEquals(listOf("second"), values)
-
-	}
-
-	@Test
-	fun testBlank() {
-		"""
-			<foo>
-				<bar>
-					<baz>second</baz>
-				</bar>
-			</foo>
-			""".trimIndent().byteInputStream().useAsXmlEventStream {
-
-		}
-
-	}
-
-}
+package io.github.kerubistan.kroki.xmlimport org.junit.Testimport org.junit.jupiter.api.assertThrowsimport java.io.ByteArrayOutputStreamimport kotlin.test.assertEqualsimport kotlin.test.assertTrueclass XmlTest {	@Test	fun generation() {		xml(root = "test") {			!"comment"			tag("hello", "a" to "1", "b" to "2") {				cdata("world")			}			comment("there is a horse in my garden")			tag("hello") { -"world" }			tag("hello") {				!"lazy"				"world"()			}			text("")			text { ('a'..'z').forEach { append(it) } }		}.reader().readText().let {			assertTrue { it.isNotBlank() }			assertTrue { it.contains("there is a horse in my garden") }		}		assertEquals("<test/>", xml(root = "test").reader().readText())		assertEquals("<test><pass/></test>", xml(root = "test") { tag("pass") }.reader().readText())		assertEquals(			"<test><pass really=\"true\"/></test>",			xml(root = "test") { tag("pass", "really" to true) }.reader().readText()		)		assertEquals(			"<test><pass really=\"true\"/></test>",			xml(root = "test") { "pass"("really" to true) }.reader().readText()		)		assertEquals(			"<test><pass really=\"true\"><seriously>no</seriously></pass></test>",			xml(root = "test") {				"pass"("really" to true) {					"seriously" {						-"no"					}				}			}.reader().readText()		)		assertEquals(			"<test><tag>null</tag></test>",			xml(root = "test") {				"tag" {					-null				}			}.reader().readText()		)		assertEquals(			"<test><value>1</value></test>",			xml(root = "test") {				"value" { text(1) }			}.reader().readText()		)		assertEquals(			"<test><value>null</value></test>",			xml(root = "test") {				"value" { -null }			}.reader().readText()		)	}	@Test	fun prettyPrint() {		assertEquals(			"""<test>	<pass really="true"/></test>""",			xml(formatMode = FormatMode.PRETTY_TABS, root = "test") { tag("pass", "really" to true) }.reader()				.readText()		)		assertEquals(			"""<test>    <pass really="true"/></test>""",			xml(formatMode = FormatMode.PRETTY_BIG_SPACE_NAZI, root = "test") { tag("pass", "really" to true) }.reader()				.readText()		)		assertEquals(			"""<test>  <pass really="true"/></test>""",			xml(formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI, root = "test") {				tag(					"pass",					"really" to true				)			}.reader()				.readText()		)	}	@Test	fun xmlToOutputStream() {		assertEquals(			"""<test>  <pass really="true"/></test>""",			ByteArrayOutputStream().let {				it.use { output ->					xml(formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI, root = "test", out = output) {						tag(							"pass",							"really" to true						)					}				}				it.toByteArray().toString(Charsets.UTF_8)			}		)		assertEquals(			"""<test pass="true"></test>""",			ByteArrayOutputStream().let {				it.use { output ->					xml(						formatMode = FormatMode.PRETTY_SMALL_SPACE_NAZI,						root = "test",						out = output,						atts = arrayOf("pass" to true)					)				}				it.toByteArray().toString(Charsets.UTF_8)			}		)	}	@Test	fun xmlEventStream() {		assertTrue {			var value = ""			"""			<foo>				<bar>					<baz>text-1</baz>				</bar>			</foo>		""".trimIndent().byteInputStream().readAsXmlEventStream {				"foo" {					"bar" {						use("baz") {							value = elementText						}					}				}			}			value == "text-1"		}		assertTrue {			var value = ""			"""			<foo>				<bar>					<baz>text-1</baz>				</bar>			</foo>		""".trimIndent().byteInputStream().readAsXmlEventStream {				"foo" {					"bar" {						"baz" - {							value = this.elementText						}					}				}			}			value == "text-1"		}		assertTrue {			val values = mutableListOf<String>()			"""			<foo>				<bar>					<baz>text-1</baz>					<baz>text-2</baz>				</bar>			</foo>		""".trimIndent().byteInputStream().readAsXmlEventStream {				"foo" {					"bar" {						use("baz") {							values += elementText						}					}				}			}			values == listOf("text-1", "text-2")		}		assertTrue {			val values = mutableListOf<String>()			"""			<foo>				<baz>this is to be ignored because it is not in the bar tag</baz>				<bar>					<baz>text-1</baz>					<baz>text-2</baz>				</bar>			</foo>		""".trimIndent().byteInputStream().readAsXmlEventStream {				"foo" {					"bar" {						use("baz") {							values += elementText						}					}				}			}			values == listOf("text-1", "text-2")		}		assertTrue {			val values = mutableListOf<String>()			"""			<foo>				<baz>text-1</baz>				<bar>					<baz>text-2</baz>				</bar>			</foo>		""".trimIndent().byteInputStream().readAsXmlEventStream {				"foo" {					"baz" - {						values += elementText					}					"bar" {						"baz" - {							values += elementText						}					}				}			}			values == listOf("text-1", "text-2")		}	}	@Test	fun useAsXmlEventStream() {		assertTrue {			val values = mutableListOf<String>()			"""			<foo>				<bar>					<baz>text</baz>				</bar>			</foo>		""".trimIndent().byteInputStream().useAsXmlEventStream {				"foo" {					"bar" {						"baz" - {							values += elementText						}					}				}			}			values == listOf("text")		}	}	@Test	fun attributes() {		assertTrue {			val values = mutableMapOf<String, String>()			"""			<foo>				<bar>					<baz id="1" value="one"></baz>					<baz id="2" value="two"></baz>				</bar>			</foo>		""".trimIndent().byteInputStream().useAsXmlEventStream {				"foo" {					"bar" {						"baz" - {							it.readAttributes().apply {								values[getValue("id")] = getValue("value")							}						}					}				}			}			values == mapOf("1" to "one", "2" to "two")		}	}	@Test	fun builderValidations() {		assertThrows<IllegalArgumentException>("one should not be able to add the same tag twice") {			buildXmlEventStreamReader {				"tag-1" {}				"tag-2" {}				"tag-1" {} // again - should throw exception			}		}		assertThrows<IllegalArgumentException>("one should not be able to add the same tag twice") {			buildXmlEventStreamReader {				"tag-1" {					"tag-2" - {}					"tag-2" - {}				}			}		}	}	@Test	fun reUseReader() {		val values = mutableListOf<String>()		val reader = buildXmlEventStreamReader {			"foo" {				"bar" {					"baz" - {						values += elementText					}				}			}		}		"""			<foo>				<bar>					<baz>first</baz>				</bar>			</foo>			""".trimIndent().byteInputStream().useAsXmlEventStream(reader)		assertEquals(listOf("first"), values)		values.clear()		"""			<foo>				<bar>					<baz>second</baz>				</bar>			</foo>			""".trimIndent().byteInputStream().useAsXmlEventStream(reader)		assertEquals(listOf("second"), values)	}	@Test	fun testBlank() {		"""			<foo>				<bar>					<baz>second</baz>				</bar>			</foo>			""".trimIndent().byteInputStream().useAsXmlEventStream {		}	}}
