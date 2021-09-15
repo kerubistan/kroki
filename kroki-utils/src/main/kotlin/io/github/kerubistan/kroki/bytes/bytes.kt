@@ -1,3 +1,1 @@
-package io.github.kerubistan.kroki.bytes
-
-fun ByteArray.toBase64(): String = java.util.Base64.getEncoder().encodeToString(this)
+package io.github.kerubistan.kroki.bytesfun ByteArray.toBase64(): String = java.util.Base64.getEncoder().encodeToString(this)fun String.asBase64(): ByteArray = java.util.Base64.getDecoder().decode(this)
