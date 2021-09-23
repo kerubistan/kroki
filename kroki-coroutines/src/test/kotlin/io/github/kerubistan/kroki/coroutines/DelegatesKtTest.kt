@@ -37,7 +37,7 @@ internal class DelegatesKtTest {
 
 		val errors = mutableListOf<Throwable>()
 		var counter = 0
-		val data by cached(retryOnFail = 10, errorHandler = { errors.add(it) }) {
+		val data by cached(retryOnFail = 10, errorHandler = { _, throwable -> errors.add(throwable) }) {
 			if (counter++ > 2)
 				1
 			else throw UnknownHostException("blah.example.com not known")

@@ -7,6 +7,7 @@ import org.junit.Assert
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
+import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -205,7 +206,7 @@ internal class ListsKtTest {
 	@Test
 	fun collectionReplace() {
 		val original = listOf("A", "b", "c")
-		val replacement = original.replace({ it == "A" }, { it.toLowerCase() })
+		val replacement = original.replace({ it == "A" }, { it.lowercase(Locale.getDefault()) })
 
 		Assert.assertThat(replacement, CoreMatchers.hasItem("b"))
 		Assert.assertThat(replacement, CoreMatchers.hasItem("c"))
@@ -241,7 +242,7 @@ internal class ListsKtTest {
 				"M" to setOf("Adam")
 			),
 			listOf("Arnold", "Adam", "Brian", "Bob", "Chris", "David")
-				.groupsBy { setOf(it.first().toUpperCase().toString(), it.last().toUpperCase().toString()) }
+				.groupsBy { setOf(it.first().uppercaseChar().toString(), it.last().uppercaseChar().toString()) }
 		)
 
 		data class User(val name: String, val roles: List<String>)
@@ -272,6 +273,19 @@ internal class ListsKtTest {
 		assertEquals(listOf("C"), listOf("A", "B", "C").skip().skip())
 		assertEquals(listOf(), listOf<String>().skip())
 		assertEquals(listOf(), listOf("A").skip())
+	}
+
+	@Test
+	fun anyInstanceWithPredicate() {
+		assertTrue(listOf("A", 1, "B").hasAny<String> { it.startsWith("A") })
+		assertFalse(listOf("A", 1).hasAny<Boolean> { it })
+	}
+
+	@Test
+	fun hasNone() {
+		assertTrue(listOf("A", 1, "B", 2).hasNone<Int> { it > 3 })
+		assertTrue(listOf("A", 1, "B", 2).hasNone(String::isEmpty))
+		assertFalse(listOf("A", 1, "B", 2).hasNone<String> { it.startsWith("A") })
 	}
 
 }

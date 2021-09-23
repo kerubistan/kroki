@@ -19,9 +19,11 @@ fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache): T
 			this.map { it?.flyWeight(instanceCache) }
 		}
 		this is Map<*, *> -> {
-			this.map { (key, value) ->
-				key?.flyWeight(instanceCache) to value?.flyWeight(instanceCache)
-			}.toMap()
+			HashMap<Any?, Any?>(this.size).apply {
+				this@flyWeight.forEach { key, value ->
+					this[key?.flyWeight(instanceCache)] = value?.flyWeight(instanceCache)
+				}
+			}
 		}
 		else -> this
 	} as T
@@ -47,7 +49,7 @@ private fun <T : Any> T.flyWeightDataInstance(instanceCache: InstanceCache): T {
 						componentCache[componentValue]
 					} else {
 						componentValue = componentValue.flyWeight(instanceCache)
-						componentCache.put(componentValue, componentValue)
+						componentCache[componentValue] = componentValue
 						componentValue
 					}
 				}

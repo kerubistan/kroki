@@ -50,4 +50,15 @@ open class FlyWeightCostBenchmark {
 		hole.consume(instance10.flyWeight())
 	}
 
+	private val sampleMap = mapOf(
+		"foo" to "bar",
+		"blah" to mapOf(
+			"foo" to "bar"
+		)
+	)
+
+	@Benchmark
+	fun flyWeightMap(hole : Blackhole) {
+		hole.consume(sampleMap.flyWeight())
+	}
 }

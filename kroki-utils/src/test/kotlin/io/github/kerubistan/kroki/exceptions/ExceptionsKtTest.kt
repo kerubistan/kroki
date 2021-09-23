@@ -16,7 +16,7 @@ internal class ExceptionsKtTest {
 	@Test
 	fun insistTest() {
 		var errors = 0
-		val result = insist(tries = 3, onError = { errors++ }) {
+		val result = insist(tries = 3, onError = { _, _ -> errors++ }) {
 			if (errors < 2) {
 				throw IllegalStateException("testing")
 			} else {
@@ -32,7 +32,7 @@ internal class ExceptionsKtTest {
 	fun insistTestAndFail() {
 		var errors = 0
 		assertThrows<IllegalStateException> {
-			insist(tries = 1, onError = { errors++ }) {
+			insist(tries = 1, onError = { attempt, _ ->  errors = attempt }) {
 				if (errors < 2) {
 					throw IllegalStateException("testing")
 				} else {

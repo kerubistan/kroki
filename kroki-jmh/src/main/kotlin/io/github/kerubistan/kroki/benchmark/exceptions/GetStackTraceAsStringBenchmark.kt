@@ -1,6 +1,7 @@
 package io.github.kerubistan.kroki.benchmark.exceptions
 
 import io.github.kerubistan.kroki.exceptions.getStackTraceAsString
+import io.github.kerubistan.kroki.exceptions.stackTraceText
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.State
@@ -14,6 +15,11 @@ open class GetStackTraceAsStringBenchmark {
 	@Benchmark
 	fun getStackTraceAsString(hole: Blackhole) {
 		hole.consume(exception.getStackTraceAsString())
+	}
+
+	@Benchmark
+	fun stackTraceText(hole: Blackhole) {
+		hole.consume(exception.stackTraceText)
 	}
 
 }

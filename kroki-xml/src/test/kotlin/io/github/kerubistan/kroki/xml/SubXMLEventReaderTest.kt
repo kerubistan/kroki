@@ -37,8 +37,7 @@ class SubXMLEventReaderTest {
 
 		val result = buildString {
 			while (subEventReader.hasNext()) {
-				val subEvent = subEventReader.next()
-				when (subEvent) {
+				when (val subEvent = subEventReader.next()) {
 					is StartElement -> appendLine("-> ${subEvent.name.localPart}")
 					is EndElement -> appendLine("<- ${subEvent.name.localPart}")
 				}

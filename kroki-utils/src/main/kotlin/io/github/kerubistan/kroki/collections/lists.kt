@@ -4,7 +4,7 @@ package io.github.kerubistan.kroki.collections
  * Concatenate a "list of list of items" into a "list of items".
  */
 fun <T> Collection<Collection<T>>.concat(): List<T> {
-	val result = ArrayList<T>(this.sumBy { it.size })
+	val result = ArrayList<T>(this.sumOf { it.size })
 	this.forEach {
 		if (it.isNotEmpty()) {
 			result.addAll(it)
@@ -21,6 +21,19 @@ fun <T> Iterable<T>.isEmpty() =
 		this.isEmpty()
 	else
 		!this.iterator().hasNext()
+
+/**
+ * Checks if there is an instance of the specified class in the list that meets the criteria
+ */
+inline fun <reified C : Any> Iterable<*>.hasAny(predicate: (C) -> Boolean = { true }) =
+	this.any { it is C && predicate(it) }
+
+/**
+ * Checks if there is no instance of the specified class in the list that meets the criteria
+ */
+inline fun <reified C : Any> Iterable<*>.hasNone(crossinline predicate: (C) -> Boolean = { true }) =
+	!this.hasAny(predicate)
+
 
 /**
  * Merge two lists using properties on both sides.
@@ -90,7 +103,7 @@ inline fun <X, reified T : X> List<X>.updateInstances(
 }
 
 /**
- * Calculate percentile from am iterable.
+ * Calculate percentile from an iterable.
  * @param percentile the percentile - must be less than 100 and more than 0
  * @param expression extract a numeric value from the item
  *
@@ -145,6 +158,10 @@ inline fun <V : Any, K : Any> Collection<V>.groupsBy(crossinline keys: (V) -> It
 	return result
 }
 
+/**
+ * Creates a new list without the first item.
+ * If the original list is empty, the result will be empty too.
+ */
 fun <T> List<T>.skip(): List<T> =
 	if (this.isEmpty()) {
 		listOf()

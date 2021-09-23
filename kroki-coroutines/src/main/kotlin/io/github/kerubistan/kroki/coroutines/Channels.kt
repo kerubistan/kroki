@@ -27,19 +27,7 @@ internal open class ProcessChannel<T>(
 	override val isEmpty: Boolean
 		get() = outChannel.isEmpty
 
-	@ExperimentalCoroutinesApi
-	override val isFull: Boolean
-		get() = false
-
 	override val onReceive: SelectClause1<T> get() = outChannel.onReceive
-
-	@InternalCoroutinesApi
-	override val onReceiveOrClosed: SelectClause1<ValueOrClosed<T>>
-		get() = outChannel.onReceiveOrClosed
-
-	@ObsoleteCoroutinesApi
-	override val onReceiveOrNull: SelectClause1<T?>
-		get() = outChannel.onReceiveOrNull
 
 	override val onSend: SelectClause2<T, SendChannel<T>> get() = inChannel.onSend
 
@@ -60,19 +48,27 @@ internal open class ProcessChannel<T>(
 
 	override fun iterator(): ChannelIterator<T> = outChannel.iterator()
 
-	override fun offer(element: T): Boolean = inChannel.offer(element)
+	override fun offer(element: T): Boolean = inChannel.trySend(element).isSuccess
 
-	override fun poll(): T? = outChannel.poll()
+	override fun poll(): T? = outChannel.tryReceive().getOrNull()
 
 	override suspend fun receive(): T = outChannel.receive()
 
-	@InternalCoroutinesApi
-	override suspend fun receiveOrClosed(): ValueOrClosed<T> = outChannel.receiveOrClosed()
-
-	@ObsoleteCoroutinesApi
-	override suspend fun receiveOrNull(): T? = outChannel.receiveOrNull()
-
 	override suspend fun send(element: T) = inChannel.send(element)
+	override val onReceiveCatching: SelectClause1<ChannelResult<T>>
+		get() = TODO("not implemented")
+
+	override suspend fun receiveCatching(): ChannelResult<T> {
+		TODO("not implemented")
+	}
+
+	override fun tryReceive(): ChannelResult<T> {
+		TODO("not implemented")
+	}
+
+	override fun trySend(element: T): ChannelResult<Unit> {
+		TODO("not implemented")
+	}
 
 }
 
@@ -86,13 +82,13 @@ internal class PriorityChannel<T>(
 	// because we buffer and sort the messages in the co-routine
 	// that is where the capacity constraint is enforced
 	// and the buffer we keep sorted, the input channel we can't
-	inChannel = Channel<T>(RENDEZVOUS),
+	inChannel = Channel(RENDEZVOUS),
 	// output channel is rendezvous channel because we may still
 	// get higher priority input meanwhile and we will send that
 	// when output consumer is ready to take it
-	outChannel = Channel<T>(RENDEZVOUS)
+	outChannel = Channel(RENDEZVOUS)
 ) {
-	private val buffer = PriorityQueue<T>(comparator)
+	private val buffer = PriorityQueue(comparator)
 
 	private fun PriorityQueue<T>.isNotFull() = this.size < maxCapacity
 
@@ -103,11 +99,11 @@ internal class PriorityChannel<T>(
 	// we should keep receiving
 	private fun tryGetSome() {
 		if (buffer.isNotFull()) {
-			var received = inChannel.poll()
+			var received = inChannel.tryReceive().getOrNull()
 			if (received != null) {
 				buffer.add(received)
 				while (buffer.isNotFull() && received != null) {
-					received = inChannel.poll()
+					received = inChannel.tryReceive().getOrNull()
 					received?.let { buffer.add(it) }
 				}
 			}
@@ -128,7 +124,7 @@ internal class PriorityChannel<T>(
 				outChannel.send(buffer.poll())
 			}
 			else -> {
-				while (buffer.isNotEmpty() && outChannel.offer(buffer.peek())) {
+				while (buffer.isNotEmpty() && outChannel.trySend(buffer.peek()).isSuccess) {
 					buffer.poll()
 					tryGetSome()
 				}
@@ -182,14 +178,6 @@ class TransformChannel<I, O>(val transform: (I) -> O, private val wrapped: Chann
 	override val onReceive: SelectClause1<O>
 		get() = wrapped.onReceive
 
-	@InternalCoroutinesApi
-	override val onReceiveOrClosed: SelectClause1<ValueOrClosed<O>>
-		get() = wrapped.onReceiveOrClosed
-
-	@ObsoleteCoroutinesApi
-	override val onReceiveOrNull: SelectClause1<O?>
-		get() = wrapped.onReceiveOrNull
-
 	override fun cancel(cause: Throwable?): Boolean {
 		wrapped.cancel()
 		return true
@@ -202,25 +190,15 @@ class TransformChannel<I, O>(val transform: (I) -> O, private val wrapped: Chann
 	override fun iterator(): ChannelIterator<O> =
 		wrapped.iterator()
 
-	override fun poll(): O? = wrapped.poll()
+	override fun poll(): O? = wrapped.tryReceive().getOrNull()
 
 	override suspend fun receive(): O = wrapped.receive()
-
-	@InternalCoroutinesApi
-	override suspend fun receiveOrClosed(): ValueOrClosed<O> = wrapped.receiveOrClosed()
-
-	@ObsoleteCoroutinesApi
-	override suspend fun receiveOrNull(): O? = wrapped.receiveOrNull()
 
 	// send channel
 
 	@ExperimentalCoroutinesApi
 	override val isClosedForSend: Boolean
 		get() = wrapped.isClosedForSend
-
-	@ExperimentalCoroutinesApi
-	override val isFull: Boolean
-		get() = false // because the super-method is deprecated-error
 
 	override val onSend: SelectClause2<I, SendChannel<I>>
 		get() = TODO("not implemented")
@@ -230,10 +208,25 @@ class TransformChannel<I, O>(val transform: (I) -> O, private val wrapped: Chann
 	@ExperimentalCoroutinesApi
 	override fun invokeOnClose(handler: (cause: Throwable?) -> Unit) = wrapped.invokeOnClose(handler)
 
-	override fun offer(element: I): Boolean = wrapped.offer(transform(element))
+	override fun offer(element: I): Boolean = wrapped.trySend(transform(element)).isSuccess
 
 	override suspend fun send(element: I) {
 		wrapped.send(transform(element))
+	}
+
+	override val onReceiveCatching: SelectClause1<ChannelResult<O>>
+		get() = wrapped.onReceiveCatching
+
+	override suspend fun receiveCatching(): ChannelResult<O> {
+		TODO("not implemented")
+	}
+
+	override fun tryReceive(): ChannelResult<O> {
+		TODO("not implemented")
+	}
+
+	override fun trySend(element: I): ChannelResult<Unit> {
+		TODO("not implemented")
 	}
 
 }

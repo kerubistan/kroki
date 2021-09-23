@@ -66,7 +66,6 @@ class TransformChannelTest {
 			//expected
 		}
 		assertTrue(channel.isClosedForSend)
-		Unit
 	}
 
 	@ExperimentalCoroutinesApi
