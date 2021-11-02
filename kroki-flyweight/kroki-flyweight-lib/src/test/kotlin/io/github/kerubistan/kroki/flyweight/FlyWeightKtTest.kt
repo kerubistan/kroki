@@ -175,9 +175,9 @@ class FlyWeightKtTest {
 	@Test
 	fun flyWeightAtomicTypes() {
 		data class Foo(
-			val redundant : Boolean,
-			val redundancyFactor : Int,
-			val wat : String
+			val redundant: Boolean,
+			val redundancyFactor: Int,
+			val wat: String
 		)
 
 		val foo = objectMapper().readValue<Foo>(
@@ -197,14 +197,14 @@ class FlyWeightKtTest {
 	@Test
 	fun flyWeightCollections() {
 		data class Message(
-			val id : UUID,
-			val text : String,
-			val labels : List<String>
+			val id: UUID,
+			val text: String,
+			val labels: List<String>
 		)
 
 		data class Software(
-			val name : String,
-			val dependencies : Map<String, Software> = mapOf()
+			val name: String,
+			val dependencies: Map<String, Software> = mapOf()
 		)
 
 		val messages = objectMapper().readValue<List<Message>>(
@@ -223,7 +223,8 @@ class FlyWeightKtTest {
 				]
 			""".trimIndent()
 		)
-		val software = objectMapper().readValue<List<Software>>("""
+		val software = objectMapper().readValue<List<Software>>(
+			"""
 			[
 				{
 					"name" : "kroki",
@@ -240,7 +241,8 @@ class FlyWeightKtTest {
 					}
 				}
 			]
-		""".trimIndent())
+		""".trimIndent()
+		)
 
 		val flyWeightMessages = messages.flyWeight()
 		val flyWeightSoftware = software.flyWeight()
@@ -259,18 +261,18 @@ class FlyWeightKtTest {
 	@Test
 	fun relativelyBigStructure() {
 		data class KitchenSink(
-			val number : Int = 1,
-			val enum : Status = Status.DONE,
-			val text : String = "yes",
-			val bigNumber : Long = 100000,
-			val veryBigNumber : BigInteger = BigInteger("100000000"),
-			val flag : Boolean = true,
-			val dataStructure : KitchenSink? = null,
-			val decimal : Double = 1.234,
-			val notVeryPreciseDecimal : Float = 1.2F,
-			val veryPreciseDecimal : BigDecimal = BigDecimal("100.00000001"),
-			val smallNumber : Short = 1,
-			val verySmallNumber : Byte = 1
+			val number: Int = 1,
+			val enum: Status = Status.DONE,
+			val text: String = "yes",
+			val bigNumber: Long = 100000,
+			val veryBigNumber: BigInteger = BigInteger("100000000"),
+			val flag: Boolean = true,
+			val dataStructure: KitchenSink? = null,
+			val decimal: Double = 1.234,
+			val notVeryPreciseDecimal: Float = 1.2F,
+			val veryPreciseDecimal: BigDecimal = BigDecimal("100.00000001"),
+			val smallNumber: Short = 1,
+			val verySmallNumber: Byte = 1
 		)
 
 		assertNotNull(KitchenSink().flyWeight())
@@ -280,12 +282,13 @@ class FlyWeightKtTest {
 	fun testIgnoreAnnotation() {
 		@IgnoreFlyWeight
 		data class Name(
-			val first : String,
-			val last : String
+			val first: String,
+			val last: String
 		)
+
 		data class Person(
-			val name : Name,
-			val age : Int
+			val name: Name,
+			val age: Int
 		)
 
 		val person = Person(

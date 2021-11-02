@@ -7,7 +7,7 @@ import java.io.Closeable
  * Same as `use` and `apply` together, but way shorter.
  * Only syntax sugar.
  */
-inline fun <T : Closeable?, R> T.useIt(block : T.() -> R) : R =
+inline fun <T : Closeable?, R> T.useIt(block: T.() -> R): R =
 	this.use {
 		return@use this.block()
 	}

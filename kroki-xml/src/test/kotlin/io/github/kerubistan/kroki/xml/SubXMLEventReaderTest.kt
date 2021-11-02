@@ -2,9 +2,8 @@ package io.github.kerubistan.kroki.xml
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 import javax.xml.namespace.QName
 import javax.xml.stream.events.EndElement
 import javax.xml.stream.events.StartElement
@@ -43,11 +42,13 @@ class SubXMLEventReaderTest {
 				}
 			}
 		}
-		assertEquals("""
+		assertEquals(
+			"""
 			-> tag
 			<- tag
 			<- start
-		""".trimIndent().trim(), result.trim())
+		""".trimIndent().trim(), result.trim()
+		)
 
 	}
 

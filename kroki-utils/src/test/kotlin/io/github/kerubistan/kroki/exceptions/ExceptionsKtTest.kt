@@ -32,7 +32,7 @@ internal class ExceptionsKtTest {
 	fun insistTestAndFail() {
 		var errors = 0
 		assertThrows<IllegalStateException> {
-			insist(tries = 1, onError = { attempt, _ ->  errors = attempt }) {
+			insist(tries = 1, onError = { attempt, _ -> errors = attempt }) {
 				if (errors < 2) {
 					throw IllegalStateException("testing")
 				} else {

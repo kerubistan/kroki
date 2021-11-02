@@ -1,8 +1,7 @@
 package io.github.kerubistan.kroki.xml
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class XmlKtTest {
 

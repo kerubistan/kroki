@@ -14,7 +14,7 @@ class NullInputStreamTest {
 		assertTrue(NullInputStream.reader().readText().isEmpty())
 		assertEquals(0, NullInputStream.available())
 		assertEquals(-1, NullInputStream.read())
-		assertEquals(-1, NullInputStream.read(ByteArray(size = 1. KB.toInt())))
+		assertEquals(-1, NullInputStream.read(ByteArray(size = 1.KB.toInt())))
 	}
 
 }
