@@ -11,6 +11,7 @@ import java.io.Serializable
 import java.lang.Thread.yield
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.atomic.AtomicReference
 import kotlin.concurrent.thread
 import kotlin.test.assertNull
 
@@ -237,4 +238,23 @@ internal class DelegatesKtTest {
 		}.join()
 	}
 
+	@Test
+	fun atomicReference() {
+		var x by atomic<String>(AtomicReference())
+		assertNull(x)
+		thread {
+			assertNull(x)
+		}.apply {
+			join()
+		}
+		x = "A"
+		assertEquals("A", x)
+		thread {
+			assertEquals("A", x)
+			x = "B"
+		}.apply {
+			join()
+		}
+		assertEquals("B", x)
+	}
 }
