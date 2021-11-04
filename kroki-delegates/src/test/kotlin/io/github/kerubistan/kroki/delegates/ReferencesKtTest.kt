@@ -1,46 +1,36 @@
 package io.github.kerubistan.kroki.delegates
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.io.Serializable
-import java.lang.Thread.yield
-import java.text.SimpleDateFormat
-import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.concurrent.thread
 import kotlin.test.assertNull
 
-internal class DelegatesKtTest {
-
+class ReferencesKtTest {
 	@Test
-	fun threadLocalTest() {
-		// GIVEN
-		val dateStr = "1969-07-16 13:32:00"
-		val dateFormat by threadLocal { SimpleDateFormat("yyyy-MM-dd hh:mm:ss") }
-		val results = mutableSetOf<Date>()
-
-		// WHEN
-		(1..1024).map {
-			thread {
-				val dates = (1..1024).map {
-					yield()
-					dateFormat.parse(dateStr)
-				}.toSet()
-				synchronized(results) {
-					results.addAll(dates)
-				}
-			}
-		}.map { it.join() }
-
-		//THEN
-		assertEquals(1, results.size)
+	fun atomicReference() {
+		var x by atomic<String>(AtomicReference())
+		assertNull(x)
+		thread {
+			assertNull(x)
+		}.apply {
+			join()
+		}
+		x = "A"
+		Assertions.assertEquals("A", x)
+		thread {
+			Assertions.assertEquals("A", x)
+			x = "B"
+		}.apply {
+			join()
+		}
+		Assertions.assertEquals("B", x)
 	}
-
 	@Test
 	fun weak() {
 
@@ -56,14 +46,14 @@ internal class DelegatesKtTest {
 			Image(nr, width = 1024, height = 768)
 		}
 		images.forEach {
-			assertNotNull(it.bitmap)
+			Assertions.assertNotNull(it.bitmap)
 			it.bitmap.forEach { ints ->
-				assertNotNull(ints)
+				Assertions.assertNotNull(ints)
 			}
 		}
 
 		repeat(1024) {
-			assertNotNull(images.random().bitmap)
+			Assertions.assertNotNull(images.random().bitmap)
 		}
 
 	}
@@ -83,14 +73,14 @@ internal class DelegatesKtTest {
 			Image(nr, width = 1024, height = 768)
 		}
 		images.forEach {
-			assertNotNull(it.bitmap)
+			Assertions.assertNotNull(it.bitmap)
 			it.bitmap.forEach { ints ->
-				assertNotNull(ints)
+				Assertions.assertNotNull(ints)
 			}
 		}
 
 		repeat(1024) {
-			assertNotNull(images.random().bitmap)
+			Assertions.assertNotNull(images.random().bitmap)
 		}
 
 	}
@@ -140,8 +130,8 @@ internal class DelegatesKtTest {
 
 		val deserialized = serializeDeserialize(testPerson)
 
-		assertEquals(testPerson, deserialized)
-		assertEquals(
+		Assertions.assertEquals(testPerson, deserialized)
+		Assertions.assertEquals(
 			mapOf(
 				"HUF00001234" to BankAccount(
 					accountId = "HUF00001234",
@@ -192,8 +182,8 @@ internal class DelegatesKtTest {
 
 		val deserialized = serializeDeserialize(testPerson)
 
-		assertEquals(testPerson, deserialized)
-		assertEquals(
+		Assertions.assertEquals(testPerson, deserialized)
+		Assertions.assertEquals(
 			mapOf(
 				"HUF00001234" to BankAccount(
 					accountId = "HUF00001234",
@@ -210,51 +200,5 @@ internal class DelegatesKtTest {
 		)
 	}
 
-	@Test
-	fun assignableThreadLocal() {
-		var x by threadLocal<String>()
-		assertNull(x)
-		x = "AAAA"
-		assertEquals("AAAA", x)
-		thread {
-			assertNull(x)
-			x = "BBBB"
-			assertEquals("BBBB", x)
-		}.join()
-		assertEquals("AAAA", x)
-	}
 
-	@Test
-	fun assignableThreadLocalWithInitialValue() {
-		var x by threadLocal("initial value")
-		assertEquals("initial value", x)
-		thread {
-			assertEquals("initial value", x)
-		}.join()
-		x = "updated value"
-		assertEquals("updated value", x)
-		thread {
-			assertEquals("initial value", x)
-		}.join()
-	}
-
-	@Test
-	fun atomicReference() {
-		var x by atomic<String>(AtomicReference())
-		assertNull(x)
-		thread {
-			assertNull(x)
-		}.apply {
-			join()
-		}
-		x = "A"
-		assertEquals("A", x)
-		thread {
-			assertEquals("A", x)
-			x = "B"
-		}.apply {
-			join()
-		}
-		assertEquals("B", x)
-	}
 }

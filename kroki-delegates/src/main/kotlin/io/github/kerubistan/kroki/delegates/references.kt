@@ -4,6 +4,7 @@ import java.io.Serializable
 import java.lang.ref.Reference
 import java.lang.ref.SoftReference
 import java.lang.ref.WeakReference
+import java.util.concurrent.atomic.AtomicReference
 import kotlin.reflect.KProperty
 
 /**
@@ -86,3 +87,19 @@ fun <T> soft(
 	initializer: () -> T
 ): ReferenceDelegate<T> =
 	SoftDelegateImpl(mode = mode, initializer = initializer)
+
+class AtomicReferenceDelegate<T>(private val reference: AtomicReference<T>) {
+
+	operator fun getValue(obj: Any?, property: KProperty<*>): T? = reference.get()
+
+	operator fun setValue(obj: Any?, property: KProperty<*>, newValue: T?) {
+		reference.set(newValue)
+	}
+
+}
+
+/**
+ * Gives a simplified access to an atomic reference value.
+ * @param reference the atomic reference
+ */
+fun <T> atomic(reference: AtomicReference<T>) = AtomicReferenceDelegate(reference)

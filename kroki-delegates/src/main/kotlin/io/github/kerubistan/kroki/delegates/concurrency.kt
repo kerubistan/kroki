@@ -1,6 +1,5 @@
 package io.github.kerubistan.kroki.delegates
 
-import java.util.concurrent.atomic.AtomicReference
 import kotlin.reflect.KProperty
 
 private class FunctionLiteralThreadLocal<T>(private val initializer: () -> T) : ThreadLocal<T>() {
@@ -45,19 +44,3 @@ fun <T> threadLocal() = MutableThreadLocalDelegate<T>()
  * @param initialValue the initial value of the threadLocal - please remember that this will be on each new thread
  */
 fun <T> threadLocal(initialValue: T) = MutableThreadLocalDelegate(initialValue)
-
-class AtomicReferenceDelegate<T>(private val reference: AtomicReference<T>) {
-
-	operator fun getValue(obj: Any?, property: KProperty<*>): T? = reference.get()
-
-	operator fun setValue(obj: Any?, property: KProperty<*>, newValue: T?) {
-		reference.set(newValue)
-	}
-
-}
-
-/**
- * Gives a simplified access to an atomic reference value.
- * @param reference the atomic reference
- */
-fun <T> atomic(reference: AtomicReference<T>) = AtomicReferenceDelegate(reference)
