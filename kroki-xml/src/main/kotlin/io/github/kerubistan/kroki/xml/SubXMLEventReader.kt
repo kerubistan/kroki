@@ -9,6 +9,7 @@ import javax.xml.stream.events.XMLEvent
  * Allows the client code to read XML events of XML stream only in a certain tag of the
  * whole XML stream. Once the closing tag is reached, the reader object will respond as
  * if no more events available.
+ * @suppress
  */
 class SubXMLEventReader(private val original: XMLEventReader, val startElement: StartElement) : XMLEventReader {
 

@@ -3,6 +3,10 @@ package io.github.kerubistan.kroki.flyweight
 import java.util.*
 import kotlin.reflect.KClass
 
+/**
+ * A jvm-global instance cache used as default by flyWeight
+ * @see flyWeight
+ */
 object GlobalInstanceCache : InstanceCache {
 
 	private val caches: MutableMap<KClass<*>, MutableMap<*, *>> = WeakHashMap()

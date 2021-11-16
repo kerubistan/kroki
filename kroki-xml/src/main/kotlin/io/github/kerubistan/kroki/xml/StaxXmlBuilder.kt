@@ -5,6 +5,9 @@ import java.io.OutputStream
 import javax.xml.stream.XMLOutputFactory
 import javax.xml.stream.XMLStreamWriter
 
+/**
+ * @suppress
+ */
 class StaxXmlBuilder(outputStream: OutputStream, formatMode: FormatMode = FormatMode.COMPACT) : XmlBuilder, Closeable {
 
 	private val xml: XMLStreamWriter = when (formatMode) {

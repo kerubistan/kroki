@@ -19,6 +19,7 @@ import java.util.*
 
 /**
  * Hides a coroutine between two channels, uniting them as a single channel.
+ * @suppress
  */
 internal open class ProcessChannel<T>(
 	internal val inChannel: Channel<T>,
@@ -81,6 +82,9 @@ internal open class ProcessChannel<T>(
 
 }
 
+/**
+ * @suppress
+ */
 @ExperimentalCoroutinesApi
 internal class PriorityChannel<T>(
 	private val maxCapacity: Int = 4096,
@@ -171,6 +175,9 @@ internal class PriorityChannel<T>(
 	}
 }
 
+/**
+ * @suppress
+ */
 @Suppress("deprecated")
 class TransformChannel<I, O>(val transform: (I) -> O, private val wrapped: Channel<O>) : ReceiveChannel<O>,
 	SendChannel<I> {

@@ -16,8 +16,9 @@ internal class IostreamsKtTest {
 	@Test
 	fun peekSample() {
 		abstract class InputProcessor() {
-			abstract fun process(stream : InputStream)
+			abstract fun process(stream: InputStream)
 		}
+
 		val jsonProcessor = mock<InputProcessor>()
 		val xmlProcessor = mock<InputProcessor>()
 		listOf(
@@ -29,19 +30,17 @@ internal class IostreamsKtTest {
 					"text": "hello world!"
 				}
 			""".trimIndent()
-		).map { it.byteInputStream(UTF_8) }.forEach {
-			stream ->
+		).map { it.byteInputStream(UTF_8) }.forEach { stream ->
 			var isJson = false
 			stream.peek {
 				try {
 					ObjectMapper().createParser(stream).nextToken()
 					isJson = true
-				} catch (e : JsonParseException) {
+				} catch (e: JsonParseException) {
 					println("beee, not json!")
 				}
-			}.use {
-				input ->
-				if(isJson) {
+			}.use { input ->
+				if (isJson) {
 					jsonProcessor.process(input)
 				} else {
 					xmlProcessor.process(input)

@@ -15,7 +15,7 @@ import kotlin.test.assertNotNull
 class FlyWeightKtTest {
 
 	@Test
-	fun flyweight() {
+	fun flyWeight() {
 
 		data class Astronaut(
 			val firstName: String,

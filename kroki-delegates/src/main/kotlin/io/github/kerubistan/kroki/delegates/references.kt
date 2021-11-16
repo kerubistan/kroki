@@ -9,12 +9,16 @@ import kotlin.reflect.KProperty
 
 /**
  * Delegate interface for all kind of reference (weak, soft) delegates.
+ * @suppress
  */
 interface ReferenceDelegate<T> : Serializable {
 	val value: T
 	operator fun getValue(obj: Any?, property: KProperty<*>): T = value
 }
 
+/**
+ * @suppress
+ */
 private abstract class AbstractReferenceDelegateImpl<T, R : Reference<Lazy<T>>>(
 	val mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
 	val initializer: () -> T
@@ -42,6 +46,9 @@ private abstract class AbstractReferenceDelegateImpl<T, R : Reference<Lazy<T>>>(
 
 }
 
+/**
+ * @suppress
+ */
 private class WeakDelegateImpl<T>(
 	mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
 	initializer: () -> T
@@ -51,6 +58,9 @@ private class WeakDelegateImpl<T>(
 
 }
 
+/**
+ * @suppress
+ */
 private class SoftDelegateImpl<T>(
 	mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
 	initializer: () -> T
@@ -90,6 +100,9 @@ fun <T> soft(
 ): ReferenceDelegate<T> =
 	SoftDelegateImpl(mode = mode, initializer = initializer)
 
+/**
+ * @suppress
+ */
 class AtomicReferenceDelegate<T>(private val reference: AtomicReference<T>) {
 
 	operator fun getValue(obj: Any?, property: KProperty<*>): T? = reference.get()

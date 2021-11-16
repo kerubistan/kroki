@@ -2,6 +2,9 @@ package io.github.kerubistan.kroki.delegates
 
 import kotlin.reflect.KProperty
 
+/**
+ * @suppress
+ */
 private class FunctionLiteralThreadLocal<T>(private val initializer: () -> T) : ThreadLocal<T>() {
 	override fun initialValue(): T = initializer()
 }
