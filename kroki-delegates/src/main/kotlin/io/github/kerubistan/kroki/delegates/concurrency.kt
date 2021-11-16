@@ -6,6 +6,10 @@ private class FunctionLiteralThreadLocal<T>(private val initializer: () -> T) : 
 	override fun initialValue(): T = initializer()
 }
 
+/**
+ * Delegate class of the threadLocal - you do not need to use this directly.
+ * @suppress
+ */
 class ThreadLocalDelegate<T>(initializer: () -> T) {
 
 	private val threadLocal = FunctionLiteralThreadLocal(initializer)
@@ -13,6 +17,10 @@ class ThreadLocalDelegate<T>(initializer: () -> T) {
 	operator fun getValue(obj: Any?, property: KProperty<*>): T = threadLocal.get()
 }
 
+/**
+ * Delegate class of the mutable threadLocal - you do not need to use this directly.
+ * @suppress
+ */
 class MutableThreadLocalDelegate<T>(initialValue: T?) {
 
 	constructor() : this(null)
@@ -28,14 +36,18 @@ class MutableThreadLocalDelegate<T>(initialValue: T?) {
 
 /**
  * Allows having one instance created by thread.
- * This can be used to make efficient use of non-threadsafe classes, such as SimpleDateFormat or old XML parser API.
- * @param initializer a function literal that initializes the instance for the thread
+ * This can be used to make efficient use of non-thread-safe classes, such as SimpleDateFormat or old XML parser API.
+ * @param initializer a function literal that initializes the instance for the thread - note that the threadLocal will
+ * 		only be settable by the initializer here
+ * @sample io.github.kerubistan.kroki.delegates.ConcurrencyKtTest.threadLocalTest
  */
 fun <T> threadLocal(initializer: () -> T) = ThreadLocalDelegate(initializer)
 
 /**
+ * Mutable thread-local.
  * Delegates the value to a ThreadLocal variable, which is initially null
  * and the value can be set later.
+ * @sample io.github.kerubistan.kroki.delegates.ConcurrencyKtTest.assignableThreadLocal
  */
 fun <T> threadLocal() = MutableThreadLocalDelegate<T>()
 

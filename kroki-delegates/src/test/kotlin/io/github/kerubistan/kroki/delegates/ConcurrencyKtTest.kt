@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.thread
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 internal class ConcurrencyKtTest {
 
@@ -14,7 +15,12 @@ internal class ConcurrencyKtTest {
 	fun threadLocalTest() {
 		// GIVEN
 		val dateStr = "1969-07-16 13:32:00"
-		val dateFormat by threadLocal { SimpleDateFormat("yyyy-MM-dd hh:mm:ss") }
+		val pattern = "yyyy-MM-dd hh:mm:ss"
+		// not here that SimpleDateFormat is famous about not being thread-safe
+		// if you call it from several parallel threads, it will sometimes calculate
+		// wrong result
+		// by making it thread-local, we can make it safe and still fast
+		val dateFormat by threadLocal { SimpleDateFormat(pattern) }
 		val results = mutableSetOf<Date>()
 
 		// WHEN
@@ -32,6 +38,7 @@ internal class ConcurrencyKtTest {
 
 		//THEN
 		assertEquals(1, results.size)
+		assertTrue { results.all { it == SimpleDateFormat(pattern).parse(dateStr) } }
 	}
 
 	@Test
