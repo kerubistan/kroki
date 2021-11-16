@@ -1,8 +1,7 @@
 package io.github.kerubistan.kroki.io
 
+import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 import kotlin.text.Charsets.UTF_8
 
 internal class ForkInputStreamTest {

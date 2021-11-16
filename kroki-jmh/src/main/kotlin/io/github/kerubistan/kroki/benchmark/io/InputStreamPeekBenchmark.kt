@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets.UTF_8
 @State(Scope.Benchmark)
 open class InputStreamPeekBenchmark {
 
-	class NoMarkInputStream(private val input : InputStream) : InputStream() {
+	class NoMarkInputStream(private val input: InputStream) : InputStream() {
 		override fun read(): Int = input.read()
 		override fun read(p0: ByteArray) = input.read(p0)
 		override fun read(p0: ByteArray, p1: Int, p2: Int) = input.read(p0, p1, p2)
@@ -30,7 +30,7 @@ open class InputStreamPeekBenchmark {
 	@Param("128", "256", "512")
 	var peek = 128
 
-	lateinit var text : String
+	lateinit var text: String
 
 	@Setup
 	fun setup() {
@@ -38,7 +38,7 @@ open class InputStreamPeekBenchmark {
 	}
 
 	@Benchmark
-	fun peekAndCopy(hole : Blackhole) {
+	fun peekAndCopy(hole: Blackhole) {
 		text.byteInputStream(UTF_8).peek {
 			it.read(ByteArray(peek))
 		}.use {
@@ -47,7 +47,7 @@ open class InputStreamPeekBenchmark {
 	}
 
 	@Benchmark
-	fun peekAndCopyNoMark(hole : Blackhole) {
+	fun peekAndCopyNoMark(hole: Blackhole) {
 		NoMarkInputStream(text.byteInputStream(UTF_8)).peek {
 			it.read(ByteArray(peek))
 		}.use {
@@ -56,7 +56,7 @@ open class InputStreamPeekBenchmark {
 	}
 
 	@Benchmark
-	fun peekAndReadByteByByte(hole : Blackhole) {
+	fun peekAndReadByteByByte(hole: Blackhole) {
 		text.byteInputStream(UTF_8).peek {
 			it.read(ByteArray(peek))
 		}.use {

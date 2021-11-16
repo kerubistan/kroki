@@ -31,6 +31,7 @@ class ReferencesKtTest {
 		}
 		Assertions.assertEquals("B", x)
 	}
+
 	@Test
 	fun weak() {
 
