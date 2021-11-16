@@ -69,6 +69,7 @@ private class SoftDelegateImpl<T>(
  *
  * @param mode the initialization mode of the lazy delegate
  * @param initializer the function literal that initializes the value referenced
+ * @sample io.github.kerubistan.kroki.delegates.ReferencesKtTest.weak
  */
 fun <T> weak(
 	mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
@@ -81,6 +82,7 @@ fun <T> weak(
  *
  * @param mode the initialization mode of the lazy delegate
  * @param initializer the function literal that initializes the value referenced
+ * @sample io.github.kerubistan.kroki.delegates.ReferencesKtTest.soft
  */
 fun <T> soft(
 	mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
@@ -101,5 +103,6 @@ class AtomicReferenceDelegate<T>(private val reference: AtomicReference<T>) {
 /**
  * Gives a simplified access to an atomic reference value.
  * @param reference the atomic reference
+ * @sample io.github.kerubistan.kroki.delegates.ReferencesKtTest.atomicReference
  */
 fun <T> atomic(reference: AtomicReference<T>) = AtomicReferenceDelegate(reference)
