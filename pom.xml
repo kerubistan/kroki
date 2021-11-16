@@ -36,6 +36,7 @@
 		<dokka.version>1.5.0</dokka.version>
 		<dokka.skip>false</dokka.skip>
 		<coroutines.api.version>1.5.2</coroutines.api.version>
+		<jackson.version>2.12.0-rc1</jackson.version>
 	</properties>
 
 	<scm>
@@ -142,6 +143,7 @@
 							<file>packages.md</file>
 						</includes>
 						<skip>${dokka.skip}</skip>
+						<samples>${project.build.testSourceDirectory}</samples>
 					</configuration>
 				</plugin>
 				<plugin>
