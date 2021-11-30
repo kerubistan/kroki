@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
+import java.io.Reader
 import javax.xml.stream.XMLEventReader
 import javax.xml.stream.XMLInputFactory
 import javax.xml.stream.events.Attribute
@@ -21,6 +22,7 @@ interface XmlBuilder {
 	fun tag(name: String, vararg atts: Pair<String, Any>, builder: XmlBuilder.() -> Unit)
 	fun tag(name: String, vararg atts: Pair<String, Any>)
 	fun cdata(data: String)
+	fun text(reader : Reader)
 	fun text(builder: StringBuilder.() -> Unit)
 	fun text(value: String)
 	fun text(value: Any?) = text(value?.toString() ?: "null")

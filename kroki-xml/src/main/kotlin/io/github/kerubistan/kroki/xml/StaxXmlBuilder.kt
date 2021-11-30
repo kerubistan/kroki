@@ -2,6 +2,7 @@ package io.github.kerubistan.kroki.xml
 
 import java.io.Closeable
 import java.io.OutputStream
+import java.io.Reader
 import javax.xml.stream.XMLOutputFactory
 import javax.xml.stream.XMLStreamWriter
 
@@ -51,6 +52,15 @@ class StaxXmlBuilder(outputStream: OutputStream, formatMode: FormatMode = Format
 
 	override fun cdata(data: String) {
 		xml.writeCData(data)
+	}
+
+	override fun text(reader: Reader) {
+		val buffer = CharArray(4096)
+		var characters = reader.read(buffer)
+		while (characters != -1) {
+			xml.writeCharacters(buffer, 0, characters)
+			characters = reader.read(buffer)
+		}
 	}
 
 	override fun text(builder: StringBuilder.() -> Unit) {
