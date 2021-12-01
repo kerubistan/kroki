@@ -22,6 +22,16 @@ class XmlTest {
 	}
 
 	@Test
+	fun rootElmentAttributes() {
+		assertEquals(
+			"""<test a="foo" b="bar"/>""",
+			xml(root = "test", atts = arrayOf("a" to "foo", "b" to "bar")).reader(
+				UTF_8
+			).readText()
+		)
+	}
+
+	@Test
 	fun generation() {
 		xml(root = "test") {
 			!"comment"

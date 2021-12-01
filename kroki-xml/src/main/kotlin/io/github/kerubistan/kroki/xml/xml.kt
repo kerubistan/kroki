@@ -195,7 +195,7 @@ fun OutputStream.xml(
 	xml(
 		formatMode = formatMode,
 		root = root,
-		atts = *atts,
+		atts = atts,
 		out = this,
 		builder = builder
 	)
