@@ -114,7 +114,7 @@ class AtomicReferenceDelegate<T>(private val reference: AtomicReference<T>) {
 }
 
 /**
- * Gives a simplified access to an atomic reference value.
+ * Gives simplified access to an atomic reference value through a delegate.
  * @param reference the atomic reference
  * @sample io.github.kerubistan.kroki.delegates.ReferencesKtTest.atomicReference
  */
