@@ -177,7 +177,7 @@ class XmlTest {
 					<baz>text-1</baz>
 				</bar>
 			</foo>
-		""".trimIndent().byteInputStream().readAsXmlEventStream {
+		""".trimIndent().readAsXmlEventStream {
 				"foo" {
 					"bar" {
 						use("baz") {
@@ -196,7 +196,7 @@ class XmlTest {
 					<baz>text-1</baz>
 				</bar>
 			</foo>
-		""".trimIndent().byteInputStream().readAsXmlEventStream {
+		""".trimIndent().readAsXmlEventStream {
 				"foo" {
 					"bar" {
 						"baz" - {
@@ -216,7 +216,7 @@ class XmlTest {
 					<baz>text-2</baz>
 				</bar>
 			</foo>
-		""".trimIndent().byteInputStream().readAsXmlEventStream {
+		""".trimIndent().readAsXmlEventStream {
 				"foo" {
 					"bar" {
 						use("baz") {
@@ -238,7 +238,7 @@ class XmlTest {
 					<baz>text-2</baz>
 				</bar>
 			</foo>
-		""".trimIndent().byteInputStream().readAsXmlEventStream {
+		""".trimIndent().readAsXmlEventStream {
 				"foo" {
 					"bar" {
 						use("baz") {
@@ -259,7 +259,7 @@ class XmlTest {
 					<baz>text-2</baz>
 				</bar>
 			</foo>
-		""".trimIndent().byteInputStream().readAsXmlEventStream {
+		""".trimIndent().readAsXmlEventStream {
 				"foo" {
 					"baz" - {
 						values += elementText
@@ -286,7 +286,7 @@ class XmlTest {
 					<baz>text</baz>
 				</bar>
 			</foo>
-		""".trimIndent().byteInputStream().useAsXmlEventStream {
+		""".trimIndent().reader().useAsXmlEventStream {
 				"foo" {
 					"bar" {
 						"baz" - {
@@ -311,7 +311,7 @@ class XmlTest {
 					<baz id="2" value="two"></baz>
 				</bar>
 			</foo>
-		""".trimIndent().byteInputStream().useAsXmlEventStream {
+		""".trimIndent().reader().useAsXmlEventStream {
 				"foo" {
 					"bar" {
 						"baz" - {

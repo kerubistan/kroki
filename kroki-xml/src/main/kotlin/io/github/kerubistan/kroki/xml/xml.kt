@@ -212,11 +212,37 @@ inline fun InputStream.useAsXmlEventStream(crossinline builder: XmlEventStreamTa
 }
 
 /**
+ * Read the input as XML and close when done.
+ * @param builder the reader configuration
+ */
+inline fun Reader.useAsXmlEventStream(crossinline builder: XmlEventStreamTagParserBuilder.() -> Unit) {
+	this.use {
+		it.readAsXmlEventStream(builder)
+	}
+}
+
+/**
  * Read the input as XML.
  * @param builder the reader configuration
  */
 inline fun InputStream.readAsXmlEventStream(crossinline builder: XmlEventStreamTagParserBuilder.() -> Unit) {
 	buildXmlEventStreamReader(builder).read(xmlInputFactory.createXMLEventReader(this))
+}
+
+/**
+ * Read the input as XML.
+ * @param builder the reader configuration
+ */
+inline fun Reader.readAsXmlEventStream(crossinline builder: XmlEventStreamTagParserBuilder.() -> Unit) {
+	buildXmlEventStreamReader(builder).read(xmlInputFactory.createXMLEventReader(this))
+}
+
+/**
+ * Read the string as XML.
+ * @param builder the reader configuration
+ */
+inline fun String.readAsXmlEventStream(crossinline builder: XmlEventStreamTagParserBuilder.() -> Unit) {
+	buildXmlEventStreamReader(builder).read(xmlInputFactory.createXMLEventReader(this.reader()))
 }
 
 /**
