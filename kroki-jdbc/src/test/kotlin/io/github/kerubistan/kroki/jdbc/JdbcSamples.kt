@@ -2,6 +2,7 @@ package io.github.kerubistan.kroki.jdbc
 
 import java.sql.Connection
 import java.sql.Date
+import java.sql.ResultSet
 import javax.sql.DataSource
 
 class JdbcSamples {
@@ -12,8 +13,9 @@ class JdbcSamples {
 			}
 		}
 	}
+
 	fun connectionQuerySample(connection: Connection) {
-		data class Employee(val id : Long, val name: String, val dateOfBirth : Date)
+		data class Employee(val id: Long, val name: String, val dateOfBirth: Date)
 		connection.query("select id, name, date_of_birth from employees") {
 			Employee(
 				id = getLong("id"),
@@ -22,8 +24,9 @@ class JdbcSamples {
 			)
 		}
 	}
+
 	fun connectionParameterizedQuerySample(connection: Connection) {
-		data class Employee(val id : Long, val name: String, val dateOfBirth : Date)
+		data class Employee(val id: Long, val name: String, val dateOfBirth: Date)
 		connection.query(
 			"select id, name, date_of_birth from employees where name like ?",
 			"Bob%"
@@ -33,6 +36,12 @@ class JdbcSamples {
 				name = getString("name"),
 				dateOfBirth = getDate("date_of_birth")
 			)
+		}
+	}
+
+	fun resultSetToList(resultSet: ResultSet) {
+		resultSet.toList {
+			getInt("id") to getString("name")
 		}
 	}
 }

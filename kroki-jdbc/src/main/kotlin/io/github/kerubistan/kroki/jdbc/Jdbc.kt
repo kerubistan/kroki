@@ -68,6 +68,12 @@ inline fun <R> Connection.query(query: String, vararg params: Any, crossinline m
 		executeQuery().use { toList(mapper) }
 	}
 
+/**
+ * Map the results into a list.
+ * @param mapper the result mapper
+ * @return list of mapped results
+ * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.resultSetToList
+ */
 inline fun <T> ResultSet.toList(mapper: ResultSet.() -> T): List<T> = buildList {
 	while (next()) {
 		add(mapper())
