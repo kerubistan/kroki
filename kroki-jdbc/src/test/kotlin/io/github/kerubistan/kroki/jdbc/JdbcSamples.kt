@@ -44,4 +44,50 @@ class JdbcSamples {
 			getInt("id") to getString("name")
 		}
 	}
+
+	fun queryBuilderSample(connection: Connection) {
+		val minSalary = 5000
+		val minHeight = 150
+		connection.query {
+			"""
+				SELECT
+					ID,
+					NAME
+				FROM
+					EMPLOYEES
+				WHERE
+					SALARY < ${param(minSalary)}
+					OR HEIGHT < ${param(minHeight)} 
+			""".trimIndent()
+		}
+	}
+
+	fun queryBuilderInsertSample(connection: Connection) {
+		val name = "snakeoil"
+		val price = 100
+		val categoryId = "foo"
+		connection.insert {
+			"""
+				INSERT INTO PRODUCT(ID, NAME, PRICE, CATEGORY_ID)
+				VALUES (PRODUCT_SEQ.nextval(), ${param(name)}, ${param(price)}, ${param(categoryId)} )
+			""".trimIndent()
+		}
+	}
+
+	fun queryBuilderUpdateSample(connection: Connection) {
+		val id = 1000
+		val name = "super-snakeoil"
+		connection.update {
+			"""
+				UPDATE PRODUCT
+				SET
+					NAME = ${param(name)},
+					PRICE = PRICE * 0.99,
+				WHERE
+					ID = ${param(id)}
+			""".trimIndent()
+		}
+	}
+
+
 }
