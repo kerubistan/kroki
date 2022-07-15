@@ -86,6 +86,15 @@ inline fun <T> ResultSet.toList(crossinline mapper: ResultSet.() -> T): List<T> 
 }
 
 /**
+ * Perform action on each row in result.
+ */
+inline fun ResultSet.forEach( action : ResultSet.() -> Unit) : Unit {
+	while (next()) {
+		action()
+	}
+}
+
+/**
  * Helps to build parameterized SQL queries by providing a registry for the parameters.
  * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderOperatorSample
  * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderSample
