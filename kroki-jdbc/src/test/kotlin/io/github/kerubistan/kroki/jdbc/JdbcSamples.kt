@@ -62,6 +62,25 @@ class JdbcSamples {
 		}
 	}
 
+	fun queryBuilderOperatorSample(connection: Connection) {
+		val minSalary = 5000
+		val minHeight = 150
+		val name = "bob"
+		connection.query {
+			"""
+				SELECT
+					ID,
+					NAME
+				FROM
+					EMPLOYEES
+				WHERE
+					SALARY < ${minSalary.param}
+					OR HEIGHT < ${minHeight.param} 
+					OR NAME LIKE ${ "%$name%".param }
+			""".trimIndent()
+		}
+	}
+
 	fun queryBuilderInsertSample(connection: Connection) {
 		val name = "snakeoil"
 		val price = 100

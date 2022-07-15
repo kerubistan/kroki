@@ -85,12 +85,29 @@ inline fun <T> ResultSet.toList(crossinline mapper: ResultSet.() -> T): List<T> 
 	}
 }
 
+/**
+ * Helps to build parameterized SQL queries by providing a registry for the parameters.
+ * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderOperatorSample
+ * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderSample
+ * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderInsertSample
+ * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderUpdateSample
+ */
 class QueryBuilder {
 	val params = mutableListOf<Any>()
+
+	/**
+	 * Add a parameter to the query.
+	 */
 	fun param(value: Any): String {
 		params.add(value)
 		return "?"
 	}
+
+	/**
+	 * Add the object to the query as parameter - an alternative way.
+	 */
+	val Any.param: String
+		get() = param(this)
 }
 
 /**
@@ -113,6 +130,7 @@ inline fun Connection.prepareStatement(crossinline builder: QueryBuilder.() -> S
  * @param builder
  * @return result set
  * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderSample
+ * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderOperatorSample
  */
 inline fun Connection.query(crossinline builder: QueryBuilder.() -> String): ResultSet =
 	prepareStatement(builder).use {

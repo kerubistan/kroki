@@ -101,6 +101,23 @@ internal class JdbcKtTest {
 	}
 
 	@Test
+	fun queryAlternative() {
+		val connection = mock<Connection>()
+		val statement = mock<PreparedStatement>()
+		val resultSet = mock<ResultSet>()
+		whenever(connection.prepareStatement(any())).thenReturn(statement)
+		whenever(statement.executeQuery()).thenReturn(resultSet)
+		val count = 1
+
+		val results = connection.query { "select ${count.param} from dual" }
+
+		verify(connection).prepareStatement(eq("select ? from dual"))
+		verify(statement).executeQuery()
+		verify(statement).close()
+		assertEquals(resultSet, results)
+	}
+
+	@Test
 	fun insert() {
 		val connection = mock<Connection>()
 		val statement = mock<PreparedStatement>()
