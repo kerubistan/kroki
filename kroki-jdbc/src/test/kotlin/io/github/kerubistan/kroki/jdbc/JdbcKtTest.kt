@@ -92,7 +92,7 @@ internal class JdbcKtTest {
 		whenever(statement.executeQuery()).thenReturn(resultSet)
 		val count = 1
 
-		val results = connection.query { "select ${param(count)} from dual" }
+		val results = connection.query({ "select ${param(count)} from dual" }) { this }
 
 		verify(connection).prepareStatement(eq("select ? from dual"))
 		verify(statement).executeQuery()
@@ -109,7 +109,7 @@ internal class JdbcKtTest {
 		whenever(statement.executeQuery()).thenReturn(resultSet)
 		val count = 1
 
-		val results = connection.query { "select ${count.param} from dual" }
+		val results = connection.query({ "select ${count.param} from dual" }) { this }
 
 		verify(connection).prepareStatement(eq("select ? from dual"))
 		verify(statement).executeQuery()

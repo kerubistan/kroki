@@ -137,13 +137,13 @@ inline fun Connection.prepareStatement(crossinline builder: QueryBuilder.() -> S
 /**
  * Run a query using prepared statement.
  * @param builder
- * @return result set
+ * @param mapper
  * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderSample
  * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderOperatorSample
  */
-inline fun Connection.query(crossinline builder: QueryBuilder.() -> String): ResultSet =
+inline fun <T> Connection.query(crossinline builder: QueryBuilder.() -> String, mapper : ResultSet.() -> T) =
 	prepareStatement(builder).use {
-		executeQuery()
+		executeQuery().use(mapper)
 	}
 
 /**

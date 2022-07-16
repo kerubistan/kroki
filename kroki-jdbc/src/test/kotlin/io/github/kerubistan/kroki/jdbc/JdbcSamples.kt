@@ -48,7 +48,7 @@ class JdbcSamples {
 	fun queryBuilderSample(connection: Connection) {
 		val minSalary = 5000
 		val minHeight = 150
-		connection.query {
+		connection.query({
 			"""
 				SELECT
 					ID,
@@ -59,6 +59,10 @@ class JdbcSamples {
 					SALARY < ${param(minSalary)}
 					OR HEIGHT < ${param(minHeight)} 
 			""".trimIndent()
+		}) {
+			forEach {
+				// process
+			}
 		}
 	}
 
@@ -66,18 +70,23 @@ class JdbcSamples {
 		val minSalary = 5000
 		val minHeight = 150
 		val name = "bob"
-		connection.query {
+		connection.query({
 			"""
 				SELECT
 					ID,
-					NAME
+					NAME,
+					EMAIL
 				FROM
 					EMPLOYEES
 				WHERE
 					SALARY < ${minSalary.param}
 					OR HEIGHT < ${minHeight.param} 
-					OR NAME LIKE ${ "%$name%".param }
+					OR NAME LIKE ${"%$name%".param}
 			""".trimIndent()
+		}) {
+			forEach {
+				// process
+			}
 		}
 	}
 
