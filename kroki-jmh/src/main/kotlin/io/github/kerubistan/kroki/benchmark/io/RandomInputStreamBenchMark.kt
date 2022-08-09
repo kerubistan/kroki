@@ -15,7 +15,7 @@ open class RandomInputStreamBenchMark {
 	@Param("0", "1", "64", "1024", "8192")
 	var length = 0
 
-	lateinit var input : RandomInputStream
+	lateinit var input: RandomInputStream
 
 	@Setup
 	fun setup() {
@@ -23,7 +23,7 @@ open class RandomInputStreamBenchMark {
 	}
 
 	@Benchmark
-	fun copyTo(hole : Blackhole) {
+	fun copyTo(hole: Blackhole) {
 		hole.consume(input.copyTo(NullOutputStream))
 	}
 

@@ -88,7 +88,7 @@ inline fun <T> ResultSet.toList(crossinline mapper: ResultSet.() -> T): List<T> 
 /**
  * Perform action on each row in result.
  */
-inline fun ResultSet.forEach( action : ResultSet.() -> Unit) : Unit {
+inline fun ResultSet.forEach(action: ResultSet.() -> Unit): Unit {
 	while (next()) {
 		action()
 	}
@@ -141,7 +141,7 @@ inline fun Connection.prepareStatement(crossinline builder: QueryBuilder.() -> S
  * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderSample
  * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderOperatorSample
  */
-inline fun <T> Connection.query(crossinline builder: QueryBuilder.() -> String, mapper : ResultSet.() -> T) =
+inline fun <T> Connection.query(crossinline builder: QueryBuilder.() -> String, mapper: ResultSet.() -> T) =
 	prepareStatement(builder).use {
 		executeQuery().use(mapper)
 	}

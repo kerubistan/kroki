@@ -1,8 +1,7 @@
 package io.github.kerubistan.kroki.io
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class CountingOutputStreamTest {
 

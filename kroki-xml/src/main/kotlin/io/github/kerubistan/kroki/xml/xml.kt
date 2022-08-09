@@ -22,7 +22,7 @@ interface XmlBuilder {
 	fun tag(name: String, vararg atts: Pair<String, Any>, builder: XmlBuilder.() -> Unit)
 	fun tag(name: String, vararg atts: Pair<String, Any>)
 	fun cdata(data: String)
-	fun text(reader : Reader)
+	fun text(reader: Reader)
 	fun text(builder: StringBuilder.() -> Unit)
 	fun text(value: String)
 	fun text(value: Any?) = text(value?.toString() ?: "null")

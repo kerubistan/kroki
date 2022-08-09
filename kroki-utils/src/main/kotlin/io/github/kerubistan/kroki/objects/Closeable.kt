@@ -12,7 +12,7 @@ inline fun <T : Closeable?, R> T.useIt(block: T.() -> R): R =
 		return@use this.block()
 	}
 
-inline fun <T : AutoCloseable, R> T.use(function: T.() -> R) : R = try {
+inline fun <T : AutoCloseable, R> T.use(function: T.() -> R): R = try {
 	this.function()
 } finally {
 	this.close()

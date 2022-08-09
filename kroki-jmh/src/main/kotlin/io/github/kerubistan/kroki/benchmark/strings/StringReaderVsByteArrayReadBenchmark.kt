@@ -11,9 +11,9 @@ import org.openjdk.jmh.infra.Blackhole
 open class StringReaderVsByteArrayReadBenchmark {
 
 	@Param("64", "1024", "4096", "8192")
-	var size : Int = 10
+	var size: Int = 10
 
-	lateinit var input : String
+	lateinit var input: String
 
 	@Setup
 	fun setup() {

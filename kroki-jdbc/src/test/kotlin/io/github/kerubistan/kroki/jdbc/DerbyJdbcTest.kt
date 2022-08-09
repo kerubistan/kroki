@@ -34,7 +34,7 @@ class DerbyJdbcTest {
 		connection.use {
 			update { "CREATE TABLE EMPLOYEE(ID INT PRIMARY KEY, NAME VARCHAR(128))" }
 			insert { "INSERT INTO EMPLOYEE(ID, NAME) VALUES (1, ${employeeNameInput.param})" }
-			query( "SELECT ID, NAME FROM EMPLOYEE" ) {
+			query("SELECT ID, NAME FROM EMPLOYEE") {
 				forEach { println(" ${getInt("ID")} -> ${getString("NAME")} ") }
 			}
 		}
