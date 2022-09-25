@@ -175,4 +175,29 @@ internal class JdbcKtTest {
 		verify(statement).setLong(eq(2), eq(id))
 		verify(statement).close()
 	}
+
+	@Test
+	fun queryDataSource() {
+		val dataSource: DataSource = mock()
+		val id: Long = 1
+		val connection = mock<Connection>()
+		whenever(dataSource.connection).thenReturn(connection)
+		val statement = mock<PreparedStatement>()
+		whenever(connection.prepareStatement(any())).thenReturn(statement)
+		val resultSet = mock<ResultSet>()
+		whenever(statement.executeQuery()).thenReturn(resultSet)
+		whenever(resultSet.next()).thenReturn(true, true, true, false)
+		whenever(resultSet.getString(eq("test_column"))).thenReturn("A", "B", "C")
+		val values = dataSource.query("select test_column from test_table where id = ?", id) {
+			getString("test_column")
+		}
+
+		kotlin.test.assertEquals(listOf("A", "B", "C"), values)
+		verify(connection).close()
+		verify(resultSet, times(4)).next()
+		verify(resultSet).close()
+		verify(statement).setLong(eq(1), eq(id))
+		verify(statement).close()
+	}
+
 }

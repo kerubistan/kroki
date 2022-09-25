@@ -32,6 +32,19 @@ inline fun <T> DataSource.query(query: String, crossinline mapper: ResultSet.() 
 	}
 
 /**
+ * Borrow a connection, create a prepared statement, set parameters, execute the query and build results, out of
+ * the ResultSet, close all resources.
+ * @param query the SQL query
+ * @param params the parameters to the query
+ * @param mapper the result mapper
+ * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryDataSource
+ */
+inline fun <T> DataSource.query(query: String, vararg params: Any, crossinline mapper: ResultSet.() -> T): List<T> =
+	this.use {
+		query(query, *params, mapper = mapper)
+	}
+
+/**
  * Query using the connection with a simple, non-parameterized query and map the results into a list.
  * @param query the SQL query
  * @param mapper the result mapper
