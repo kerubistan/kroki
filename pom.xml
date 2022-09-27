@@ -29,13 +29,13 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<kotlin.version>1.6.0</kotlin.version>
+		<kotlin.version>1.7.10</kotlin.version>
 		<kotlin.code.style>official</kotlin.code.style>
-		<junit.jupiter.version>5.7.2</junit.jupiter.version>
-		<dokka.version>1.5.31</dokka.version>
+		<junit.jupiter.version>5.9.1</junit.jupiter.version>
+		<dokka.version>1.7.10</dokka.version>
 		<dokka.skip>false</dokka.skip>
 		<coroutines.api.version>1.5.2</coroutines.api.version>
-		<jackson.version>2.12.0-rc1</jackson.version>
+		<jackson.version>2.13.4</jackson.version>
 		<junit.version>4.13.2</junit.version>
 	</properties>
 
