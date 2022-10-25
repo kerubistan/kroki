@@ -146,11 +146,6 @@
 						<skip>${dokka.skip}</skip>
 						<samples>${project.build.testSourceDirectory}</samples>
 						<dokkaPlugins>
-							<plugin>
-								<groupId>com.glureau</groupId>
-								<artifactId>html-mermaid-dokka-plugin</artifactId>
-								<version>0.4.0</version>
-							</plugin>
 						</dokkaPlugins>
 					</configuration>
 				</plugin>
