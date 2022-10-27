@@ -23,6 +23,17 @@ class JdbcSamples {
 		}
 	}
 
+	fun dataSourceQuerySample(dataSource: DataSource) {
+		data class Employee(val id: Long, val name: String, val dateOfBirth: Date)
+		dataSource.query("select id, name, date_of_birth from employees") {
+			Employee(
+				id = getLong("id"),
+				name = getString("name"),
+				dateOfBirth = getDate("date_of_birth")
+			)
+		}
+	}
+
 	fun connectionQuerySample(connection: Connection) {
 		data class Employee(val id: Long, val name: String, val dateOfBirth: Date)
 		connection.query("select id, name, date_of_birth from employees") {

@@ -25,6 +25,7 @@ inline fun <T> DataSource.use(function: Connection.() -> T): T = this.connection
  * @param query the SQL query
  * @param mapper the result mapper
  * @return list of mapped results
+ * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.dataSourceQuerySample
  */
 inline fun <T> DataSource.query(query: String, crossinline mapper: ResultSet.() -> T): List<T> =
 	this.use {
