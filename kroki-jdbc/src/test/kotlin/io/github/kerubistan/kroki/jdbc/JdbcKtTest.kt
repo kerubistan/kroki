@@ -177,6 +177,30 @@ internal class JdbcKtTest {
 	}
 
 	@Test
+	fun queryDataSourceArgless() {
+		val dataSource: DataSource = mock()
+		val connection = mock<Connection>()
+		val statement = mock<Statement>()
+		val resultSet = mock<ResultSet>()
+		whenever(dataSource.connection).thenReturn(connection)
+		whenever(connection.createStatement()).thenReturn(statement)
+		whenever(statement.executeQuery(any())).thenReturn(resultSet)
+		whenever(resultSet.next()).thenReturn(true, true, true, false)
+		whenever(resultSet.getString(eq("firstname"))).thenReturn("Anna", "Bob", "Chris")
+
+		val values = dataSource.query("select firstname from employee") {
+			getString("firstname")
+		}
+
+		kotlin.test.assertEquals(listOf("Anna", "Bob", "Chris"), values)
+
+		verify(connection).close()
+		verify(resultSet, times(4)).next()
+		verify(resultSet).close()
+		verify(statement).close()
+	}
+
+	@Test
 	fun queryDataSource() {
 		val dataSource: DataSource = mock()
 		val id: Long = 1
