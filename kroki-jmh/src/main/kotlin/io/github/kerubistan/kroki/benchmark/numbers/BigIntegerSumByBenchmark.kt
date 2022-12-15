@@ -1,7 +1,11 @@
 package io.github.kerubistan.kroki.benchmark.numbers
 
 import io.github.kerubistan.kroki.numbers.sumBy
-import org.openjdk.jmh.annotations.*
+import org.openjdk.jmh.annotations.Benchmark
+import org.openjdk.jmh.annotations.Param
+import org.openjdk.jmh.annotations.Scope
+import org.openjdk.jmh.annotations.Setup
+import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
 import java.math.BigInteger
 

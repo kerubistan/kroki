@@ -5,6 +5,10 @@ import kotlin.reflect.KFunction
 
 /**
  * Creates a de-duplicated copy of the object, which will be equal (by value, as == in kotlin) to the original.
+ * @receiver the object to be turned into a flyweight object
+ * @param instanceCache the instance cache - GlobalInstanceCache by default
+ * @sample io.github.kerubistan.kroki.flyweight.FlyWeightKtTest.flyWeight
+ * @return a flyweight object - it could be the same object if nothing could be changed
  */
 @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
 fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache): T =

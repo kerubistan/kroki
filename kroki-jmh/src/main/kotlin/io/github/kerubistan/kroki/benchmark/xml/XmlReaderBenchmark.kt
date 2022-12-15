@@ -3,7 +3,11 @@ package io.github.kerubistan.kroki.benchmark.xml
 import io.github.kerubistan.kroki.delegates.threadLocal
 import io.github.kerubistan.kroki.xml.buildXmlEventStreamReader
 import io.github.kerubistan.kroki.xml.readAsXmlEventStream
-import org.openjdk.jmh.annotations.*
+import org.openjdk.jmh.annotations.Benchmark
+import org.openjdk.jmh.annotations.Param
+import org.openjdk.jmh.annotations.Scope
+import org.openjdk.jmh.annotations.Setup
+import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
 import org.w3c.dom.Element
 import javax.xml.parsers.DocumentBuilderFactory
@@ -65,11 +69,11 @@ open class XmlReaderBenchmark {
 			.getElementsByTagName("tag").item(0) as Element
 		tag
 			.getElementsByTagName("data").let {
-			for (index in 0 until it.length) {
-				val elem = it.item(index) as Element
-				result.add(elem.textContent)
+				for (index in 0 until it.length) {
+					val elem = it.item(index) as Element
+					result.add(elem.textContent)
+				}
 			}
-		}
 
 		hole.consume(result)
 	}

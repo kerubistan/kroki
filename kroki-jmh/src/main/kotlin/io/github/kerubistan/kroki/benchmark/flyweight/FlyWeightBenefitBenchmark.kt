@@ -2,7 +2,11 @@ package io.github.kerubistan.kroki.benchmark.flyweight
 
 import io.github.kerubistan.kroki.flyweight.flyWeight
 import io.github.kerubistan.kroki.time.now
-import org.openjdk.jmh.annotations.*
+import org.openjdk.jmh.annotations.Benchmark
+import org.openjdk.jmh.annotations.Param
+import org.openjdk.jmh.annotations.Scope
+import org.openjdk.jmh.annotations.Setup
+import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
 import kotlin.random.Random
 
@@ -25,27 +29,27 @@ import kotlin.random.Random
 open class FlyWeightBenefitBenchmark {
 
 	@Param("16", "64", "256", "1024", "4069", "16384", "65536", "262144")
-	var size : Int = 0
+	var size: Int = 0
 
 	@Param("16", "64", "256", "1024", "4069", "16384", "65536", "262144")
 	var differentValues = 0
 
 	@Param("true", "false")
-	var flyWeight : Boolean = false
+	var flyWeight: Boolean = false
 
-	lateinit var list : List<String>
+	lateinit var list: List<String>
 
 	@Setup
 	fun setup() {
 		val random = Random(now())
 		list = (0..size).map { "value-${random.nextInt(differentValues)}" }
-		if(flyWeight) {
+		if (flyWeight) {
 			list = list.flyWeight()
 		}
 	}
 
 	@Benchmark
-	fun sort(hole : Blackhole) {
+	fun sort(hole: Blackhole) {
 		hole.consume(list.sorted())
 	}
 

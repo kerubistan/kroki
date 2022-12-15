@@ -6,7 +6,7 @@ import org.openjdk.jmh.infra.Blackhole
 
 open class XmlReaderBuilderBenchmark {
 	@Benchmark
-	fun buildReaderBlank(hole : Blackhole) {
+	fun buildReaderBlank(hole: Blackhole) {
 		hole.consume(
 			buildXmlEventStreamReader {
 			}
@@ -14,7 +14,7 @@ open class XmlReaderBuilderBenchmark {
 	}
 
 	@Benchmark
-	fun buildReaderSingle(hole : Blackhole) {
+	fun buildReaderSingle(hole: Blackhole) {
 		hole.consume(
 			buildXmlEventStreamReader {
 				"tag" {
@@ -25,7 +25,7 @@ open class XmlReaderBuilderBenchmark {
 	}
 
 	@Benchmark
-	fun buildReaderXhtml(hole : Blackhole) {
+	fun buildReaderXhtml(hole: Blackhole) {
 		hole.consume(
 			buildXmlEventStreamReader {
 				"html" {

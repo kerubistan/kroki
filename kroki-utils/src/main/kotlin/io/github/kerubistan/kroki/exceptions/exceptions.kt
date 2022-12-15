@@ -24,6 +24,12 @@ fun Throwable.getStackTraceAsString(): String = this.stackTraceText
 /**
  * Sometimes, typically with remote calls things can go bad, and it is OK
  * to try again. Such cases are like loading an RSS feed,
+ * @param tries the maximum number of tries
+ * @param action the action to perform
+ * @param onError action taken on error
+ * @param T return type
+ * @sample io.github.kerubistan.kroki.exceptions.ExceptionsKtTest.insistTest
+ * @sample io.github.kerubistan.kroki.exceptions.ExceptionsKtTest.insistTestAndFail
  */
 inline fun <T> insist(tries: Int, onError: (attempt: Int, t: Throwable) -> Unit, action: () -> T): T {
 	for (attempt in 0 until tries) {

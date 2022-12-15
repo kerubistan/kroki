@@ -4,7 +4,11 @@ import io.github.kerubistan.kroki.io.NullOutputStream
 import io.github.kerubistan.kroki.xml.FormatMode
 import io.github.kerubistan.kroki.xml.XmlBuilder
 import io.github.kerubistan.kroki.xml.xml
-import org.openjdk.jmh.annotations.*
+import org.openjdk.jmh.annotations.Benchmark
+import org.openjdk.jmh.annotations.Param
+import org.openjdk.jmh.annotations.Scope
+import org.openjdk.jmh.annotations.Setup
+import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
 
 @State(Scope.Benchmark)
@@ -20,14 +24,14 @@ open class XmlGenerationBenchmark {
 
 	private lateinit var builder: XmlBuilder.() -> Unit
 
-	private val blankBuilder : XmlBuilder.() -> Unit = {}
+	private val blankBuilder: XmlBuilder.() -> Unit = {}
 
-	private val tinyBuilder : XmlBuilder.() -> Unit = {
+	private val tinyBuilder: XmlBuilder.() -> Unit = {
 		!"comment"
 		tag("tag", "attribute" to "value")
 	}
 
-	private fun builder(size : Int) : XmlBuilder.() -> Unit = {
+	private fun builder(size: Int): XmlBuilder.() -> Unit = {
 		repeat(size) {
 			!"comment"
 			tag("tag", "attribute" to "value")
@@ -37,7 +41,7 @@ open class XmlGenerationBenchmark {
 	@Setup
 	fun setup() {
 		formatMode = FormatMode.valueOf(formatModeStr)
-		builder = when(size) {
+		builder = when (size) {
 			"blank" -> blankBuilder
 			"tiny" -> tinyBuilder
 			"medium" -> builder(10)

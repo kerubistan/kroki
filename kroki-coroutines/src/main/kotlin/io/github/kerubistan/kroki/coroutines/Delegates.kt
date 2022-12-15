@@ -3,18 +3,28 @@ package io.github.kerubistan.kroki.coroutines
 import io.github.kerubistan.kroki.exceptions.insist
 import io.github.kerubistan.kroki.time.H
 import io.github.kerubistan.kroki.time.now
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.Serializable
 import kotlin.reflect.KProperty
 
 /**
  * Delegate interface for all kind of delegates.
+ * @suppress
  */
 interface Delegate<T> : Serializable {
 	val value: T
 	operator fun getValue(obj: Any?, property: KProperty<*>): T = value
 }
 
+/**
+ * @suppress
+ */
 private class EagerDelegateImpl<T>(
 	private val initializer: () -> T,
 	scope: CoroutineScope = GlobalScope
@@ -29,6 +39,9 @@ private class EagerDelegateImpl<T>(
 
 }
 
+/**
+ * @suppress
+ */
 private class CachedDelegate<T>(
 	/**
 	 * Coroutine scope to run the load/reload logic in.
@@ -95,6 +108,7 @@ private class CachedDelegate<T>(
  * Creates an eager delegate.
  * An eager delegate will not block the thread to perform the calculation and therefore may avoid CPU usage on the
  * thread where it is created, but it starts a co-routine to perform the operation.
+ * @sample io.github.kerubistan.kroki.coroutines.DelegatesKtTest.eagerDelegate
  */
 fun <T> eager(scope: CoroutineScope = GlobalScope, initializer: () -> T): Delegate<T> =
 	EagerDelegateImpl(initializer, scope)
@@ -103,6 +117,7 @@ fun <T> eager(scope: CoroutineScope = GlobalScope, initializer: () -> T): Delega
  * Creates a cached delegate.
  * The value will be refreshed in a regular interval.
  * The retryOnFail, delayOnLoadError and the errorHandler provides some error tolerance.
+ * @sample io.github.kerubistan.kroki.coroutines.DelegatesKtTest.cachedDelegateErrorHandling
  */
 fun <T> cached(
 	scope: CoroutineScope = GlobalScope,

@@ -1,15 +1,25 @@
 package io.github.kerubistan.kroki.coroutines
 
 import io.github.kerubistan.kroki.objects.comparator
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.RENDEZVOUS
+import kotlinx.coroutines.channels.ChannelIterator
+import kotlinx.coroutines.channels.ChannelResult
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.selects.SelectClause1
 import kotlinx.coroutines.selects.SelectClause2
+import kotlinx.coroutines.yield
 import java.util.*
 
 /**
  * Hides a coroutine between two channels, uniting them as a single channel.
+ * @suppress
  */
 internal open class ProcessChannel<T>(
 	internal val inChannel: Channel<T>,
@@ -72,6 +82,9 @@ internal open class ProcessChannel<T>(
 
 }
 
+/**
+ * @suppress
+ */
 @ExperimentalCoroutinesApi
 internal class PriorityChannel<T>(
 	private val maxCapacity: Int = 4096,
@@ -162,6 +175,9 @@ internal class PriorityChannel<T>(
 	}
 }
 
+/**
+ * @suppress
+ */
 @Suppress("deprecated")
 class TransformChannel<I, O>(val transform: (I) -> O, private val wrapped: Channel<O>) : ReceiveChannel<O>,
 	SendChannel<I> {

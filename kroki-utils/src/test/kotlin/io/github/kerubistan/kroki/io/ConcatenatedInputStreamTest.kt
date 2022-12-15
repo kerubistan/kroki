@@ -1,0 +1,1 @@
+package io.github.kerubistan.kroki.ioimport org.junit.jupiter.api.Assertions.assertEqualsimport org.junit.jupiter.api.Testinternal class ConcatenatedInputStreamTest {	@Test	fun read() {		assertEquals(			"Hello World",			ConcatenatedInputStream(				listOf(					"Hello".byteInputStream(),					" World".byteInputStream()				)			).reader().readText()		)	}}

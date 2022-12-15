@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>io.github.kerubistan.kroki</groupId>
 	<artifactId>kroki</artifactId>
-	<version>1.23-SNAPSHOT</version>
+	<version>1.24-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<licenses>
@@ -29,12 +30,14 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<kotlin.version>1.5.30</kotlin.version>
+		<kotlin.version>1.7.20</kotlin.version>
 		<kotlin.code.style>official</kotlin.code.style>
-		<junit.jupiter.version>5.7.2</junit.jupiter.version>
-		<dokka.version>1.5.0</dokka.version>
+		<junit.jupiter.version>5.9.1</junit.jupiter.version>
+		<dokka.version>1.7.20</dokka.version>
 		<dokka.skip>false</dokka.skip>
 		<coroutines.api.version>1.5.2</coroutines.api.version>
+		<jackson.version>2.13.4</jackson.version>
+		<junit.version>4.13.2</junit.version>
 	</properties>
 
 	<scm>
@@ -87,6 +90,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-engine</artifactId>
+				<version>${junit.jupiter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter</artifactId>
 				<version>${junit.jupiter.version}</version>
 				<scope>test</scope>
@@ -136,6 +144,9 @@
 							<file>packages.md</file>
 						</includes>
 						<skip>${dokka.skip}</skip>
+						<samples>${project.build.testSourceDirectory}</samples>
+						<dokkaPlugins>
+						</dokkaPlugins>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -174,8 +185,20 @@
 					</executions>
 				</plugin>
 			</plugins>
-
 		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>11</source>
+					<target>11</target>
+				</configuration>
+			</plugin>
+		</plugins>
+
 	</build>
 
 	<profiles>
@@ -200,6 +223,7 @@
 		<module>kroki-flyweight</module>
 		<module>kroki-json</module>
 		<module>kroki-json-flow</module>
+		<module>kroki-jdbc</module>
 	</modules>
 
 </project>

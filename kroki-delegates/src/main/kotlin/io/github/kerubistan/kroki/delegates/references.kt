@@ -4,16 +4,21 @@ import java.io.Serializable
 import java.lang.ref.Reference
 import java.lang.ref.SoftReference
 import java.lang.ref.WeakReference
+import java.util.concurrent.atomic.AtomicReference
 import kotlin.reflect.KProperty
 
 /**
  * Delegate interface for all kind of reference (weak, soft) delegates.
+ * @suppress
  */
 interface ReferenceDelegate<T> : Serializable {
 	val value: T
 	operator fun getValue(obj: Any?, property: KProperty<*>): T = value
 }
 
+/**
+ * @suppress
+ */
 private abstract class AbstractReferenceDelegateImpl<T, R : Reference<Lazy<T>>>(
 	val mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
 	val initializer: () -> T
@@ -41,6 +46,9 @@ private abstract class AbstractReferenceDelegateImpl<T, R : Reference<Lazy<T>>>(
 
 }
 
+/**
+ * @suppress
+ */
 private class WeakDelegateImpl<T>(
 	mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
 	initializer: () -> T
@@ -50,6 +58,9 @@ private class WeakDelegateImpl<T>(
 
 }
 
+/**
+ * @suppress
+ */
 private class SoftDelegateImpl<T>(
 	mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
 	initializer: () -> T
@@ -68,6 +79,7 @@ private class SoftDelegateImpl<T>(
  *
  * @param mode the initialization mode of the lazy delegate
  * @param initializer the function literal that initializes the value referenced
+ * @sample io.github.kerubistan.kroki.delegates.ReferencesKtTest.weak
  */
 fun <T> weak(
 	mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
@@ -80,9 +92,30 @@ fun <T> weak(
  *
  * @param mode the initialization mode of the lazy delegate
  * @param initializer the function literal that initializes the value referenced
+ * @sample io.github.kerubistan.kroki.delegates.ReferencesKtTest.soft
  */
 fun <T> soft(
 	mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
 	initializer: () -> T
 ): ReferenceDelegate<T> =
 	SoftDelegateImpl(mode = mode, initializer = initializer)
+
+/**
+ * @suppress
+ */
+class AtomicReferenceDelegate<T>(private val reference: AtomicReference<T>) {
+
+	operator fun getValue(obj: Any?, property: KProperty<*>): T? = reference.get()
+
+	operator fun setValue(obj: Any?, property: KProperty<*>, newValue: T?) {
+		reference.set(newValue)
+	}
+
+}
+
+/**
+ * Gives simplified access to an atomic reference value through a delegate.
+ * @param reference the atomic reference
+ * @sample io.github.kerubistan.kroki.delegates.ReferencesKtTest.atomicReference
+ */
+fun <T> atomic(reference: AtomicReference<T>) = AtomicReferenceDelegate(reference)
