@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy JavaDoc
-        uses: MathieuSoysal/Javadoc-publisher.yml@v2.3.0
+        uses: K0zka/Javadoc-publisher.yml@master
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           javadoc-branch: javadoc
