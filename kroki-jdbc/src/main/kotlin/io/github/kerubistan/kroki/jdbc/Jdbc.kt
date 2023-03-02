@@ -12,11 +12,11 @@ import javax.sql.DataSource
  * @param function operations to perform
  * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.dataSourceUseSample
  */
-inline fun <T> DataSource.use(function: Connection.() -> T): T = this.connection.let {
+inline fun <T> DataSource.use(function: Connection.() -> T): T = this.connection.let { connection ->
 	try {
-		it.function()
+		connection.function()
 	} finally {
-		it.close()
+		connection.close()
 	}
 }
 
