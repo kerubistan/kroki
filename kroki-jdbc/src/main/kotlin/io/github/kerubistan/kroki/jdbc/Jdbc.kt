@@ -134,7 +134,7 @@ class QueryBuilder {
 }
 
 /**
- * Create a prepred statement and set parameters.
+ * Create a prepared statement and set parameters.
  * @param builder prepared statement builder
  * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.connectionParameterizedQuerySample
  */
