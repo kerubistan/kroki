@@ -1,0 +1,6 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:io.github.kerubistan.kroki.flyweight.annotations////PointingToDeclaration/kroki-flyweight-annotations/io.github.kerubistan.kroki.flyweight.annotations/index.html
+$dokka.location:io.github.kerubistan.kroki.flyweight.annotations/IgnoreFlyWeight///PointingToDeclaration/kroki-flyweight-annotations/io.github.kerubistan.kroki.flyweight.annotations/-ignore-fly-weight/index.html
+io.github.kerubistan.kroki.flyweight.annotations
+

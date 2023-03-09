@@ -1,0 +1,11 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:io.github.kerubistan.kroki.delegates////PointingToDeclaration/kroki-delegates/io.github.kerubistan.kroki.delegates/index.html
+$dokka.location:io.github.kerubistan.kroki.delegates//atomic/#java.util.concurrent.atomic.AtomicReference[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-delegates/io.github.kerubistan.kroki.delegates/atomic.html
+$dokka.location:io.github.kerubistan.kroki.delegates//soft/#kotlin.LazyThreadSafetyMode#kotlin.Function0[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-delegates/io.github.kerubistan.kroki.delegates/soft.html
+$dokka.location:io.github.kerubistan.kroki.delegates//threadLocal/#/PointingToDeclaration/kroki-delegates/io.github.kerubistan.kroki.delegates/thread-local.html
+$dokka.location:io.github.kerubistan.kroki.delegates//threadLocal/#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/kroki-delegates/io.github.kerubistan.kroki.delegates/thread-local.html
+$dokka.location:io.github.kerubistan.kroki.delegates//threadLocal/#kotlin.Function0[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-delegates/io.github.kerubistan.kroki.delegates/thread-local.html
+$dokka.location:io.github.kerubistan.kroki.delegates//weak/#kotlin.LazyThreadSafetyMode#kotlin.Function0[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-delegates/io.github.kerubistan.kroki.delegates/weak.html
+io.github.kerubistan.kroki.delegates
+

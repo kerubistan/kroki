@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>query</title>
+    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script src="https://unpkg.com/kotlin-playground@1"></script><script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../index.html">
+                    <span>kroki-jdbc</span>
+            </a>
+    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="kroki-jdbc::io.github.kerubistan.kroki.jdbc//query/javax.sql.DataSource#kotlin.String#kotlin.Function1[java.sql.ResultSet,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration//1662407738">
+  <div class="breadcrumbs"><a href="../../index.html">kroki-jdbc</a><span class="delimiter">/</span><a href="index.html">io.github.kerubistan.kroki.jdbc</a><span class="delimiter">/</span><span class="current">query</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>query</span></span></h1>
+  </div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="kroki-jdbc/JVM"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="query.html">T</a><span class="token operator">&gt; </span><a href="https://docs.oracle.com/javase/8/docs/api/javax/sql/DataSource.html">DataSource</a><span class="token punctuation">.</span><a href="query.html"><span class="token function">query</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">query<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>mapper<span class="token operator">: </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html">ResultSet</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="query.html">T</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="query.html">T</a><span class="token operator">&gt;</span></div><p class="paragraph">Borrow a connection to execute a single query on it, and then return the connection.</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">list of mapped results</p></span><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import org.junit.jupiter.api.Test
+import java.sql.Connection
+import java.sql.Date
+import java.sql.PreparedStatement
+import java.sql.ResultSet
+import javax.sql.DataSource
+import kotlin.test.assertEquals
+fun main() { 
+   //sampleStart 
+   data class Employee(val id: Long, val name: String, val dateOfBirth: Date)
+dataSource.query(&quot;select id, name, date_of_birth from employees&quot;) {
+	Employee(
+		id = getLong(&quot;id&quot;),
+		name = getString(&quot;name&quot;),
+		dateOfBirth = getDate(&quot;date_of_birth&quot;)
+	)
+} 
+   //sampleEnd
+}</code></pre></div><h4 class="">Parameters</h4><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current="kroki-jdbc/JVM" data-filterable-set="kroki-jdbc/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>query</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the SQL query</p></div></div></div></div></div><div class="table-row" data-filterable-current="kroki-jdbc/JVM" data-filterable-set="kroki-jdbc/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>mapper</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the result mapper</p></div></div></div></div></div></div></div><hr><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="query.html">T</a><span class="token operator">&gt; </span><a href="https://docs.oracle.com/javase/8/docs/api/javax/sql/DataSource.html">DataSource</a><span class="token punctuation">.</span><a href="query.html"><span class="token function">query</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">query<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>params<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>mapper<span class="token operator">: </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html">ResultSet</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="query.html">T</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="query.html">T</a><span class="token operator">&gt;</span></div><p class="paragraph">Borrow a connection, create a prepared statement, set parameters, execute the query and build results, out of the ResultSet, close all resources.</p><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import org.junit.jupiter.api.Test
+import java.sql.Connection
+import java.sql.Date
+import java.sql.PreparedStatement
+import java.sql.ResultSet
+import javax.sql.DataSource
+import kotlin.test.assertEquals
+fun main() { 
+   //sampleStart 
+   dataSource.query(&quot;select firstname, lastname from test where id = ?&quot;, id) {
+} 
+   //sampleEnd
+}</code></pre></div><h4 class="">Parameters</h4><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current="kroki-jdbc/JVM" data-filterable-set="kroki-jdbc/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>query</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the SQL query</p></div></div></div></div></div><div class="table-row" data-filterable-current="kroki-jdbc/JVM" data-filterable-set="kroki-jdbc/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>params</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the parameters to the query</p></div></div></div></div></div><div class="table-row" data-filterable-current="kroki-jdbc/JVM" data-filterable-set="kroki-jdbc/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>mapper</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the result mapper</p></div></div></div></div></div></div></div><hr><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="query.html">R</a><span class="token operator">&gt; </span><a href="https://docs.oracle.com/javase/8/docs/api/java/sql/Connection.html">Connection</a><span class="token punctuation">.</span><a href="query.html"><span class="token function">query</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">query<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>mapper<span class="token operator">: </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html">ResultSet</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="query.html">R</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="query.html">R</a><span class="token operator">&gt;</span></div><p class="paragraph">Query using the connection with a simple, non-parameterized query and map the results into a list.</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">list of mapped results</p></span><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import org.junit.jupiter.api.Test
+import java.sql.Connection
+import java.sql.Date
+import java.sql.PreparedStatement
+import java.sql.ResultSet
+import javax.sql.DataSource
+import kotlin.test.assertEquals
+fun main() { 
+   //sampleStart 
+   data class Employee(val id: Long, val name: String, val dateOfBirth: Date)
+connection.query(&quot;select id, name, date_of_birth from employees&quot;) {
+	Employee(
+		id = getLong(&quot;id&quot;),
+		name = getString(&quot;name&quot;),
+		dateOfBirth = getDate(&quot;date_of_birth&quot;)
+	)
+} 
+   //sampleEnd
+}</code></pre></div><h4 class="">Parameters</h4><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current="kroki-jdbc/JVM" data-filterable-set="kroki-jdbc/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>query</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the SQL query</p></div></div></div></div></div><div class="table-row" data-filterable-current="kroki-jdbc/JVM" data-filterable-set="kroki-jdbc/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>mapper</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the result mapper</p></div></div></div></div></div></div></div><hr><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="query.html">R</a><span class="token operator">&gt; </span><a href="https://docs.oracle.com/javase/8/docs/api/java/sql/Connection.html">Connection</a><span class="token punctuation">.</span><a href="query.html"><span class="token function">query</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">query<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>params<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>mapper<span class="token operator">: </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html">ResultSet</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="query.html">R</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="query.html">R</a><span class="token operator">&gt;</span></div><p class="paragraph">Query using the connection with a parameterized query, map the results and close the resources used.</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">the list of mapped results</p></span><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import org.junit.jupiter.api.Test
+import java.sql.Connection
+import java.sql.Date
+import java.sql.PreparedStatement
+import java.sql.ResultSet
+import javax.sql.DataSource
+import kotlin.test.assertEquals
+fun main() { 
+   //sampleStart 
+   data class Employee(val id: Long, val name: String, val dateOfBirth: Date)
+connection.query(
+	&quot;select id, name, date_of_birth from employees where name like ?&quot;,
+	&quot;Bob%&quot;
+) {
+	Employee(
+		id = getLong(&quot;id&quot;),
+		name = getString(&quot;name&quot;),
+		dateOfBirth = getDate(&quot;date_of_birth&quot;)
+	)
+} 
+   //sampleEnd
+}</code></pre></div><h4 class="">Parameters</h4><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current="kroki-jdbc/JVM" data-filterable-set="kroki-jdbc/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>query</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the parameterized SQL query</p></div></div></div></div></div><div class="table-row" data-filterable-current="kroki-jdbc/JVM" data-filterable-set="kroki-jdbc/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>params</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the parameters to the query</p></div></div></div></div></div><div class="table-row" data-filterable-current="kroki-jdbc/JVM" data-filterable-set="kroki-jdbc/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>mapper</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the result mapper</p></div></div></div></div></div></div></div><hr><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="query.html">T</a><span class="token operator">&gt; </span><a href="https://docs.oracle.com/javase/8/docs/api/java/sql/Connection.html">Connection</a><span class="token punctuation">.</span><a href="query.html"><span class="token function">query</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">crossinline </span>builder<span class="token operator">: </span><span class="token keyword"></span><a href="-query-builder/index.html">QueryBuilder</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">mapper<span class="token operator">: </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html">ResultSet</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="query.html">T</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="query.html">T</a></div><p class="paragraph">Run a query using prepared statement.</p><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import org.junit.jupiter.api.Test
+import java.sql.Connection
+import java.sql.Date
+import java.sql.PreparedStatement
+import java.sql.ResultSet
+import javax.sql.DataSource
+import kotlin.test.assertEquals
+fun main() { 
+   //sampleStart 
+   val minSalary = 5000
+val minHeight = 150
+connection.query({
+	&quot;&quot;&quot;
+		SELECT
+			ID,
+			NAME
+		FROM
+			EMPLOYEES
+		WHERE
+			SALARY &lt; ${param(minSalary)}
+			OR HEIGHT &lt; ${param(minHeight)} 
+	&quot;&quot;&quot;.trimIndent()
+}) {
+	forEach {
+		// process
+	}
+} 
+   //sampleEnd
+}</code></pre></div><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import org.junit.jupiter.api.Test
+import java.sql.Connection
+import java.sql.Date
+import java.sql.PreparedStatement
+import java.sql.ResultSet
+import javax.sql.DataSource
+import kotlin.test.assertEquals
+fun main() { 
+   //sampleStart 
+   val minSalary = 5000
+val minHeight = 150
+val name = &quot;bob&quot;
+connection.query({
+	&quot;&quot;&quot;
+		SELECT
+			ID,
+			NAME,
+			EMAIL
+		FROM
+			EMPLOYEES
+		WHERE
+			SALARY &lt; ${minSalary.param}
+			OR HEIGHT &lt; ${minHeight.param} 
+			OR NAME LIKE ${&quot;%$name%&quot;.param}
+	&quot;&quot;&quot;.trimIndent()
+}) {
+	forEach {
+		// process
+	}
+} 
+   //sampleEnd
+}</code></pre></div><h4 class="">Parameters</h4><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current="kroki-jdbc/JVM" data-filterable-set="kroki-jdbc/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>builder</span></span></u></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="kroki-jdbc/JVM" data-filterable-set="kroki-jdbc/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>mapper</span></span></u></div></span></div><div></div></div></div></div></div></div></div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

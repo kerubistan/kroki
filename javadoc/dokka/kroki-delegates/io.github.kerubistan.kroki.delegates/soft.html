@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>soft</title>
+    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script src="https://unpkg.com/kotlin-playground@1"></script><script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../index.html">
+                    <span>kroki-delegates</span>
+            </a>
+    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="kroki-delegates::io.github.kerubistan.kroki.delegates//soft/#kotlin.LazyThreadSafetyMode#kotlin.Function0[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration//990958743">
+  <div class="breadcrumbs"><a href="../../index.html">kroki-delegates</a><span class="delimiter">/</span><a href="index.html">io.github.kerubistan.kroki.delegates</a><span class="delimiter">/</span><span class="current">soft</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>soft</span></span></h1>
+  </div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="kroki-delegates/JVM"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="soft.html">T</a><span class="token operator">&gt; </span><a href="soft.html"><span class="token function">soft</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">mode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-lazy-thread-safety-mode/index.html">LazyThreadSafetyMode</a><span class="token operator"> = </span>LazyThreadSafetyMode.SYNCHRONIZED<span class="token punctuation">, </span></span><span class="parameter ">initializer<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="soft.html">T</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.github.kerubistan.kroki.delegates/ReferenceDelegate///PointingToDeclaration/">ReferenceDelegate</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="soft.html">T</a><span class="token operator">&gt;</span></div><p class="paragraph">Delegate to soft references.</p><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
+import java.io.Serializable
+import java.util.concurrent.atomic.AtomicReference
+import kotlin.concurrent.thread
+import kotlin.test.assertNull
+fun main() { 
+   //sampleStart 
+   data class Image(val values: Int, val width: Int, val height: Int) {
+	val bitmap by soft {
+		Array(height) {
+			IntArray(width) { values }
+		}
+	}
+}
+
+val images = (1..8192).map { nr -&gt;
+	Image(nr, width = 1024, height = 768)
+}
+images.forEach {
+	Assertions.assertNotNull(it.bitmap)
+	it.bitmap.forEach { ints -&gt;
+		Assertions.assertNotNull(ints)
+	}
+}
+
+repeat(1024) {
+	Assertions.assertNotNull(images.random().bitmap)
+} 
+   //sampleEnd
+}</code></pre></div><h4 class="">Parameters</h4><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current="kroki-delegates/JVM" data-filterable-set="kroki-delegates/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>mode</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the initialization mode of the lazy delegate</p></div></div></div></div></div><div class="table-row" data-filterable-current="kroki-delegates/JVM" data-filterable-set="kroki-delegates/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>initializer</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the function literal that initializes the value referenced</p></div></div></div></div></div></div></div></div></div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

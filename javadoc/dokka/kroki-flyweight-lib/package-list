@@ -1,0 +1,10 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:io.github.kerubistan.kroki.flyweight////PointingToDeclaration/kroki-flyweight-lib/io.github.kerubistan.kroki.flyweight/index.html
+$dokka.location:io.github.kerubistan.kroki.flyweight//flyWeight/TypeParam(bounds=[kotlin.Any])#io.github.kerubistan.kroki.flyweight.InstanceCache/PointingToDeclaration/kroki-flyweight-lib/io.github.kerubistan.kroki.flyweight/fly-weight.html
+$dokka.location:io.github.kerubistan.kroki.flyweight/GlobalInstanceCache///PointingToDeclaration/kroki-flyweight-lib/io.github.kerubistan.kroki.flyweight/-global-instance-cache/index.html
+$dokka.location:io.github.kerubistan.kroki.flyweight/GlobalInstanceCache/cacheForClass/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/kroki-flyweight-lib/io.github.kerubistan.kroki.flyweight/-global-instance-cache/cache-for-class.html
+$dokka.location:io.github.kerubistan.kroki.flyweight/InstanceCache///PointingToDeclaration/kroki-flyweight-lib/io.github.kerubistan.kroki.flyweight/-instance-cache/index.html
+$dokka.location:io.github.kerubistan.kroki.flyweight/InstanceCache/cacheForClass/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/kroki-flyweight-lib/io.github.kerubistan.kroki.flyweight/-instance-cache/cache-for-class.html
+io.github.kerubistan.kroki.flyweight
+

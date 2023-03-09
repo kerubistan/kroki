@@ -1,0 +1,22 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:io.github.kerubistan.kroki.jdbc////PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/index.html
+$dokka.location:io.github.kerubistan.kroki.jdbc//forEach/java.sql.ResultSet#kotlin.Function1[java.sql.ResultSet,kotlin.Unit]/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/for-each.html
+$dokka.location:io.github.kerubistan.kroki.jdbc//insert/java.sql.Connection#kotlin.Function1[io.github.kerubistan.kroki.jdbc.QueryBuilder,kotlin.String]/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/insert.html
+$dokka.location:io.github.kerubistan.kroki.jdbc//prepareStatement/java.sql.Connection#kotlin.Function1[io.github.kerubistan.kroki.jdbc.QueryBuilder,kotlin.String]/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/prepare-statement.html
+$dokka.location:io.github.kerubistan.kroki.jdbc//query/java.sql.Connection#kotlin.Function1[io.github.kerubistan.kroki.jdbc.QueryBuilder,kotlin.String]#kotlin.Function1[java.sql.ResultSet,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/query.html
+$dokka.location:io.github.kerubistan.kroki.jdbc//query/java.sql.Connection#kotlin.String#kotlin.Array[kotlin.Any]#kotlin.Function1[java.sql.ResultSet,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/query.html
+$dokka.location:io.github.kerubistan.kroki.jdbc//query/java.sql.Connection#kotlin.String#kotlin.Function1[java.sql.ResultSet,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/query.html
+$dokka.location:io.github.kerubistan.kroki.jdbc//query/javax.sql.DataSource#kotlin.String#kotlin.Array[kotlin.Any]#kotlin.Function1[java.sql.ResultSet,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/query.html
+$dokka.location:io.github.kerubistan.kroki.jdbc//query/javax.sql.DataSource#kotlin.String#kotlin.Function1[java.sql.ResultSet,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/query.html
+$dokka.location:io.github.kerubistan.kroki.jdbc//setParameter/java.sql.PreparedStatement#kotlin.Int#kotlin.Any/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/set-parameter.html
+$dokka.location:io.github.kerubistan.kroki.jdbc//toList/java.sql.ResultSet#kotlin.Function1[java.sql.ResultSet,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/to-list.html
+$dokka.location:io.github.kerubistan.kroki.jdbc//update/java.sql.Connection#kotlin.Function1[io.github.kerubistan.kroki.jdbc.QueryBuilder,kotlin.String]/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/update.html
+$dokka.location:io.github.kerubistan.kroki.jdbc//use/javax.sql.DataSource#kotlin.Function1[java.sql.Connection,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/use.html
+$dokka.location:io.github.kerubistan.kroki.jdbc/QueryBuilder///PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/-query-builder/index.html
+$dokka.location:io.github.kerubistan.kroki.jdbc/QueryBuilder/QueryBuilder/#/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/-query-builder/-query-builder.html
+$dokka.location:io.github.kerubistan.kroki.jdbc/QueryBuilder/param/#kotlin.Any/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/-query-builder/param.html
+$dokka.location:io.github.kerubistan.kroki.jdbc/QueryBuilder/param/kotlin.Any#/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/-query-builder/param.html
+$dokka.location:io.github.kerubistan.kroki.jdbc/QueryBuilder/params/#/PointingToDeclaration/kroki-jdbc/io.github.kerubistan.kroki.jdbc/-query-builder/params.html
+io.github.kerubistan.kroki.jdbc
+

@@ -1,0 +1,10 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:io.github.kerubistan.kroki.coroutines////PointingToDeclaration/kroki-coroutines/io.github.kerubistan.kroki.coroutines/index.html
+$dokka.location:io.github.kerubistan.kroki.coroutines//cached/#kotlinx.coroutines.CoroutineScope#kotlin.Long#kotlin.Int#kotlin.Long#kotlin.Function2[kotlin.Int,kotlin.Throwable,kotlin.Unit]#kotlin.Function0[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-coroutines/io.github.kerubistan.kroki.coroutines/cached.html
+$dokka.location:io.github.kerubistan.kroki.coroutines//eager/#kotlinx.coroutines.CoroutineScope#kotlin.Function0[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-coroutines/io.github.kerubistan.kroki.coroutines/eager.html
+$dokka.location:io.github.kerubistan.kroki.coroutines//priorityChannel/#kotlin.Int#kotlinx.coroutines.CoroutineScope#java.util.Comparator[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-coroutines/io.github.kerubistan.kroki.coroutines/priority-channel.html
+$dokka.location:io.github.kerubistan.kroki.coroutines//priorityChannel/#kotlin.Int#kotlinx.coroutines.CoroutineScope/PointingToDeclaration/kroki-coroutines/io.github.kerubistan.kroki.coroutines/priority-channel.html
+$dokka.location:io.github.kerubistan.kroki.coroutines//transformChannel/#kotlinx.coroutines.channels.Channel[TypeParam(bounds=[kotlin.Any?])]#kotlin.Function1[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/kroki-coroutines/io.github.kerubistan.kroki.coroutines/transform-channel.html
+io.github.kerubistan.kroki.coroutines
+

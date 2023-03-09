@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>peek</title>
+    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script src="https://unpkg.com/kotlin-playground@1"></script><script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../index.html">
+                    <span>kroki-utils</span>
+            </a>
+    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="kroki-utils::io.github.kerubistan.kroki.io//peek/java.io.InputStream#kotlin.Function1[java.io.InputStream,kotlin.Unit]/PointingToDeclaration//439715604">
+  <div class="breadcrumbs"><a href="../../index.html">kroki-utils</a><span class="delimiter">/</span><a href="index.html">io.github.kerubistan.kroki.io</a><span class="delimiter">/</span><span class="current">peek</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>peek</span></span></h1>
+  </div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="kroki-utils/JVM"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token punctuation">.</span><a href="peek.html"><span class="token function">peek</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">process<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a></div><p class="paragraph">Allows the program to read from the input in a function literal, make decisions and later still be able to read the whole input.</p><span class="kdoc-tag"><h4 class="">Receiver</h4><p class="paragraph">the InputStream you want to peek into</p></span><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">an input stream that is in the state like before the process peeked</p></span><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import com.fasterxml.jackson.core.JsonParseException
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import java.io.InputStream
+import java.nio.charset.StandardCharsets.UTF_8
+fun main() { 
+   //sampleStart 
+   abstract class InputProcessor() {
+	abstract fun process(stream: InputStream)
+}
+
+val jsonProcessor = mock&lt;InputProcessor&gt;()
+val xmlProcessor = mock&lt;InputProcessor&gt;()
+listOf(
+	&quot;&quot;&quot;&lt;text&gt;
+			hello world!
+		&lt;/text&gt;
+	&quot;&quot;&quot;.trimIndent(),
+	&quot;&quot;&quot;{
+			&quot;text&quot;: &quot;hello world!&quot;
+		}
+	&quot;&quot;&quot;.trimIndent()
+).map { it.byteInputStream(UTF_8) }.forEach { stream -&gt;
+	var isJson = false
+	stream.peek {
+		try {
+			ObjectMapper().createParser(stream).nextToken()
+			isJson = true
+		} catch (e: JsonParseException) {
+			println(&quot;beee, not json!&quot;)
+		}
+	}.use { input -&gt;
+		if (isJson) {
+			jsonProcessor.process(input)
+		} else {
+			xmlProcessor.process(input)
+		}
+	}
+}
+verify(jsonProcessor, times(1)).process(any())
+verify(xmlProcessor, times(1)).process(any()) 
+   //sampleEnd
+}</code></pre></div><h4 class="">Parameters</h4><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current="kroki-utils/JVM" data-filterable-set="kroki-utils/JVM"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>process</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the code that reads some of the input</p></div></div></div></div></div></div></div></div></div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
