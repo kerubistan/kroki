@@ -32,7 +32,7 @@ jobs:
       - name: Deploy JavaDoc
         uses: MathieuSoysal/Javadoc-publisher.yml@v2.3.0
         with:
-          custom-command: mvn dokka:dokka && mkdir -p target/dokka && cp -r `find -name dokka` target/dokka
+          custom-command: mvn install dokka:dokka && mkdir -p target/dokka && cp -r `find -name dokka` target/dokka
           folder: target/dokka
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           javadoc-branch: javadoc
