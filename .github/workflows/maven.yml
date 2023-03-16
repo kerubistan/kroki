@@ -30,8 +30,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy JavaDoc
-        uses: K0zka/Javadoc-publisher.yml@master
+        uses: MathieuSoysal/Javadoc-publisher.yml@master
         with:
+          custom-command: mvn dokka:dokka && mkdir -p target/dokka && cp -r `find -name dokka` target/dokka
+          folder: target/dokka
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           javadoc-branch: javadoc
           java-version: 11
