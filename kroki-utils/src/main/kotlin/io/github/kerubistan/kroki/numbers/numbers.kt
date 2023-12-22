@@ -95,3 +95,36 @@ inline fun <T> Iterable<T>.sumBy(selector: (T) -> BigInteger): BigInteger {
 	}
 	return sum
 }
+
+/**
+ * Calculates the minimum and maximum values of the Iterable with only one iteration,
+ * thereby faster than calling both min and max.
+ * @param selector extract comparable value from the item
+ * @return null if the collection is empty, otherwise min-max pair
+ */
+inline fun <X, T : Comparable<T>> Iterable<X>.rangeByOrNull(crossinline selector: (X) -> T): Pair<X, X>? {
+	val iterator = iterator()
+	if (!iterator.hasNext()) {
+		return null
+	}
+	var item = iterator.next()
+	var min = item
+	var max = min
+	if (!iterator.hasNext()) {
+		return min to max
+	}
+	var minValue = selector(min)
+	var maxValue = minValue
+	do {
+		item = iterator.next()
+		val value = selector(item)
+		if (minValue > value) {
+			min = item
+			minValue = value
+		} else if (maxValue < value) {
+			max = item
+			maxValue = value
+		}
+	} while (iterator.hasNext())
+	return min to max
+}
