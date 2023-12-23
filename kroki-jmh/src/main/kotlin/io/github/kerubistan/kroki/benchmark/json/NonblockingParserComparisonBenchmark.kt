@@ -11,6 +11,7 @@ import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.annotations.TearDown
 import org.openjdk.jmh.infra.Blackhole
 import java.io.File
+import java.io.RandomAccessFile
 import java.nio.ByteBuffer
 import java.util.*
 
@@ -21,7 +22,7 @@ open class NonblockingParserComparisonBenchmark {
 	var size : Int = 1
 	private val objectMapper = ObjectMapper()
 
-	lateinit var testFile : File
+	private lateinit var testFile : File
 
 	@Setup
 	fun setup() {
@@ -54,7 +55,7 @@ open class NonblockingParserComparisonBenchmark {
 		ObjectMapper().createNonBlockingByteArrayParser().use {
 			parser ->
 			parser as NonBlockingJsonParser
-			testFile.inputStream().channel.use {
+			RandomAccessFile(testFile.absoluteFile, "r").channel.use {
 				channel ->
 				while (channel.position() < channel.size()) {
 					val bufferSize = channel.read(byteBuffer)
