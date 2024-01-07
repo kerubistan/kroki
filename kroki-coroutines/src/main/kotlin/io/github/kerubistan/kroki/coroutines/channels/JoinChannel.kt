@@ -1,5 +1,6 @@
 package io.github.kerubistan.kroki.coroutines.channels
 
+import io.github.kerubistan.kroki.objects.isGreaterThan
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
@@ -41,18 +42,13 @@ internal class PeekChannel<X>(channel: Channel<X>) {
     }
 }
 
-internal fun <T> T.isMoreThan(other: T, comparator: Comparator<T>) =
-    comparator.compare(this, other) > 0
-
-internal fun <T> T.isLessThan(other: T, comparator: Comparator<T>) =
-    comparator.compare(this, other) < 0
 
 internal suspend fun <X> List<PeekChannel<X>>.maxOrNull(comparator: Comparator<X>): PeekChannel<X>? {
     var max: PeekChannel<X>? = null
     this.forEach {
         if (it.hasNext()) {
             val channelValue = it.peek()
-            if (max == null || max!!.peek()!!.isMoreThan(channelValue, comparator)) {
+            if (max == null || max!!.peek()!!.isGreaterThan(channelValue, comparator)) {
                 max = it
             }
         }
