@@ -4,9 +4,10 @@ import io.github.kerubistan.kroki.objects.isGreaterThan
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.launch
 
-internal class PeekChannel<X>(channel: Channel<X>) {
+internal class PeekChannel<X>(channel: ReceiveChannel<X>) {
     private val iterator = channel.iterator()
     private var last: X? = null
     suspend fun peek(): X {
@@ -59,21 +60,22 @@ internal suspend fun <X> List<PeekChannel<X>>.maxOrNull(comparator: Comparator<X
 const val IDEAL_JOIN_COUNT = 16
 suspend fun <T> CoroutineScope.twoLevelJoin(
     inputChannels: List<Channel<T>>,
+	outChannelCapacity: Int = 128,
     comparator: Comparator<T>
 ): Channel<T> = if (inputChannels.size < IDEAL_JOIN_COUNT) {
-    joinChannels(inputChannels, comparator)
+    joinChannels(inputChannels, outChannelCapacity, comparator)
 } else {
     joinChannels(inputChannels.chunked(IDEAL_JOIN_COUNT).map {
-        joinChannels(inputChannels, comparator)
-    }, comparator)
+        joinChannels(inputChannels, outChannelCapacity, comparator)
+    }, outChannelCapacity, comparator)
 }
 
 suspend fun <T> CoroutineScope.joinChannels(
-    inputChannels: List<Channel<T>>,
+    inputChannels: List<ReceiveChannel<T>>,
+	outChannelCapacity: Int = 128,
     comparator: Comparator<T>
 ): Channel<T> {
-
-    val outChannel = Channel<T>(capacity = 128)
+    val outChannel = Channel<T>(capacity = outChannelCapacity)
 
     launch {
         val peekChannels = inputChannels.map { PeekChannel(it) }
@@ -85,7 +87,5 @@ suspend fun <T> CoroutineScope.joinChannels(
         }
         outChannel.close()
     }
-
     return outChannel
-
 }

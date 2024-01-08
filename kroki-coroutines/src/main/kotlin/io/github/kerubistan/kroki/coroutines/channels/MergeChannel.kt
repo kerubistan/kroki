@@ -4,8 +4,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
-fun <T, K> CoroutineScope.mergeChannel(channel: Channel<T>, key: (T) -> K, merge: (T, T) -> T): Channel<T> {
-    val output = Channel<T>(capacity = 1024)
+fun <T, K> CoroutineScope.mergeChannel(
+	channel: Channel<T>,
+	key: (T) -> K,
+	outChannelCapacity : Int = 1024,
+	merge: (T, T) -> T): Channel<T> {
+    val output = Channel<T>(capacity = outChannelCapacity)
 
     launch {
         var last: T? = null
