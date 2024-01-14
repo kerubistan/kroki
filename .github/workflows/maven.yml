@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy JavaDoc
-        uses: K0zka/Javadoc-publisher.yml@v2.3.0
+        uses: K0zka/Javadoc-publisher.yml
         with:
           custom-command: mvn install dokka:dokka && mkdir -p target/dokka-all && cp -r `find -name dokka` target/dokka-all
           folder: target/dokka-all
