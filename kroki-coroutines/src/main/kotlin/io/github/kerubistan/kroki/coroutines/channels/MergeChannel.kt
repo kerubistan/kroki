@@ -2,13 +2,14 @@ package io.github.kerubistan.kroki.coroutines.channels
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.launch
 
 fun <T, K> CoroutineScope.mergeChannel(
-	channel: Channel<T>,
+	channel: ReceiveChannel<T>,
 	key: (T) -> K,
 	outChannelCapacity : Int = 1024,
-	merge: (T, T) -> T): Channel<T> {
+	merge: (T, T) -> T): ReceiveChannel<T> {
     val output = Channel<T>(capacity = outChannelCapacity)
 
     launch {

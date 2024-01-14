@@ -2,12 +2,13 @@ package io.github.kerubistan.kroki.coroutines.channels
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.launch
 
-internal inline fun <I, O> CoroutineScope.transform(
-    inputChannel: Channel<I>,
+inline fun <I, O> CoroutineScope.transform(
+    inputChannel: ReceiveChannel<I>,
     crossinline transformation: (I) -> O
-): Channel<O> {
+): ReceiveChannel<O> {
     val outChannel = Channel<O>(capacity = 64)
     launch {
         for (message in inputChannel) {
@@ -18,10 +19,10 @@ internal inline fun <I, O> CoroutineScope.transform(
     return outChannel
 }
 
-internal inline fun <I, O> CoroutineScope.transformNotNull(
-    inputChannel: Channel<I>,
+inline fun <I, O> CoroutineScope.transformNotNull(
+    inputChannel: ReceiveChannel<I>,
     crossinline transformation: (I) -> O?
-): Channel<O> {
+): ReceiveChannel<O> {
     val outChannel = Channel<O>(capacity = 64)
     launch {
         for (message in inputChannel) {
