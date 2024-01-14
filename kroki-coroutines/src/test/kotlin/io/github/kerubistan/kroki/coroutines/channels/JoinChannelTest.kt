@@ -1,6 +1,7 @@
 package io.github.kerubistan.kroki.coroutines.channels
 
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -29,7 +30,111 @@ class JoinChannelTest {
         }
     }
 
-    @Test
+	@Test
+	fun channelTestWithJoin(): Unit = runBlocking {
+
+		val inputChannels = listOf(
+			produce {
+				send("A")
+				send("C")
+			},
+			produce {
+				send("B")
+				send("D")
+			},
+			produce {
+				send("E")
+			}
+
+		)
+
+		val joinedChannel = joinChannels(inputChannels) { a, b ->
+			a.compareTo(b)
+		}
+
+		launch {
+			val messages = mutableListOf<String>()
+			for (message in joinedChannel) {
+				messages.add(message)
+			}
+			assertEquals(listOf("A", "B", "C", "D", "E"), messages)
+		}
+	}
+
+	@Test
+	fun channelTestWithJoinUnordered(): Unit = runBlocking {
+		val inputChannels = listOf(
+			produce {  },
+			produce {
+				send("B")
+				send("D")
+			},
+			produce {  },
+			produce {
+				send("A")
+				send("C")
+			},
+			produce {  },
+			produce {
+				send("E")
+			},
+			produce {  },
+		)
+
+		val joinedChannel = joinChannels(inputChannels) { a, b ->
+			a.compareTo(b)
+		}
+
+		launch {
+			val messages = mutableListOf<String>()
+			for (message in joinedChannel) {
+				messages.add(message)
+			}
+			assertEquals(listOf("A", "B", "C", "D", "E"), messages)
+		}
+	}
+
+	@Test
+	fun channelTestWithJoinSingleEmpty(): Unit = runBlocking {
+		val inputChannels = listOf(
+			produce<String> {  },)
+
+		val joinedChannel = joinChannels(inputChannels) { a, b ->
+			a.compareTo(b)
+		}
+
+		launch {
+			val messages = mutableListOf<String>()
+			for (message in joinedChannel) {
+				messages.add(message)
+			}
+			assertEquals(listOf<String>(), messages)
+		}
+	}
+
+	@Test
+	fun channelTestWithJoinMultipleEmpty(): Unit = runBlocking {
+		val inputChannels = listOf(
+			produce<String> {  },
+			produce<String> {  },
+			produce<String> {  },
+			)
+
+		val joinedChannel = joinChannels(inputChannels) { a, b ->
+			a.compareTo(b)
+		}
+
+		launch {
+			val messages = mutableListOf<String>()
+			for (message in joinedChannel) {
+				messages.add(message)
+			}
+			assertEquals(listOf<String>(), messages)
+		}
+	}
+
+
+	@Test
     fun joinSingleEmptyChannel(): Unit = runBlocking {
         val inputChannel = Channel<String>()
         launch {
