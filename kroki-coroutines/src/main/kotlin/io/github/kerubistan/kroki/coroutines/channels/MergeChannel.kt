@@ -15,16 +15,16 @@ fun <T, K> CoroutineScope.mergeChannel(
     launch {
         var last: T? = null
         for (message in channel) {
-            if (last == null) {
-                last = message
-            } else {
-                if (key(last) == key(message)) {
-                    last = merge(last, message)
-                } else {
-                    output.send(last)
-                    last = message
-                }
-            }
+			last = if (last == null) {
+				message
+			} else {
+				if (key(last) == key(message)) {
+					merge(last, message)
+				} else {
+					output.send(last)
+					message
+				}
+			}
         }
         if (last != null) {
             output.send(last)
