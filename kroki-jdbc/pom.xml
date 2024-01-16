@@ -14,6 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<kotlin.code.style>official</kotlin.code.style>
+		<derby.version>10.17.1.0</derby.version>
 	</properties>
 
 	<dependencies>
@@ -46,7 +47,13 @@
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
-			<version>10.17.1.0</version>
+			<version>${derby.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbytools</artifactId>
+			<version>${derby.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
