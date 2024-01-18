@@ -95,6 +95,67 @@ class JoinChannelTest {
 	}
 
 	@Test
+	fun channelTestWithJoinShuffled(): Unit = runBlocking {
+		val inputChannels = listOf(
+			produce {  },
+			produce {
+				send("B")
+				send("D")
+			},
+			produce { send("F") },
+			produce {
+				send("A")
+				send("C")
+			},
+			produce {  },
+			produce {
+				send("E")
+			},
+			produce {  },
+		)
+
+		val joinedChannel = joinChannels(inputChannels) { a, b ->
+			a.compareTo(b)
+		}
+
+		launch {
+			val messages = mutableListOf<String>()
+			for (message in joinedChannel) {
+				messages.add(message)
+			}
+			assertEquals(listOf("A", "B", "C", "D", "E", "F"), messages)
+		}
+	}
+
+	@Test
+	fun channelTestWithJoinDuplicates(): Unit = runBlocking {
+		val inputChannels = listOf(
+			produce {
+				send("A")
+				send("A")
+				send("C")
+			},
+			produce {
+				send("A")
+				send("B")
+				send("C")
+			},
+		)
+
+		val joinedChannel = joinChannels(inputChannels) { a, b ->
+			a.compareTo(b)
+		}
+
+		launch {
+			val messages = mutableListOf<String>()
+			for (message in joinedChannel) {
+				messages.add(message)
+			}
+			assertEquals(listOf("A", "A", "A", "B", "C", "C"), messages)
+		}
+	}
+
+	@Test
 	fun channelTestWithJoinSingleEmpty(): Unit = runBlocking {
 		val inputChannels = listOf(
 			produce<String> {  },)

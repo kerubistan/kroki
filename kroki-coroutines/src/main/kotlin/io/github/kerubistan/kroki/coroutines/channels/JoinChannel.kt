@@ -35,9 +35,12 @@ suspend fun <T> CoroutineScope.joinChannels(
 				}
 			} else {
 				//put the channel back to its proper place
-				val index = inputIterators.indexOfFirst { comparator.compare(it.first, newItem) >= 0 }
+				val index = inputIterators.indexOfFirst { it.first.isGreaterThan(newItem, comparator)}
 				if(index >= 0) {
 					inputIterators.add(index, newItem to iterator)
+				} else {
+					inputIterators.add(newItem to iterator)
+					inputIterators.sortWith { a, b -> comparator.compare(a.first, b.first) }
 				}
 			}
 		}
