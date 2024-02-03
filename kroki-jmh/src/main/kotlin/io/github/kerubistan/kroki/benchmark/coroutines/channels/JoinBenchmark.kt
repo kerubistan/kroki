@@ -26,7 +26,7 @@ open class JoinBenchmark {
 		val jobs = (0..nrOfChannels).map { channelNr ->
 			produce(capacity = capacity) {
 				repeat(nrOfMessages) { messageNr ->
-					this.send("channel-$channelNr message: $messageNr")
+					this.send("message-$messageNr from channel $channelNr")
 				}
 			}
 		}

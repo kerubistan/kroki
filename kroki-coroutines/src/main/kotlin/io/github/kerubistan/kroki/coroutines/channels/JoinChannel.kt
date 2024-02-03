@@ -1,10 +1,10 @@
 package io.github.kerubistan.kroki.coroutines.channels
 
 import io.github.kerubistan.kroki.objects.isGreaterThan
-import io.github.kerubistan.kroki.objects.isLessThan
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
+import java.util.*
 
 
 suspend fun <T> CoroutineScope.joinChannels(
@@ -12,13 +12,13 @@ suspend fun <T> CoroutineScope.joinChannels(
 	outChannelCapacity: Int = 128,
 	comparator: Comparator<T>
 ): ReceiveChannel<T> = produce<T>(capacity = outChannelCapacity) {
-	val inputIterators = inputChannels
+	val inputIterators = LinkedList(inputChannels
 		.map { it.iterator() }
 		.filter { it.hasNext() }
 		.map {
 			it.next() to it
 		}
-		.toMutableList()
+		.toMutableList())
 
 	inputIterators.sortWith { a, b -> comparator.compare(a.first, b.first) }
 
