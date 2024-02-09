@@ -36,7 +36,7 @@ open class NonblockingParserComparisonBenchmark {
 
 	@TearDown
 	fun cleanup() {
-		testFile.delete()
+		assert(testFile.delete())
 	}
 
 	@Benchmark
