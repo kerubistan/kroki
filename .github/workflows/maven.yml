@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 11
+    - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
@@ -25,17 +25,3 @@ jobs:
     - name: Build with Maven
       run: mvn -B verify --file pom.xml
 
-# from https://github.com/marketplace/actions/deploy-publish-javadoc
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy JavaDoc
-        uses: K0zka/Javadoc-publisher.yml@master
-        with:
-          custom-command: mvn install dokka:dokka && mkdir -p target/dokka-all && cp -r `find -name dokka` target/dokka-all
-          folder: target/dokka-all
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          javadoc-branch: javadoc
-          java-version: 11
-          target-folder: javadoc
-          project: maven
