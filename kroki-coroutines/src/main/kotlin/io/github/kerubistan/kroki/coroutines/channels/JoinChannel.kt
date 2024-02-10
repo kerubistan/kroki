@@ -48,17 +48,18 @@ internal class SortedList<T>(private val comparator: Comparator<T>) {
 
 }
 
-suspend fun <T> CoroutineScope.joinChannels(
+fun <T> CoroutineScope.joinChannels(
 	inputChannels: List<ReceiveChannel<T>>,
 	outChannelCapacity: Int = 128,
 	comparator: Comparator<T>
-): ReceiveChannel<T> = produce<T>(capacity = outChannelCapacity) {
+): ReceiveChannel<T> = produce(capacity = outChannelCapacity) {
+
 	val inputIterators = SortedList(inputChannels
 		.map { it.iterator() }
 		.filter { it.hasNext() }
 		.map {
 			it.next() to it
-		}, { a, b -> comparator.compare(b.first, a.first) })
+		}) { a, b -> comparator.compare(b.first, a.first) }
 
 	while (inputIterators.isNotEmpty()) {
 		val (item, iterator) = inputIterators.removeFirst()
