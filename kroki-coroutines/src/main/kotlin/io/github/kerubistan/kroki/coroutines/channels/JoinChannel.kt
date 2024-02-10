@@ -38,7 +38,7 @@ internal class SortedList<T>(private val comparator: Comparator<T>) {
 				first = Node(element, first)
 			else -> {
 				var seek = first!!
-				while (seek.next != null && seek!!.next!!.item.isGreaterThan(element, comparator)) {
+				while (seek.next != null && seek.next!!.item.isGreaterThan(element, comparator)) {
 					seek = seek.next!!
 				}
 				seek.next = Node(element, seek.next)
