@@ -12,6 +12,7 @@ class SafeDateFormat(private val pattern: String, private val timeZone: TimeZone
 
 	companion object {
 		private val factoryMap = mapOf(
+			'Y' to { _: Int -> throw IllegalArgumentException("week-year is not supported") },
 			'y' to { length: Int -> Year(length) },
 			'M' to { length: Int -> Month(length) },
 			'd' to { length: Int -> Day(length) },
