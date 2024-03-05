@@ -16,6 +16,10 @@ class SafeDateFormat(private val pattern: String, private val timeZone: TimeZone
 			'y' to { length: Int -> Year(length) },
 			'M' to { length: Int -> Month(length) },
 			'd' to { length: Int -> Day(length) },
+			'h' to { length: Int -> Hour(length) },
+			'm' to { length: Int -> Minute(length) },
+			's' to { length: Int -> Second(length) },
+			'S' to { length: Int -> MilliSeconds(length) },
 		)
 
 		fun compilePattern(pattern: String): Array<DatePatternElement> {
@@ -74,6 +78,14 @@ class SafeDateFormat(private val pattern: String, private val timeZone: TimeZone
 	class Month(length: Int) : CalendarFieldDatePatterElement(Calendar.MONTH, length)
 
 	class Day(length: Int) : CalendarFieldDatePatterElement(Calendar.DAY_OF_MONTH, length)
+
+	class Hour(length: Int) : CalendarFieldDatePatterElement(Calendar.HOUR_OF_DAY, length)
+
+	class Minute(length: Int) : CalendarFieldDatePatterElement(Calendar.MINUTE, length)
+
+	class Second(length: Int) : CalendarFieldDatePatterElement(Calendar.SECOND, length)
+
+	class MilliSeconds(length: Int) : CalendarFieldDatePatterElement(Calendar.MILLISECOND, length)
 
 	class Text(val text: String) : DatePatternElement {
 		override fun format(calendar: Calendar, builder: StringBuilder) {

@@ -31,5 +31,13 @@ class SafeDateFormatTest {
 			"2017-01-27",
 			SafeDateFormat("yyyy-MM-dd").format(buildDate(2017, 1, 27))
 		)
+		assertEquals(
+			"2017-01-27 12:35",
+			SafeDateFormat("yyyy-MM-dd hh:mm").format(buildDate(2017, 1, 27, 12, 35))
+		)
+		assertEquals(
+			"2017-01-27 12:35:50",
+			SafeDateFormat("yyyy-MM-dd hh:mm:ss").format(buildDate(2017, 1, 27, 12, 35, 50))
+		)
 	}
 }
