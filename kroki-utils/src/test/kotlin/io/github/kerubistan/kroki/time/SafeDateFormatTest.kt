@@ -7,6 +7,17 @@ import kotlin.test.assertEquals
 
 class SafeDateFormatTest {
 
+	fun buildDate(year: Int, month: Int, day: Int, hour: Int = 0, min: Int = 0, sec: Int = 0, millis: Int = 0) =
+		GregorianCalendar().apply {
+			set(Calendar.YEAR, year)
+			set(Calendar.MONTH, month)
+			set(Calendar.DAY_OF_MONTH, day)
+			set(Calendar.HOUR_OF_DAY, hour)
+			set(Calendar.MINUTE, min)
+			set(Calendar.SECOND, sec)
+			set(Calendar.MILLISECOND, millis)
+		}.time
+
 	@Test
 	fun wrongPatterns() {
 		assertThrows<IllegalArgumentException>("Week-Year with month and day") {
@@ -16,11 +27,9 @@ class SafeDateFormatTest {
 
 	@Test
 	fun format() {
-		assertEquals("2017-01-27",
-		SafeDateFormat("yyyy-MM-dd").format(GregorianCalendar().apply {
-			set(Calendar.YEAR, 2017)
-			set(Calendar.MONTH, 1)
-			set(Calendar.DAY_OF_MONTH, 27)
-		}.time))
+		assertEquals(
+			"2017-01-27",
+			SafeDateFormat("yyyy-MM-dd").format(buildDate(2017, 1, 27))
+		)
 	}
 }
