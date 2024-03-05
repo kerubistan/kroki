@@ -22,7 +22,7 @@ class SafeDateFormat(private val pattern: String, private val timeZone: TimeZone
 			'S' to { length: Int -> MilliSeconds(length) },
 		)
 
-		fun compilePattern(pattern: String): Array<DatePatternElement> {
+		internal fun compilePattern(pattern: String): Array<DatePatternElement> {
 			val groups = mutableListOf<StringBuilder>()
 			pattern.toCharArray().forEach { char ->
 				if (groups.isNotEmpty()) {
@@ -54,11 +54,11 @@ class SafeDateFormat(private val pattern: String, private val timeZone: TimeZone
 		}
 	}
 
-	interface DatePatternElement {
+	internal interface DatePatternElement {
 		fun format(calendar: Calendar, builder: StringBuilder)
 	}
 
-	abstract class CalendarFieldDatePatterElement(private val field: Int, private val length: Int) :
+	internal abstract class CalendarFieldDatePatterElement(private val field: Int, private val length: Int) :
 		DatePatternElement {
 		private fun formatNumber(number: Int, length: Int) = buildString {
 			append(number)
@@ -73,21 +73,21 @@ class SafeDateFormat(private val pattern: String, private val timeZone: TimeZone
 
 	}
 
-	class Year(length: Int) : CalendarFieldDatePatterElement(Calendar.YEAR, length)
+	internal class Year(length: Int) : CalendarFieldDatePatterElement(Calendar.YEAR, length)
 
-	class Month(length: Int) : CalendarFieldDatePatterElement(Calendar.MONTH, length)
+	internal class Month(length: Int) : CalendarFieldDatePatterElement(Calendar.MONTH, length)
 
-	class Day(length: Int) : CalendarFieldDatePatterElement(Calendar.DAY_OF_MONTH, length)
+	internal class Day(length: Int) : CalendarFieldDatePatterElement(Calendar.DAY_OF_MONTH, length)
 
-	class Hour(length: Int) : CalendarFieldDatePatterElement(Calendar.HOUR_OF_DAY, length)
+	internal class Hour(length: Int) : CalendarFieldDatePatterElement(Calendar.HOUR_OF_DAY, length)
 
-	class Minute(length: Int) : CalendarFieldDatePatterElement(Calendar.MINUTE, length)
+	internal class Minute(length: Int) : CalendarFieldDatePatterElement(Calendar.MINUTE, length)
 
-	class Second(length: Int) : CalendarFieldDatePatterElement(Calendar.SECOND, length)
+	internal class Second(length: Int) : CalendarFieldDatePatterElement(Calendar.SECOND, length)
 
-	class MilliSeconds(length: Int) : CalendarFieldDatePatterElement(Calendar.MILLISECOND, length)
+	internal class MilliSeconds(length: Int) : CalendarFieldDatePatterElement(Calendar.MILLISECOND, length)
 
-	class Text(val text: String) : DatePatternElement {
+	internal class Text(val text: String) : DatePatternElement {
 		override fun format(calendar: Calendar, builder: StringBuilder) {
 			builder.append(text)
 		}
