@@ -5,6 +5,7 @@ import io.github.kerubistan.kroki.time.SafeDateFormat
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.infra.Blackhole
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 open class SafeDateFormatBenchmark {
@@ -16,6 +17,7 @@ open class SafeDateFormatBenchmark {
 		val simpleDateFormatThreadLocal by threadLocal { simpleDateFormat }
 		val dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE
 		val date = simpleDateFormat.parse("2017-09-27")
+		val localDate = LocalDate.of(2017, 9, 27)
 	}
 
 	@Benchmark
@@ -25,7 +27,7 @@ open class SafeDateFormatBenchmark {
 
 	@Benchmark
 	fun formatBySimpleDateFormat(hole: Blackhole) {
-		hole.consume(simpleDateFormat.format(date))
+		hole.consume(dateTimeFormatter.format(localDate))
 	}
 
 	@Benchmark
