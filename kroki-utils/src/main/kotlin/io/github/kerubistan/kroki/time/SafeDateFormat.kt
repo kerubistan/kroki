@@ -20,6 +20,7 @@ class SafeDateFormat(private val pattern: String, private val timeZone: TimeZone
 			'm' to { length: Int -> Minute(length) },
 			's' to { length: Int -> Second(length) },
 			'S' to { length: Int -> MilliSeconds(length) },
+			'Z' to { length: Int -> TimeZoneOffset }
 		)
 
 		internal fun compilePattern(pattern: String): Array<DatePatternElement> {
@@ -94,11 +95,20 @@ class SafeDateFormat(private val pattern: String, private val timeZone: TimeZone
 
 	}
 
+	internal object TimeZoneOffset : DatePatternElement {
+		override fun format(calendar: Calendar, builder: StringBuilder) {
+			builder.append(calendar.timeZone.getOffset(calendar.time.time))
+		}
+	}
+
 
 	fun format(time: LocalDate): String = TODO()
 
 	fun format(time: Date): String = buildString {
-		val calendar = GregorianCalendar().apply { this.time = time }
+		val calendar = GregorianCalendar().apply {
+			this.time = time
+			this.timeZone = this@SafeDateFormat.timeZone
+		}
 		compiledPattern.forEach {
 			it.format(calendar, this)
 		}

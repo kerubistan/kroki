@@ -27,12 +27,17 @@ open class SafeDateFormatBenchmark {
 
 	@Benchmark
 	fun formatBySimpleDateFormat(hole: Blackhole) {
-		hole.consume(dateTimeFormatter.format(localDate))
+		hole.consume(simpleDateFormat.format(date))
 	}
 
 	@Benchmark
 	fun formatByDateTimeFormatter(hole: Blackhole) {
-		hole.consume(simpleDateFormat.format(date))
+		hole.consume(dateTimeFormatter.format(localDate))
+	}
+
+	@Benchmark
+	fun formatByDateTimeFormatterDate(hole: Blackhole) {
+		hole.consume(dateTimeFormatter.format(date.toInstant()))
 	}
 
 	@Benchmark
