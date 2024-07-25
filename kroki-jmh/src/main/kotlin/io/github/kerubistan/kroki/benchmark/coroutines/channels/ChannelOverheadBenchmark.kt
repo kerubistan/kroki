@@ -15,9 +15,12 @@ open class ChannelOverheadBenchmark {
 	@Param("0", "1", "2", "3", "4")
 	var stepCount: Int = 0
 
+	@Param("0", "1", "2", "3", "4")
+	var capacity: Int = 0
+
 	@Benchmark
 	fun run() = runBlocking {
-		val channel = produce(capacity = 16) {
+		val channel = produce(capacity = capacity) {
 			repeat(1000_000) {
 				send(it)
 			}
