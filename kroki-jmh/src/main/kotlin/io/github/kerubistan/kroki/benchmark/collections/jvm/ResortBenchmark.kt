@@ -34,7 +34,9 @@ open class ResortBenchmark {
 		}
 		when (implementation) {
 			"array" -> {
-
+				sortedList = ArrayList(sortedList)
+				shuffledList = ArrayList(shuffledList)
+				singleItemChanged = ArrayList(singleItemChanged)
 			}
 
 			"linked" -> {
