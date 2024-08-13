@@ -12,42 +12,40 @@ import net.bytebuddy.utility.JavaModule
 import java.lang.instrument.Instrumentation
 import java.security.ProtectionDomain
 
-class PreMain {
-	companion object {
-		@JvmStatic
-		fun premain(argument: String?, instrumentation: Instrumentation) {
-			val enabledFeatures: Set<Feature> = getEnabledFeatures(argument)
+object PreMain {
+	@JvmStatic
+	fun premain(argument: String?, instrumentation: Instrumentation) {
+		val enabledFeatures: Set<Feature> = getEnabledFeatures(argument)
 
-			AgentBuilder.Default()
-				.type(ElementMatchers.any())
-				.transform { builder: DynamicType.Builder<*>, typeDescription: TypeDescription, classLoader: ClassLoader?, javaModule: JavaModule?, protectionDomain: ProtectionDomain? ->
-					AgentLog.log(
-						Category.INFRA,
-						" -> ${typeDescription.`package`}.${typeDescription.simpleName} ${typeDescription.classFileVersion} ${typeDescription.declaredTypes}"
-					)
+		AgentBuilder.Default()
+			.type(ElementMatchers.any())
+			.transform { builder: DynamicType.Builder<*>, typeDescription: TypeDescription, classLoader: ClassLoader?, javaModule: JavaModule?, protectionDomain: ProtectionDomain? ->
+				AgentLog.log(
+					Category.INFRA,
+					" -> ${typeDescription.`package`}.${typeDescription.simpleName} ${typeDescription.classFileVersion} ${typeDescription.declaredTypes}"
+				)
 
-					enabledFeatures.forEach { feature ->
-						feature.transform(builder, typeDescription, classLoader, javaModule, protectionDomain)
-					}
-
-					builder
+				enabledFeatures.forEach { feature ->
+					feature.transform(builder, typeDescription, classLoader, javaModule, protectionDomain)
 				}
-				.installOn(instrumentation)
-		}
 
-		internal fun getEnabledFeatures(argument: String?): Set<Feature> {
-			val featureOverrides =
-				argument?.split(",")?.map { it.split("=").let { it[0] to it[1] } }?.toMap() ?: mapOf()
+				builder
+			}
+			.installOn(instrumentation)
+	}
 
-			AgentLog.log(Category.INFRA, "Feature overrides: $featureOverrides")
+	internal fun getEnabledFeatures(argument: String?): Set<Feature> {
+		val featureOverrides =
+			argument?.split(",")?.map { it.split("=").let { it[0] to it[1] } }?.toMap() ?: mapOf()
 
-			val enabledFeatures: Set<Feature> = features.filter { feature ->
-				(feature.defaultEnabled && featureOverrides[feature.name] != "false")
-					|| (!feature.defaultEnabled && featureOverrides[feature.name] == "true")
-			}.toSet()
+		AgentLog.log(Category.INFRA, "Feature overrides: $featureOverrides")
 
-			AgentLog.log(Category.INFRA, "Features enabled: ${enabledFeatures.map { it.name }}")
-			return enabledFeatures
-		}
+		val enabledFeatures: Set<Feature> = features.filter { feature ->
+			(feature.defaultEnabled && featureOverrides[feature.name] != "false")
+				|| (!feature.defaultEnabled && featureOverrides[feature.name] == "true")
+		}.toSet()
+
+		AgentLog.log(Category.INFRA, "Features enabled: ${enabledFeatures.map { it.name }}")
+		return enabledFeatures
 	}
 }
