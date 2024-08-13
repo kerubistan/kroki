@@ -16,17 +16,7 @@ class PreMain {
 	companion object {
 		@JvmStatic
 		fun premain(argument: String?, instrumentation: Instrumentation) {
-			val featureOverrides =
-				argument?.split(",")?.map { it.split("=").let { it[0] to it[1] } }?.toMap() ?: mapOf()
-
-			AgentLog.log(Category.INFRA, "Feature overrides: $featureOverrides")
-
-			val enabledFeatures: Set<Feature> = features.filter { feature ->
-				(feature.defaultEnabled && featureOverrides[feature.name] != "false")
-					|| (!feature.defaultEnabled && featureOverrides[feature.name] == "true")
-			}.toSet()
-
-			AgentLog.log(Category.INFRA, "Features enabled: ${enabledFeatures.map { it.name }}")
+			val enabledFeatures: Set<Feature> = getEnabledFeatures(argument)
 
 			AgentBuilder.Default()
 				.type(ElementMatchers.any())
@@ -43,6 +33,21 @@ class PreMain {
 					builder
 				}
 				.installOn(instrumentation)
+		}
+
+		private fun getEnabledFeatures(argument: String?): Set<Feature> {
+			val featureOverrides =
+				argument?.split(",")?.map { it.split("=").let { it[0] to it[1] } }?.toMap() ?: mapOf()
+
+			AgentLog.log(Category.INFRA, "Feature overrides: $featureOverrides")
+
+			val enabledFeatures: Set<Feature> = features.filter { feature ->
+				(feature.defaultEnabled && featureOverrides[feature.name] != "false")
+					|| (!feature.defaultEnabled && featureOverrides[feature.name] == "true")
+			}.toSet()
+
+			AgentLog.log(Category.INFRA, "Features enabled: ${enabledFeatures.map { it.name }}")
+			return enabledFeatures
 		}
 	}
 }
