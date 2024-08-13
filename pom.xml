@@ -227,6 +227,7 @@
 		<module>kroki-xml</module>
 		<module>kroki-flyweight</module>
 		<module>kroki-jdbc</module>
+		<module>kroki-agent</module>
 	</modules>
 
 </project>
