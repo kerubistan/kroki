@@ -35,7 +35,7 @@ class PreMain {
 				.installOn(instrumentation)
 		}
 
-		private fun getEnabledFeatures(argument: String?): Set<Feature> {
+		internal fun getEnabledFeatures(argument: String?): Set<Feature> {
 			val featureOverrides =
 				argument?.split(",")?.map { it.split("=").let { it[0] to it[1] } }?.toMap() ?: mapOf()
 
