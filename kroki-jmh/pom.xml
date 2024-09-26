@@ -32,6 +32,11 @@
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
+			<artifactId>kroki-collections</artifactId>
+			<version>1.24-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-coroutines</artifactId>
 			<version>1.24-SNAPSHOT</version>
 		</dependency>
