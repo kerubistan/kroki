@@ -2,6 +2,9 @@ package io.github.kerubistan.kroki.collections
 
 import io.github.kerubistan.kroki.delegates.weak
 
+/**
+ * Implementation of an immutable list, internally based on an array.
+ */
 internal class ImmutableArrayList<T : Any>() : List<T> {
 
 	private lateinit var items: Array<out T>
@@ -50,10 +53,8 @@ internal class ImmutableArrayList<T : Any>() : List<T> {
 
 	override fun subList(fromIndex: Int, toIndex: Int): List<T> =
 		when {
-			toIndex == fromIndex -> {
-				emptyList()
-			}
-
+			toIndex == fromIndex -> emptyList()
+			fromIndex == toIndex - 1 -> listOf(this.items[fromIndex])
 			fromIndex == 0 && toIndex == size + 1 -> this
 			else -> ImmutableSubArrayList(fromIndex, toIndex, this.items)
 		}
@@ -85,11 +86,7 @@ internal class ImmutableArrayList<T : Any>() : List<T> {
 		}
 	}
 
-	private val hashCode by lazy {
-		var hashCode = 1
-		this.forEach { hashCode = (hashCode * 31) + it.hashCode() }
-		hashCode
-	}
+	private val hashCode by lazy { listHashCode(this) }
 
 	override fun hashCode(): Int = hashCode
 

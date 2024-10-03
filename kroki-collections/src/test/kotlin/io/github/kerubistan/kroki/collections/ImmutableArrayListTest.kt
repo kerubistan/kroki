@@ -81,6 +81,8 @@ class ImmutableArrayListTest {
 	@Test
 	fun subList() {
 		assertEquals(emptyList(), immutableListOf(1, 2, 3).subList(0, 0))
+		assertEquals(listOf(1), immutableListOf(1, 2, 3).subList(0, 1))
+		assertEquals(listOf(2), immutableListOf(1, 2, 3).subList(1, 2))
 		// more in the sublist tests
 	}
 

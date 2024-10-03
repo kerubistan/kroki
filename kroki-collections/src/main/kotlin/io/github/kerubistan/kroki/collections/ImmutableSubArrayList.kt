@@ -2,6 +2,11 @@ package io.github.kerubistan.kroki.collections
 
 import io.github.kerubistan.kroki.delegates.weak
 
+/**
+ * Sub-list of an immutable array list.
+ * Since the arrayList is already immutable, the array can be passed over to the sub-list, and it
+ * will give faster access to elements.
+ */
 internal class ImmutableSubArrayList<T : Any>(
 	private val offset: Int,
 	private val limit: Int,
@@ -10,8 +15,8 @@ internal class ImmutableSubArrayList<T : Any>(
 
 	init {
 		require(offset >= 0) { "offset ($offset) must be greater than 0" }
-		require(limit > offset) { "limit must be bigger than the offset" }
-		require(limit <= items.size + 1) { "limit ($limit) must be less than or equal to the size of the array (${items.size})" }
+		require(limit > offset) { "limit ($limit) must be bigger than the offset ($offset)" }
+		require(limit <= items.size) { "limit ($limit) must be less than or equal to the size of the array (${items.size})" }
 	}
 
 	override val size: Int = limit - offset
@@ -54,10 +59,11 @@ internal class ImmutableSubArrayList<T : Any>(
 	override fun listIterator(index: Int): ListIterator<T> = SubListIterator(items, offset, limit, index)
 
 	override fun subList(fromIndex: Int, toIndex: Int): List<T> =
-		if (fromIndex == toIndex)
-			emptyList()
-		else
-			ImmutableSubArrayList(offset + fromIndex, limit - toIndex, items)
+		when {
+			toIndex == fromIndex -> emptyList()
+			toIndex < fromIndex -> throw IllegalArgumentException("toIndex ($toIndex) < fromIndex ($fromIndex)")
+			else -> ImmutableSubArrayList(offset + fromIndex, offset + toIndex, items)
+		}
 
 	override fun lastIndexOf(element: T): Int = (offset until limit).last { this[it] == element }
 
@@ -91,9 +97,8 @@ internal class ImmutableSubArrayList<T : Any>(
 			&& (0 until this.lastIndex).all { index -> this[index] == other[index] }
 	}
 
-	override fun hashCode(): Int {
-		var hashCode = 1
-		items.forEach { hashCode = (hashCode * 31) + it.hashCode() }
-		return hashCode
-	}
+	private val hashCode by lazy { listHashCode(this)	}
+
+	override fun hashCode() = hashCode
+
 }
