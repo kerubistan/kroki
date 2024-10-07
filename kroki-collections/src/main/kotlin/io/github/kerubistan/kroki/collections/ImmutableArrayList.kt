@@ -23,7 +23,7 @@ internal class ImmutableArrayList<T : Any>() : List<T> {
 	override fun get(index: Int): T {
 		try {
 			return items[index]
-		} catch (aiob : ArrayIndexOutOfBoundsException) {
+		} catch (aiob: ArrayIndexOutOfBoundsException) {
 			throw IllegalArgumentException("size is ${items.size}, requested index is $index", aiob)
 		}
 	}
@@ -117,4 +117,9 @@ internal class ImmutableArrayList<T : Any>() : List<T> {
 	}
 
 	override fun toString(): String = stringValue
+
+	internal fun sortedToImmutable(): List<T> =
+		ImmutableArrayList(
+			this.items.clone().apply { sort() }
+		)
 }

@@ -1,6 +1,7 @@
 package io.github.kerubistan.kroki.benchmark.collections
 
 import io.github.kerubistan.kroki.collections.immutableListOf
+import io.github.kerubistan.kroki.collections.immutableSorted
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.Param
 import org.openjdk.jmh.annotations.Scope
@@ -60,6 +61,21 @@ open class ImmutableArrayListBenchmark {
 	@Benchmark
 	fun callToString(blackhole: Blackhole) {
 		blackhole.consume(list.toString())
+	}
+
+	@Benchmark
+	fun first(blackhole: Blackhole) {
+		blackhole.consume(list.first())
+	}
+
+	@Benchmark
+	fun sorted(blackhole: Blackhole) {
+		blackhole.consume(list.sorted())
+	}
+
+	@Benchmark
+	fun immutableSorted(blackhole: Blackhole) {
+		blackhole.consume(list.immutableSorted())
 	}
 
 }
