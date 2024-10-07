@@ -1,5 +1,8 @@
 package io.github.kerubistan.kroki.collections
 
+import io.kotest.assertions.throwables.shouldThrowAny
+import io.kotest.assertions.withClue
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -48,8 +51,13 @@ class ImmutableSubArrayListTest {
 			assertTrue(it.hasNext())
 			assertEquals(3, it.next())
 
-			assertFalse(it.hasNext())
-			assertThrows<IllegalArgumentException> { it.next() }
+			withClue("only 3 items in the list, no more left") {
+				assertFalse(it.hasNext())
+			}
+
+			withClue("There is no next element, the call to next should now fail") {
+				assertThrows<IllegalArgumentException> { it.next() }
+			}
 		}
 	}
 
@@ -67,6 +75,28 @@ class ImmutableSubArrayListTest {
 
 	@Test
 	fun testListIterator() {
+		immutableListOf(1,2,3).listIterator().let {
+			it.hasPrevious() shouldBe false
+			shouldThrowAny {
+				it.previous()
+			}
+			it.hasNext() shouldBe true
+			it.next() shouldBe 1
+
+			it.hasPrevious() shouldBe true
+			it.hasNext() shouldBe true
+			it.next() shouldBe 2
+
+			it.hasPrevious() shouldBe true
+			it.hasNext() shouldBe true
+			it.next() shouldBe 3
+
+			it.hasPrevious() shouldBe true
+			it.hasNext() shouldBe false
+			shouldThrowAny {
+				it.next()
+			}
+		}
 	}
 
 	@Test
@@ -79,10 +109,16 @@ class ImmutableSubArrayListTest {
 
 	@Test
 	fun lastIndexOf() {
+		immutableListOf(1,2,3,4).lastIndexOf(3) shouldBe 2
+		immutableListOf(1,2,3,3).lastIndexOf(3) shouldBe 3
+		immutableListOf(1,2,3,3).lastIndexOf(4) shouldBe -1
 	}
 
 	@Test
 	fun indexOf() {
+		immutableListOf(1,2,3,4).indexOf(3) shouldBe 2
+		immutableListOf(1,2,3,3).indexOf(3) shouldBe 2
+		immutableListOf(1,2,3,3).indexOf(0) shouldBe -1
 	}
 
 	@Test

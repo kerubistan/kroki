@@ -20,7 +20,13 @@ internal class ImmutableArrayList<T : Any>() : List<T> {
 	override val size: Int
 		get() = items.size
 
-	override fun get(index: Int): T = items[index]
+	override fun get(index: Int): T {
+		try {
+			return items[index]
+		} catch (aiob : ArrayIndexOutOfBoundsException) {
+			throw IllegalArgumentException("size is ${items.size}, requested index is $index", aiob)
+		}
+	}
 
 	override fun isEmpty(): Boolean = size == 0
 
@@ -36,11 +42,18 @@ internal class ImmutableArrayList<T : Any>() : List<T> {
 		override fun hasNext(): Boolean = items.size > index
 		override fun hasPrevious(): Boolean = index > 0
 
-		override fun next(): T = items[index++]
+		override fun next(): T {
+			require(index < items.size) { "list size is ${items.size}, there is no next" }
+			return items[index++]
+		}
 
 		override fun nextIndex(): Int = index + 1
 
-		override fun previous(): T = items[--index]
+		override fun previous(): T {
+			require(index > 0) { "No previous item before the start of the list" }
+			return items[--index]
+		}
+
 
 		override fun previousIndex(): Int = index - 1
 	}

@@ -75,7 +75,7 @@ class ImmutableArrayListTest {
 		assertTrue(iterator.hasNext())
 		assertEquals("D", iterator.next())
 		assertFalse (iterator.hasNext())
-		assertThrows<ArrayIndexOutOfBoundsException> { iterator.next() }
+		assertThrows<IllegalArgumentException> { iterator.next() }
 	}
 
 	@Test
@@ -113,10 +113,10 @@ class ImmutableArrayListTest {
 
 	@Test
 	fun get() {
-		assertEquals("A", ImmutableArrayList.of("A", "B", "C")[0])
-		assertEquals("B", ImmutableArrayList.of("A", "B", "C")[1])
-		assertThrows<ArrayIndexOutOfBoundsException> {
-			ImmutableArrayList.of("A", "B", "C")[3]
+		assertEquals("A", immutableListOf("A", "B", "C")[0])
+		assertEquals("B", immutableListOf("A", "B", "C")[1])
+		assertThrows<IllegalArgumentException> {
+			immutableListOf("A", "B", "C")[3]
 		}
 	}
 
