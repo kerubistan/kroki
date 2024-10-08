@@ -27,6 +27,7 @@ open class ImmutableArrayListBenchmark {
 		for (i in 0..size) {
 			rawList.add(i.toString())
 		}
+		rawList.shuffle()
 		when (type) {
 			"arraylist" -> {
 				list = ArrayList(rawList)
