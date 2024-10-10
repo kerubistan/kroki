@@ -1,5 +1,6 @@
 package io.github.kerubistan.kroki.benchmark.collections
 
+import com.google.common.collect.ImmutableList
 import io.github.kerubistan.kroki.collections.immutableListOf
 import io.github.kerubistan.kroki.collections.immutableSorted
 import org.openjdk.jmh.annotations.Benchmark
@@ -16,7 +17,7 @@ open class ImmutableArrayListBenchmark {
 	@Param("1", "16", "1024", "4096")
 	var size: Int = 0
 
-	@Param("arraylist", "immutablearraylist")
+	@Param("arraylist", "immutablearraylist", "guava")
 	var type: String = "arraylist"
 
 	lateinit var list: List<String>
@@ -35,6 +36,9 @@ open class ImmutableArrayListBenchmark {
 
 			"immutablearraylist" -> {
 				list = immutableListOf(*rawList.toTypedArray())
+			}
+			"guava" -> {
+				list = ImmutableList.builder<String>().addAll(rawList).build()
 			}
 		}
 	}
@@ -79,4 +83,13 @@ open class ImmutableArrayListBenchmark {
 		blackhole.consume(list.immutableSorted())
 	}
 
+	@Benchmark
+	fun max(blackhole: Blackhole) {
+		blackhole.consume(list.max())
+	}
+
+	@Benchmark
+	fun callHashCode(blackhole: Blackhole) {
+		blackhole.consume(list.hashCode())
+	}
 }
