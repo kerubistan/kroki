@@ -43,8 +43,13 @@ internal class ImmutableArrayList<T : Any>() : List<T> {
 		override fun hasPrevious(): Boolean = index > 0
 
 		override fun next(): T {
-			require(index < items.size) { "list size is ${items.size}, there is no next" }
-			return items[index++]
+			try {
+				val returnValue = items[index]
+				index += 1
+				return returnValue
+			} catch (aie: ArrayIndexOutOfBoundsException) {
+				throw IllegalArgumentException("no more items left", aie)
+			}
 		}
 
 		override fun nextIndex(): Int = index + 1
