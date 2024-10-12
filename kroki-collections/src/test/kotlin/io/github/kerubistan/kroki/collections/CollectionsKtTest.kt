@@ -1,13 +1,8 @@
 package io.github.kerubistan.kroki.collections
 
-import io.kotest.matchers.collections.shouldBeEmpty
-import io.kotest.matchers.collections.shouldBeSingleton
-import io.kotest.matchers.collections.shouldContainAll
-import io.kotest.matchers.collections.shouldEndWith
-import io.kotest.matchers.collections.shouldNotBeEmpty
-import io.kotest.matchers.collections.shouldNotContainAll
-import io.kotest.matchers.collections.shouldStartWith
+import io.kotest.matchers.collections.*
 import io.kotest.matchers.should
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -27,5 +22,21 @@ class CollectionsKtTest {
 		assertEquals(listOf<String>(), listOf<String>().toImmutableList())
 		assertEquals(listOf("A"), listOf("A").toImmutableList())
 		assertEquals(listOf("A", "B"), listOf("A", "B").toImmutableList())
+	}
+
+	@Test
+	fun buildList() {
+		buildList<String> { } shouldBe emptyList<String>()
+		buildList<String> { add("A") } shouldBe listOf("A")
+		buildList<String> {
+			add("A")
+			add("B")
+			add("C")
+		} shouldBe listOf("A", "B", "C")
+		buildList<String> { repeat(1000) { add(it.toString()) } }.let {
+			it shouldStartWith "0"
+			it shouldEndWith "999"
+			it shouldHaveSize 1000
+		}
 	}
 }

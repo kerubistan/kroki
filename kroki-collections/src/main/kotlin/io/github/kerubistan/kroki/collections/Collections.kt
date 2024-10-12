@@ -24,3 +24,6 @@ fun <T : Comparable<T>> List<T>.immutableSorted(): List<T> =
 		is ImmutableArrayList -> this.sortedToImmutable()
 		else -> this.sorted()
 	}
+
+inline fun <reified T : Any> buildList(builder: ImmutableListBuilder<T>.() -> Unit) =
+	ImmutableListBuilder<T>().apply(builder).build()
