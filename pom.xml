@@ -224,6 +224,7 @@
 		<module>kroki-utils</module>
 		<module>kroki-jmh</module>
 		<module>kroki-coroutines</module>
+		<module>kroki-collections</module>
 		<module>kroki-xml</module>
 		<module>kroki-flyweight</module>
 		<module>kroki-jdbc</module>
