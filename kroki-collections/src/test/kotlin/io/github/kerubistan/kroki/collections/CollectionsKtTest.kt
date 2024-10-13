@@ -26,7 +26,7 @@ class CollectionsKtTest {
 
 	@Test
 	fun buildList() {
-		buildList<String> { } shouldBe emptyList<String>()
+		buildList<String> { } shouldBe emptyList()
 		buildList<String> { add("A") } shouldBe listOf("A")
 		buildList<String> {
 			add("A")
