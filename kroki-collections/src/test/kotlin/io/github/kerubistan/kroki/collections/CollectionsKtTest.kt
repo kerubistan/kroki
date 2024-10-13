@@ -38,5 +38,44 @@ class CollectionsKtTest {
 			it shouldEndWith "999"
 			it shouldHaveSize 1000
 		}
+
+		buildList<String> {
+			add("A")
+			addAll("B", "C")
+			add("D")
+		} shouldBe immutableListOf("A", "B", "C", "D")
+
+		buildList<String> {
+			repeat(128) {
+				addAll("A", "B", "C", "D", "E", "F", "G", "H")
+			}
+		}.let {
+			it shouldStartWith "A"
+			it shouldEndWith "H"
+			it shouldHaveSize 8 * 128
+		}
+
+		buildList<String> {
+			val list = immutableListOf("A", "B", "C", "D", "E", "F", "G", "H")
+			repeat(128) {
+				addAll(list)
+			}
+		}.let {
+			it shouldStartWith "A"
+			it shouldEndWith "H"
+			it shouldHaveSize (8 * 128)
+		}
+
+		buildList<String> {
+			val list = listOf("A", "B", "C", "D", "E", "F", "G", "H")
+			repeat(128) {
+				addAll(list)
+			}
+		}.let {
+			it shouldStartWith "A"
+			it shouldEndWith "H"
+			it shouldHaveSize (8 * 128)
+		}
+
 	}
 }

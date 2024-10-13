@@ -7,7 +7,7 @@ import io.github.kerubistan.kroki.delegates.weak
  */
 internal class ImmutableArrayList<T : Any>() : List<T> {
 
-	private lateinit var items: Array<out T>
+	internal lateinit var items: Array<out T>
 
 	internal constructor(array: Array<out T>) : this() {
 		this.items = array
