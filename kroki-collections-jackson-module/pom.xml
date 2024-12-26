@@ -8,7 +8,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>kroki-collections</artifactId>
+	<artifactId>kroki-collections-jackson-module</artifactId>
 	<packaging>jar</packaging>
 
 	<licenses>
@@ -41,8 +41,18 @@
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
-			<artifactId>kroki-delegates</artifactId>
+			<artifactId>kroki-collections</artifactId>
 			<version>1.24-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-kotlin</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.kotest</groupId>

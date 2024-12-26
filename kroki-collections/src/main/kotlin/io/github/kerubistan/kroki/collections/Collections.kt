@@ -27,3 +27,13 @@ fun <T : Comparable<T>> List<T>.immutableSorted(): List<T> =
 
 inline fun <reified T : Any> buildList(builder: ImmutableListBuilder<T>.() -> Unit) =
 	ImmutableListBuilder<T>().apply(builder).build()
+
+fun <K, V> immutableMapOf(): Map<K, V> = emptyMap()
+
+fun <K, V : Any> immutableMapOf(vararg pairs: Pair<K, V>): Map<K, V> =
+	buildImmutableMap {
+		pairs.forEach { put(it) }
+	}
+
+inline fun <K, V : Any> buildImmutableMap(fn: ImmutableHashMapBuilder<K, V>.() -> Unit): Map<K, V> =
+	ImmutableHashMapBuilder<K, V>().apply(fn).build()
