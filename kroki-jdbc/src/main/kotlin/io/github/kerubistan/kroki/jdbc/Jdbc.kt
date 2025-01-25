@@ -2,16 +2,9 @@ package io.github.kerubistan.kroki.jdbc
 
 import io.github.kerubistan.kroki.objects.use
 import java.math.BigDecimal
-import java.math.BigInteger
 import java.sql.Connection
-import java.sql.JDBCType
 import java.sql.PreparedStatement
 import java.sql.ResultSet
-import java.sql.Types
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.Date
 import javax.sql.DataSource
 
 /**
@@ -116,6 +109,7 @@ inline fun ResultSet.forEach(action: ResultSet.() -> Unit): Unit {
 }
 
 const val JDBC_PARAMETER_PLACEHOLDER = "?"
+const val JDBC_NULL = "NULL"
 
 /**
  * Helps to build parameterized SQL queries by providing a registry for the parameters.
@@ -127,39 +121,19 @@ const val JDBC_PARAMETER_PLACEHOLDER = "?"
 class QueryBuilder {
 	val params = mutableListOf<Any>()
 
-	data class NullPlaceHolder(val jdbcType: Int)
-
-	fun NULL(type: JDBCType) : String {
-		params.add(NullPlaceHolder(type.vendorTypeNumber))
-		return JDBC_PARAMETER_PLACEHOLDER
-	}
-
-	inline fun <reified T : Any> param(value: T?): String {
-		params.add(
-			value ?: NullPlaceHolder(
-				when (T::class) {
-					String::class -> JDBCType.VARCHAR
-					Int::class -> JDBCType.INTEGER
-					Double::class -> JDBCType.DECIMAL
-					Float::class -> JDBCType.DECIMAL
-					BigDecimal::class -> JDBCType.DECIMAL
-					BigInteger::class -> JDBCType.INTEGER
-					Boolean::class -> JDBCType.BOOLEAN
-					Date::class -> JDBCType.TIMESTAMP
-					LocalDate::class -> JDBCType.DATE
-					LocalDateTime::class -> JDBCType.TIMESTAMP
-					Instant::class -> JDBCType.TIMESTAMP
-					else -> JDBCType.BINARY
-				}.vendorTypeNumber
-			)
-		)
-		return JDBC_PARAMETER_PLACEHOLDER
+	fun param(value: Any?): String {
+		if (value == null) {
+			return JDBC_NULL
+		} else {
+			params.add(value)
+			return JDBC_PARAMETER_PLACEHOLDER
+		}
 	}
 
 	/**
 	 * Add the object to the query as parameter - an alternative way.
 	 */
-	val Any.param: String
+	val Any?.param: String
 		get() = param(this)
 }
 
@@ -173,11 +147,7 @@ inline fun Connection.prepareStatement(crossinline builder: QueryBuilder.() -> S
 		val statement = queryBuilder.builder()
 		prepareStatement(statement).apply {
 			queryBuilder.params.forEachIndexed { index: Int, param: Any ->
-				if (param is QueryBuilder.NullPlaceHolder) {
-					setNull(index + 1, param.jdbcType)
-				} else {
-					setParameter(index + 1, param)
-				}
+				setParameter(index + 1, param)
 			}
 		}
 	}

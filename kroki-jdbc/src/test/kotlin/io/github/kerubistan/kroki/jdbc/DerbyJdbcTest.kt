@@ -34,8 +34,8 @@ class DerbyJdbcTest {
 		val employeeNameInput = "Bob '; DROP TABLE EMPLOYEE "
 		connection.use {
 			update { "CREATE TABLE EMPLOYEE(ID INT PRIMARY KEY, NAME VARCHAR(128), ROLE VARCHAR(64))" }
-			insert { "INSERT INTO EMPLOYEE(ID, NAME, ROLE) VALUES (1, ${employeeNameInput.param}, ${param<String>(null)})" }
-			insert { "INSERT INTO EMPLOYEE(ID, NAME, ROLE) VALUES (2, ${"Bob".param}, ${NULL(JDBCType.VARCHAR)})" }
+			insert { "INSERT INTO EMPLOYEE(ID, NAME, ROLE) VALUES (1, ${employeeNameInput.param}, ${param(null)})" }
+			insert { "INSERT INTO EMPLOYEE(ID, NAME, ROLE) VALUES (2, ${"Bob".param}, ${null.param})" }
 			query("SELECT ID, NAME FROM EMPLOYEE") {
 				forEach { println(" ${getInt("ID")} -> ${getString("NAME")} ") }
 			}
