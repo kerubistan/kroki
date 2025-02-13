@@ -168,6 +168,153 @@ class XmlTest {
 	}
 
 	@Test
+	fun parseXmlAndConsumeMultiple() {
+		val results = mutableMapOf<Int, String>()
+		"""
+			<map>
+				<entry>
+					<key>0</key>
+					<value>zero</value>
+				</entry>
+				<entry>
+					<key>1</key>
+					<value>one</value>
+				</entry>
+				<entry>
+					<key>2</key>
+					<value>two</value>
+				</entry>
+			</map>
+		""".trimIndent().readAsXmlEventStream {
+			"map" {
+				"entry" {
+					var key = 0
+					var value: String?
+					"key" - {
+						key = elementText.toInt()
+					}
+					"value" - {
+						value = elementText
+						results[key] = value!!
+					}
+				}
+			}
+		}
+		assertEquals(
+			mapOf(
+				0 to "zero",
+				1 to "one",
+				2 to "two"
+			), results
+		)
+	}
+
+	@Test
+	fun parseXmlAndConsumeMultipleFromDifferentPaths() {
+		val results = mutableMapOf<Int, String>()
+		"""
+			<map>
+				<entry>
+					<key>0</key>
+					<values>
+						<value>zero</value>
+					</values>
+				</entry>
+				<entry>
+					<key>1</key>
+					<values>
+						<value>one</value>
+					</values>
+				</entry>
+				<entry>
+					<key>2</key>
+					<values>
+						<value>two</value>
+					</values>
+				</entry>
+			</map>
+		""".trimIndent().readAsXmlEventStream {
+			"map" {
+				"entry" {
+					var key = 0
+					var value: String?
+					"key" - {
+						key = elementText.toInt()
+					}
+					"values" {
+						"value" - {
+							value = elementText
+							results[key] = value!!
+						}
+					}
+				}
+			}
+		}
+		assertEquals(
+			mapOf(
+				0 to "zero",
+				1 to "one",
+				2 to "two"
+			), results
+		)
+	}
+
+	@Test
+	fun parseXmlAndConsumeMultipleFromVariousPaths() {
+		val results = mutableMapOf<String, String>()
+		"""
+			<map>
+				<namespace>1</namespace>
+				<entry>
+					<key>0</key>
+					<values>
+						<value>zero</value>
+					</values>
+				</entry>
+				<entry>
+					<key>1</key>
+					<values>
+						<value>one</value>
+					</values>
+				</entry>
+				<entry>
+					<key>2</key>
+					<values>
+						<value>two</value>
+					</values>
+				</entry>
+			</map>
+		""".trimIndent().readAsXmlEventStream {
+			"map" {
+				var namespace = 0
+				"namespace" - {
+					namespace = elementText.toInt()
+				}
+				"entry" {
+					var key = ""
+					var value: String?
+					"key" - {
+						key = elementText
+					}
+					"values" {
+						"value" - {
+							value = elementText
+							results["$namespace:$key"] = value!!
+						}
+					}
+				}
+			}
+		}
+		assertEquals(
+			mapOf(
+				"1:0" to "zero",
+				"1:1" to "one",
+				"1:2" to "two"
+			), results
+		)
+	}
+
+	@Test
 	fun xmlEventStream() {
 		assertTrue {
 			var value = ""

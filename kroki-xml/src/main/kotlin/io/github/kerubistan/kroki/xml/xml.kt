@@ -9,6 +9,7 @@ import java.io.Reader
 import javax.xml.stream.XMLEventReader
 import javax.xml.stream.XMLInputFactory
 import javax.xml.stream.events.Attribute
+import javax.xml.stream.events.EndElement
 import javax.xml.stream.events.StartElement
 
 /**
@@ -115,10 +116,21 @@ class SingleTagEventStreamReader(
 	private val reader: XmlEventStreamReader
 ) : XmlEventStreamReader {
 	override fun read(events: XMLEventReader) {
+		var depth = 1
 		while (events.hasNext()) {
-			val event = events.nextEvent()
-			if (event is StartElement && event.name.localPart == tag) {
-				reader.read(SubXMLEventReader(events, event))
+			when (val event = events.nextEvent()) {
+				is StartElement -> {
+					depth++
+					if(event.name.localPart == tag) {
+						reader.read(SubXMLEventReader(events, event))
+					}
+				}
+
+				is EndElement -> {
+					depth--
+					if(depth == 0)
+						return
+				}
 			}
 		}
 	}
@@ -131,11 +143,22 @@ class SingleTagEventStreamReader(
  */
 class MultipleTagsEventStreamReader(private val tags: Map<String, XmlEventStreamReader>) : XmlEventStreamReader {
 	override fun read(events: XMLEventReader) {
+		var depth = 1
 		while (events.hasNext()) {
-			val event = events.nextEvent()
-			if (event is StartElement && event.name.localPart in tags.keys) {
-				tags.getValue(event.name.localPart)
-					.read(SubXMLEventReader(events, event))
+			when (val event = events.nextEvent()) {
+				is StartElement -> {
+					val tagName = event.name.localPart
+					depth++
+					if(tagName in tags.keys) {
+						tags.getValue(tagName)
+							.read(SubXMLEventReader(events, event))
+					}
+				}
+				is EndElement -> {
+					depth--
+					if(depth == 0)
+						return
+				}
 			}
 		}
 	}
