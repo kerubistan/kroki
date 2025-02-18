@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>kroki-flyweight</artifactId>
 		<groupId>io.github.kerubistan.kroki</groupId>
-		<version>1.24</version>
+		<version>1.25-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-flyweight-annotations</artifactId>
-			<version>1.24</version>
+			<version>1.25-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
