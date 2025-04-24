@@ -37,3 +37,4 @@ fun <K, V : Any> immutableMapOf(vararg pairs: Pair<K, V>): Map<K, V> =
 
 inline fun <K, V : Any> buildImmutableMap(fn: ImmutableHashMapBuilder<K, V>.() -> Unit): Map<K, V> =
 	ImmutableHashMapBuilder<K, V>().apply(fn).build()
+

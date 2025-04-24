@@ -1,14 +1,16 @@
 package io.github.kerubistan.kroki.collections
 
 class ImmutableSingletonMap<K, V>(private val key: K, private val value: V) : Map<K, V> {
+
+	internal data class Entry<K, V>(override val key: K, override val value: V) : Map.Entry<K, V>
+
 	override val entries: Set<Map.Entry<K, V>>
-		get() = TODO("not implemented")
+		get() = setOf(Entry(key, value))
 	override val keys: Set<K>
-		get() = TODO("not implemented")
-	override val size: Int
-		get() = TODO("not implemented")
+		get() = setOf(key)
+	override val size: Int = 1
 	override val values: Collection<V>
-		get() = TODO("not implemented")
+		get() = setOf(value)
 
 	override fun isEmpty(): Boolean = false
 

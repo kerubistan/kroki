@@ -1,22 +1,20 @@
 package io.github.kerubistan.kroki.collections
 
-import java.util.Collections
-
 class ImmutableHashMapBuilder<K, V : Any>(private var increment: Int = 128) {
 
 	private var size = 0
-	private var items: Array<ImmutableHashMap.ImmutableHashMapEntry<K, V>?> = arrayOfNulls(increment)
+	private var items: Array<ImmutableMapEntry<K, V>?> = arrayOfNulls(increment)
 
 	private fun resize(size: Int) {
 		if (items.size < size) {
-			val newItems = arrayOfNulls<ImmutableHashMap.ImmutableHashMapEntry<K, V>>(items.size + increment)
+			val newItems = arrayOfNulls<ImmutableMapEntry<K, V>>(items.size + increment)
 			items.copyInto(newItems)
 		}
 	}
 
 	fun put(key: K, value: V) {
 		resize(size + 1)
-		items[size] = ImmutableHashMap.ImmutableHashMapEntry(key, value)
+		items[size] = ImmutableMapEntry(key, value)
 		size++
 	}
 
@@ -27,7 +25,7 @@ class ImmutableHashMapBuilder<K, V : Any>(private var increment: Int = 128) {
 	fun put(vararg pairs: Pair<K, V>) {
 		resize(size + pairs.size)
 		pairs.forEachIndexed { index, pair ->
-			items[size + index] = ImmutableHashMap.ImmutableHashMapEntry(pair.first, pair.second)
+			items[size + index] = ImmutableMapEntry(pair.first, pair.second)
 		}
 		size += pairs.size
 	}
@@ -53,12 +51,12 @@ class ImmutableHashMapBuilder<K, V : Any>(private var increment: Int = 128) {
 				if (items.size == size) {
 					@Suppress("UNCHECKED_CAST")
 					ImmutableHashMap(
-						items as Array<ImmutableHashMap.ImmutableHashMapEntry<K, V>>
+						items as Array<ImmutableMapEntry<K, V>>
 					)
 				} else {
 					@Suppress("UNCHECKED_CAST")
 					ImmutableHashMap(
-						items.copyOf(size) as Array<ImmutableHashMap.ImmutableHashMapEntry<K, V>>
+						items.copyOf(size) as Array<ImmutableMapEntry<K, V>>
 					)
 				}
 		}

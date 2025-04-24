@@ -1,6 +1,10 @@
 package io.github.kerubistan.kroki.collections
 
-internal class ImmutableHashMap<K, V>(private val hashTable : Array<ImmutableHashMapEntry<K, V>>) : Map<K, V> {
+/**
+ * An immutable hashmap implementation on a flat array of items sorted by their key hashCode.
+ * It is expected that the array is already ordered. The implementation doesn't take a copy of the array.
+ */
+internal class ImmutableHashMap<K, V>(private val hashTable: Array<ImmutableMapEntry<K, V>>) : Map<K, V> {
 
 	init {
 		require(hashTable.isNotEmpty()) { "For empty maps, use simply emptyMap" }
@@ -8,48 +12,33 @@ internal class ImmutableHashMap<K, V>(private val hashTable : Array<ImmutableHas
 
 	companion object {
 
-		internal fun <K, V> findStartAndEnd(hashCode : Int, position: Int, hashTable : Array<ImmutableHashMapEntry<K, V>>) : Pair<Int, Int> {
-			TODO()
-		}
-
-		internal fun <K, V> indexesForHash(hashCode : Int, hashTable : Array<ImmutableHashMapEntry<K, V>>) : Pair<Int, Int>? {
-			var start = 0
-			var end = hashTable.size
-			while (start != end - 1) {
-				var middleIndex = start + ((end - start)  /2)
-				val middle = hashTable[middleIndex]
-				when {
-					middle.hashCode == hashCode -> {
-
-					}
+		internal fun <K, V> Array<ImmutableMapEntry<K, V>>.findInRange(range: Pair<Int, Int>, key : K) : ImmutableMapEntry<K, V>? {
+			for (index in range.first .. range.second) {
+				if(this[index].key == key) {
+					return this[index]
 				}
 			}
+			return null
+		}
 
-			return start to end
-
+		/**
+		 * Find the start and end of a hashcode. If the hashCode is not found, then it will return null.
+		 */
+		internal fun <K, V> indexesForHash(
+			hashCode: Int,
+			hashTable: Array<ImmutableMapEntry<K, V>>
+		): Pair<Int, Int>? {
+			// TODO: this is slow, ignores the fact that the array is sorted
+			val first = hashTable.indexOfFirst { it.key.hashCode() == hashCode }
+			return if (first > -1) {
+				val last = hashTable.indexOfLast { it.key.hashCode() == hashCode }
+				first to last
+			} else null
 		}
 
 	}
 
-	class ImmutableHashMapEntry<K, V>(override val key: K, override val value: V) : Map.Entry<K, V> {
-
-		val hashCode = key.hashCode()
-
-		override fun hashCode() = hashCode
-
-		override fun equals(other: Any?): Boolean {
-			if (this === other) return true
-
-			other as ImmutableHashMapEntry<*, *>
-
-			if (key != other.key) return false
-			if (value != other.value) return false
-
-			return true
-		}
-	}
-
-	private class KeySetIterator<K, V>(private val hashTable : Array<ImmutableHashMapEntry<K, V>>) : Iterator<K> {
+	private class KeySetIterator<K, V>(private val hashTable: Array<ImmutableMapEntry<K, V>>) : Iterator<K> {
 		var index = 0;
 		override fun hasNext(): Boolean = index < hashTable.size
 
@@ -60,7 +49,7 @@ internal class ImmutableHashMap<K, V>(private val hashTable : Array<ImmutableHas
 		}
 	}
 
-	private class KeySet<K, V>(private val hashTable : Array<ImmutableHashMapEntry<K, V>>) : Set<K> {
+	private class KeySet<K, V>(private val hashTable: Array<ImmutableMapEntry<K, V>>) : Set<K> {
 		override val size: Int = hashTable.size
 
 		override fun isEmpty(): Boolean = false
@@ -77,22 +66,25 @@ internal class ImmutableHashMap<K, V>(private val hashTable : Array<ImmutableHas
 	}
 
 	override val entries: Set<Map.Entry<K, V>>
-		get() = TODO("not implemented")
+		get() = ImmutableMapEntrySet(hashTable)
 	override val keys: Set<K>
 		get() = KeySet(hashTable)
 	override val size: Int
 		get() = hashTable.size
 	override val values: Collection<V>
-		get() = TODO("not implemented")
+		get() = ArrayTransformList(hashTable) { it.value }
 
-	override fun isEmpty(): Boolean  = hashTable.isEmpty()
+	override fun isEmpty(): Boolean = hashTable.isEmpty()
 
 	override fun get(key: K): V? {
 		val keyHash = key.hashCode()
 
-		indexesForHash(keyHash, hashTable)
-
-		TODO("not implemented")
+		val range = indexesForHash(keyHash, hashTable)
+		return if(range == null) {
+			null
+		} else {
+			hashTable.findInRange(range, key)?.value
+		}
 	}
 
 
@@ -103,7 +95,12 @@ internal class ImmutableHashMap<K, V>(private val hashTable : Array<ImmutableHas
 
 	// this has to be quick
 	override fun containsKey(key: K): Boolean {
-		TODO("not implemented")
+		val range = indexesForHash(key.hashCode(), hashTable)
+		return if(range == null) {
+			false
+		} else {
+			hashTable.findInRange(range, key) != null
+		}
 	}
 
 }

@@ -9,8 +9,8 @@ internal class ImmutableTinyMap<K, V : Any>(
 
 	override val entries: Set<Map.Entry<K, V>> by lazy {
 		setOf(
-			ImmutableHashMap.ImmutableHashMapEntry(key1, value1),
-			ImmutableHashMap.ImmutableHashMapEntry(key2, value2)
+			ImmutableMapEntry(key1, value1),
+			ImmutableMapEntry(key2, value2)
 		)
 	}
 	override val keys: Set<K> by lazy { setOf(key1, key2) }
