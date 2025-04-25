@@ -1,5 +1,7 @@
 package io.github.kerubistan.kroki.collections
 
+import io.github.kerubistan.kroki.delegates.weak
+
 /**
  * An immutable hashmap implementation on a flat array of items sorted by their key hashCode.
  * It is expected that the array is already ordered. The implementation doesn't take a copy of the array.
@@ -93,6 +95,27 @@ internal class ImmutableHashMap<K, V>(private val hashTable: Array<ImmutableMapE
 		it.value == value
 	}
 
+	private val weakString by weak {
+		buildString {
+			append('{')
+			var first = true
+			forEach { key, value ->
+				if(!first) {
+					append(',')
+					append(' ')
+				} else {
+					first = false
+				}
+				append(key)
+				append('=')
+				append(value)
+			}
+			append('}')
+		}
+	}
+
+	override fun toString(): String = weakString
+
 	// this has to be quick
 	override fun containsKey(key: K): Boolean {
 		val range = indexesForHash(key.hashCode(), hashTable)
@@ -103,4 +126,12 @@ internal class ImmutableHashMap<K, V>(private val hashTable: Array<ImmutableMapE
 		}
 	}
 
+	override fun equals(other: Any?): Boolean {
+		return when {
+			other == null -> false
+			other === this -> true
+			other is Map<*, *> -> this.size == other.size && all { (key, value) -> other[key] == value }
+			else -> false
+		}
+	}
 }

@@ -2,7 +2,10 @@ package io.github.kerubistan.kroki.collections
 
 import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.assertions.withClue
+import io.kotest.matchers.equals.shouldBeEqual
+import io.kotest.matchers.equals.shouldNotBeEqual
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -24,9 +27,9 @@ class ImmutableSubArrayListTest {
 
 	@Test
 	fun getSize() {
-		assertEquals(1, immutableListOf(1,2,3).subList(0,1).size)
+		assertEquals(1, immutableListOf(1, 2, 3).subList(0, 1).size)
 		// this is not even done by a sublist, just emptyList
-		assertEquals(0, immutableListOf(1,2,3).subList(0,0).size)
+		assertEquals(0, immutableListOf(1, 2, 3).subList(0, 0).size)
 	}
 
 	@Test
@@ -43,7 +46,7 @@ class ImmutableSubArrayListTest {
 
 	@Test
 	operator fun iterator() {
-		immutableListOf(0,1,2,3).subList(1,4).iterator().let {
+		immutableListOf(0, 1, 2, 3).subList(1, 4).iterator().let {
 			assertTrue(it.hasNext())
 			assertEquals(1, it.next())
 			assertTrue(it.hasNext())
@@ -63,7 +66,7 @@ class ImmutableSubArrayListTest {
 
 	@Test
 	fun listIterator() {
-		immutableListOf(0,1,2,3).subList(1,4).listIterator().let {
+		immutableListOf(0, 1, 2, 3).subList(1, 4).listIterator().let {
 			assertFalse(it.hasPrevious())
 			assertThrows<IllegalArgumentException> { it.previous() }
 			assertTrue(it.hasNext())
@@ -75,7 +78,7 @@ class ImmutableSubArrayListTest {
 
 	@Test
 	fun testListIterator() {
-		immutableListOf(1,2,3).listIterator().let {
+		immutableListOf(1, 2, 3).listIterator().let {
 			it.hasPrevious() shouldBe false
 			shouldThrowAny {
 				it.previous()
@@ -109,47 +112,60 @@ class ImmutableSubArrayListTest {
 
 	@Test
 	fun lastIndexOf() {
-		immutableListOf(1,2,3,4).lastIndexOf(3) shouldBe 2
-		immutableListOf(1,2,3,3).lastIndexOf(3) shouldBe 3
-		immutableListOf(1,2,3,3).lastIndexOf(4) shouldBe -1
+		immutableListOf("A", "B", "C", "D").subList(0, 3).apply {
+			lastIndexOf("A") shouldBe 0
+			lastIndexOf("B") shouldBe 1
+			lastIndexOf("F") shouldBe -1
+		}
 	}
 
 	@Test
 	fun indexOf() {
-		immutableListOf(1,2,3,4).indexOf(3) shouldBe 2
-		immutableListOf(1,2,3,3).indexOf(3) shouldBe 2
-		immutableListOf(1,2,3,3).indexOf(0) shouldBe -1
+		immutableListOf("A", "B", "C", "D").subList(0, 3).apply {
+			indexOf("A") shouldBe 0
+			indexOf("B") shouldBe 1
+			indexOf("F") shouldBe -1
+		}
 	}
 
 	@Test
 	fun containsAll() {
-		assertTrue { immutableListOf(0,1,2,3,4).subList(1,3).containsAll(setOf(1,2)) }
+		assertTrue { immutableListOf(0, 1, 2, 3, 4).subList(1, 3).containsAll(setOf(1, 2)) }
 	}
 
 	@Test
 	fun contains() {
-		assertTrue { immutableListOf(0,1,2,3,4).subList(0,2).contains(0) }
-		assertTrue { immutableListOf(0,1,2,3,4).subList(0,2).contains(1) }
-		assertTrue { immutableListOf(0,1,2,3,4).subList(1,3).contains(1) }
+		assertTrue { immutableListOf(0, 1, 2, 3, 4).subList(0, 2).contains(0) }
+		assertTrue { immutableListOf(0, 1, 2, 3, 4).subList(0, 2).contains(1) }
+		assertTrue { immutableListOf(0, 1, 2, 3, 4).subList(1, 3).contains(1) }
 	}
 
 	@Test
 	fun testToString() {
-		assertEquals("[A,B,C]", immutableListOf("A", "B", "C").subList(0,3).toString())
+		assertEquals("[A,B,C]", immutableListOf("A", "B", "C").subList(0, 3).toString())
 	}
 
 	@Test
 	fun testHashCode() {
 		assertEquals(
-			listOf(1,2,3,4).hashCode(),
-			immutableListOf(0,1,2,3,4).subList(1,5).hashCode()
+			listOf(1, 2, 3, 4).hashCode(),
+			immutableListOf(0, 1, 2, 3, 4).subList(1, 5).hashCode()
 		)
 	}
 
 	@Test
 	fun testEquals() {
-		assertTrue(immutableListOf(0,1,2,3).subList(0,0) == emptyList<Int>())
-		assertTrue(immutableListOf(0,1,2,3).subList(0,1) == listOf(0))
+		assertTrue(immutableListOf(0, 1, 2, 3).subList(0, 0) == emptyList<Int>())
+		assertTrue(immutableListOf(0, 1, 2, 3).subList(0, 1) == listOf(0))
 	}
 
+	@Test
+	fun equal() {
+		immutableListOf(0, 1, 2, 3).subList(0, 1) shouldBeEqual listOf(0)
+		immutableListOf(0, 1, 2, 3).subList(0, 2) shouldBeEqual listOf(0, 1)
+		immutableListOf(0, 1, 2, 3).subList(0, 2) shouldBeEqual immutableListOf(0, 1, 2, 3).subList(0, 2)
+		immutableListOf(0, 1, 2, 3).subList(0, 1).let {
+			it shouldBeEqual it
+		}
+	}
 }

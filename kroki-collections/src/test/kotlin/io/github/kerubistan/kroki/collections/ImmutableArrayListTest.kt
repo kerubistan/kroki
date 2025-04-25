@@ -1,5 +1,7 @@
 package io.github.kerubistan.kroki.collections
 
+import io.kotest.matchers.equals.shouldBeEqual
+import io.kotest.matchers.equals.shouldNotBeEqual
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Assertions.assertNotEquals
@@ -142,10 +144,10 @@ class ImmutableArrayListTest {
 
 	@Test
 	fun equal() {
-		immutableListOf("A", "B", "C") shouldNotBe listOf("A", "B", "C", "D")
-		immutableListOf("A", "B", "C") shouldNotBe listOf("A", "B")
-		immutableListOf("A", "B", "C") shouldNotBe listOf<String>()
-		immutableListOf("A", "B", "C") shouldBe listOf("A", "B", "C")
-		immutableListOf<String>() shouldBe listOf()
+		immutableListOf("A", "B", "C") shouldNotBeEqual listOf("A", "B", "C", "D")
+		immutableListOf("A", "B", "C") shouldNotBeEqual listOf("A", "B")
+		immutableListOf("A", "B", "C") shouldNotBeEqual listOf<String>()
+		immutableListOf("A", "B", "C") shouldBeEqual listOf("A", "B", "C")
+		immutableListOf<String>() shouldBeEqual listOf()
 	}
 }

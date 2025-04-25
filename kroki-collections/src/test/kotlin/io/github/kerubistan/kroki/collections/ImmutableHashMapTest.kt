@@ -2,6 +2,7 @@ package io.github.kerubistan.kroki.collections
 
 import io.github.kerubistan.kroki.iteration.toList
 import io.kotest.assertions.withClue
+import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
@@ -112,7 +113,7 @@ class ImmutableHashMapTest {
 			"B" to "Belgium",
 			"C" to "China",
 			"D" to "Denmark"
-		) shouldBe mapOf(
+		) shouldBeEqual mapOf(
 			"A" to "Alaska",
 			"B" to "Belgium",
 			"C" to "China",

@@ -65,9 +65,19 @@ internal class ImmutableSubArrayList<T : Any>(
 			else -> ImmutableSubArrayList(offset + fromIndex, offset + toIndex, items)
 		}
 
-	override fun lastIndexOf(element: T): Int = (offset until limit).last { this[it] == element }
+	private inline fun index(element: T,  fn : (element : T) -> Int) = try {
+		fn(element)
+	} catch (nse: NoSuchElementException) {
+		-1
+	}
 
-	override fun indexOf(element: T): Int = (offset until limit).first { this[it] == element }
+	override fun lastIndexOf(element: T): Int = index(element) {
+		(offset until limit).last { this[it] == element }
+	}
+
+	override fun indexOf(element: T): Int = index(element) {
+		(offset until limit).first { this[it] == element }
+	}
 
 	override fun containsAll(elements: Collection<T>): Boolean = elements.isEmpty() || elements.all { it in this }
 
@@ -97,7 +107,7 @@ internal class ImmutableSubArrayList<T : Any>(
 			&& (0 until this.lastIndex).all { index -> this[index] == other[index] }
 	}
 
-	private val hashCode by lazy { listHashCode(this)	}
+	private val hashCode by lazy { listHashCode(this) }
 
 	override fun hashCode() = hashCode
 
