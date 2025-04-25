@@ -4,3 +4,4 @@
 **/target
 **/.attach*
 **/*.log
+**/pom.xml.releaseBackup

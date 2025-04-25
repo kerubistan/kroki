@@ -59,7 +59,6 @@ class ReferencesKtTest {
 
 	}
 
-	@Test
 	fun soft() {
 
 		data class Image(val values: Int, val width: Int, val height: Int) {

@@ -108,6 +108,9 @@ inline fun ResultSet.forEach(action: ResultSet.() -> Unit): Unit {
 	}
 }
 
+const val JDBC_PARAMETER_PLACEHOLDER = "?"
+const val JDBC_NULL = "NULL"
+
 /**
  * Helps to build parameterized SQL queries by providing a registry for the parameters.
  * @sample io.github.kerubistan.kroki.jdbc.JdbcSamples.queryBuilderOperatorSample
@@ -118,18 +121,19 @@ inline fun ResultSet.forEach(action: ResultSet.() -> Unit): Unit {
 class QueryBuilder {
 	val params = mutableListOf<Any>()
 
-	/**
-	 * Add a parameter to the query.
-	 */
-	fun param(value: Any): String {
-		params.add(value)
-		return "?"
+	fun param(value: Any?): String {
+		if (value == null) {
+			return JDBC_NULL
+		} else {
+			params.add(value)
+			return JDBC_PARAMETER_PLACEHOLDER
+		}
 	}
 
 	/**
 	 * Add the object to the query as parameter - an alternative way.
 	 */
-	val Any.param: String
+	val Any?.param: String
 		get() = param(this)
 }
 

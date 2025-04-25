@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test
 import java.io.File
 import java.sql.Connection
 import java.sql.DriverManager
+import java.sql.JDBCType
 
 class DerbyJdbcTest {
 
@@ -32,8 +33,9 @@ class DerbyJdbcTest {
 	fun queries() {
 		val employeeNameInput = "Bob '; DROP TABLE EMPLOYEE "
 		connection.use {
-			update { "CREATE TABLE EMPLOYEE(ID INT PRIMARY KEY, NAME VARCHAR(128))" }
-			insert { "INSERT INTO EMPLOYEE(ID, NAME) VALUES (1, ${employeeNameInput.param})" }
+			update { "CREATE TABLE EMPLOYEE(ID INT PRIMARY KEY, NAME VARCHAR(128), ROLE VARCHAR(64))" }
+			insert { "INSERT INTO EMPLOYEE(ID, NAME, ROLE) VALUES (1, ${employeeNameInput.param}, ${param(null)})" }
+			insert { "INSERT INTO EMPLOYEE(ID, NAME, ROLE) VALUES (2, ${"Bob".param}, ${null.param})" }
 			query("SELECT ID, NAME FROM EMPLOYEE") {
 				forEach { println(" ${getInt("ID")} -> ${getString("NAME")} ") }
 			}

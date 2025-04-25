@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>kroki</artifactId>
 		<groupId>io.github.kerubistan.kroki</groupId>
-		<version>1.24-SNAPSHOT</version>
+		<version>1.26-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>kroki-jmh</artifactId>
@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-utils</artifactId>
-			<version>1.24-SNAPSHOT</version>
+			<version>1.26-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
@@ -38,22 +38,22 @@
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-coroutines</artifactId>
-			<version>1.24-SNAPSHOT</version>
+			<version>1.26-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-flyweight-lib</artifactId>
-			<version>1.24-SNAPSHOT</version>
+			<version>1.26-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-xml</artifactId>
-			<version>1.24-SNAPSHOT</version>
+			<version>1.26-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-delegates</artifactId>
-			<version>1.24-SNAPSHOT</version>
+			<version>1.26-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -87,11 +87,6 @@
 
 	<build>
 		<plugins>
-
-			<plugin>
-				<groupId>org.jetbrains.dokka</groupId>
-				<artifactId>dokka-maven-plugin</artifactId>
-			</plugin>
 
 			<plugin>
 				<artifactId>kotlin-maven-plugin</artifactId>
