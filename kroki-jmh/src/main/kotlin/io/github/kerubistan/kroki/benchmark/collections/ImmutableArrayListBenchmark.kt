@@ -17,7 +17,7 @@ open class ImmutableArrayListBenchmark {
 	@Param("1", "16", "1024", "4096")
 	var size: Int = 0
 
-	@Param("arraylist", "immutablearraylist", "guava")
+	@Param("arraylist", "unmodifiableList", "immutablearraylist", "guava")
 	var type: String = "arraylist"
 
 	lateinit var list: List<String>
@@ -33,7 +33,9 @@ open class ImmutableArrayListBenchmark {
 			"arraylist" -> {
 				list = ArrayList(rawList)
 			}
-
+			"unmodifiableList" -> {
+				list = Collections.unmodifiableList(rawList)
+			}
 			"immutablearraylist" -> {
 				list = immutableListOf(*rawList.toTypedArray())
 			}
@@ -55,6 +57,13 @@ open class ImmutableArrayListBenchmark {
 		}
 	}
 
+	@Benchmark
+	fun iterateWithCountingFor(blackhole: Blackhole) {
+		for (index in (0 .. list.lastIndex)) {
+			blackhole.consume(list[index])
+		}
+	}
+
 	/**
 	 * An example of what a faster list could do.
 	 */
@@ -71,6 +80,21 @@ open class ImmutableArrayListBenchmark {
 	@Benchmark
 	fun first(blackhole: Blackhole) {
 		blackhole.consume(list.first())
+	}
+
+	@Benchmark
+	fun last(blackhole: Blackhole) {
+		blackhole.consume(list.last())
+	}
+
+	@Benchmark
+	fun indexOf(blackhole: Blackhole) {
+		blackhole.consume(list.indexOf("1"))
+	}
+
+	@Benchmark
+	fun isEmpty(blackhole: Blackhole) {
+		blackhole.consume(list.isEmpty())
 	}
 
 	@Benchmark
