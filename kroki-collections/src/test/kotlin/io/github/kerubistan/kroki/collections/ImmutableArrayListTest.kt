@@ -1,5 +1,7 @@
 package io.github.kerubistan.kroki.collections
 
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -136,5 +138,14 @@ class ImmutableArrayListTest {
 		// when two objects are equal, their hashcode should also be equal
 		assertEquals(immutableListOf("A", "B").hashCode(), ArrayList(listOf("A", "B")).hashCode())
 		assertEquals(immutableListOf("A", "B").hashCode(), arrayListOf("A", "B").hashCode())
+	}
+
+	@Test
+	fun equal() {
+		immutableListOf("A", "B", "C") shouldNotBe listOf("A", "B", "C", "D")
+		immutableListOf("A", "B", "C") shouldNotBe listOf("A", "B")
+		immutableListOf("A", "B", "C") shouldNotBe listOf<String>()
+		immutableListOf("A", "B", "C") shouldBe listOf("A", "B", "C")
+		immutableListOf<String>() shouldBe listOf()
 	}
 }

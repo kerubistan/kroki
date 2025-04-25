@@ -12,11 +12,14 @@ import java.util.Collections
 
 @State(Scope.Benchmark)
 open class ImmutableMapBenchmark {
-	@Param("immutablemap", "guava", "hashmap", "wrapped-hashmap")
+	@Param("immutablemap", "unmodifiablemap", "guava", "hashmap", "wrapped-hashmap")
 	var type = "immutablemap"
 
 	@Param("0", "1", "2")
 	var size = 0
+
+	@Param("0")
+	var getKey = "0"
 
 	var map: Map<String, String> = mapOf()
 
@@ -29,6 +32,7 @@ open class ImmutableMapBenchmark {
 		}
 		map = when (type) {
 			"immutablemap" -> buildImmutableMap { rawMap.forEach { (key, value) -> put(key, value) } }
+			"unmodifiablemap" -> Collections.unmodifiableMap(map)
 			"guava" -> ImmutableMap.builder<String, String>().apply {
 				rawMap.forEach { (key, value) -> put(key, value) }
 			}
@@ -40,10 +44,14 @@ open class ImmutableMapBenchmark {
 		}
 	}
 
-
 	@Benchmark
 	fun get(blackhole: Blackhole) {
-		blackhole.consume(map["0"])
+		blackhole.consume(map[getKey])
+	}
+
+	@Benchmark
+	fun containsKey(blackhole: Blackhole) {
+		blackhole.consume(map.containsKey(getKey))
 	}
 
 	@Benchmark
@@ -54,6 +62,17 @@ open class ImmutableMapBenchmark {
 	}
 
 	@Benchmark
-	fun iterateOnEntries() {}
+	fun iterateOnEntries(blackhole: Blackhole) {
+		map.entries.forEach {
+			blackhole.consume(it)
+		}
+	}
+
+	@Benchmark
+	fun forEach(blackhole: Blackhole) {
+		map.forEach {
+			blackhole.consume(it.key)
+		}
+	}
 
 }

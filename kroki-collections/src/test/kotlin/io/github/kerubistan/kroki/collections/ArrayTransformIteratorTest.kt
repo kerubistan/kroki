@@ -14,10 +14,15 @@ class ArrayTransformIteratorTest {
 		}.let {
 			it.hasNext() shouldBe true
 			it.hasPrevious() shouldBe false
+			it.nextIndex() shouldBe 1
 			it.next() shouldBe "a"
+			it.nextIndex() shouldBe 2
+			it.previousIndex() shouldBe 0
 			it.hasNext() shouldBe true
 			it.hasPrevious() shouldBe true
 			it.next() shouldBe "b"
+			it.nextIndex() shouldBe 3
+			it.previousIndex() shouldBe 1
 			it.hasNext() shouldBe true
 			it.hasPrevious() shouldBe true
 			it.next() shouldBe "c"

@@ -45,6 +45,7 @@ class ImmutableHashMapTest {
 		map["B"] shouldBe "Belgium"
 		map["C"] shouldBe "China"
 		map["D"] shouldBe "Denmark"
+		map["F"] shouldBe null
 		map.size shouldBe 4
 	}
 
@@ -102,5 +103,20 @@ class ImmutableHashMapTest {
 			containsKey("A") shouldBe true
 			containsKey("X") shouldBe false
 		}
+	}
+
+	@Test
+	fun equal() {
+		immutableMapOf(
+			"A" to "Alaska",
+			"B" to "Belgium",
+			"C" to "China",
+			"D" to "Denmark"
+		) shouldBe mapOf(
+			"A" to "Alaska",
+			"B" to "Belgium",
+			"C" to "China",
+			"D" to "Denmark"
+		)
 	}
 }
