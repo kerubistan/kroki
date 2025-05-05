@@ -312,3 +312,8 @@ inline fun XMLEventReader.readAsXmlEventStream(crossinline builder: XmlEventStre
  */
 fun StartElement.readAttributes(): Map<String, String> =
 	this.attributes.toMap { (this as Attribute).run { name.localPart to value } }
+
+/**
+ * Creates an XML Path object from an xml path expression.
+ */
+fun xmlPath(expression : String) : XmlPath = TODO()
