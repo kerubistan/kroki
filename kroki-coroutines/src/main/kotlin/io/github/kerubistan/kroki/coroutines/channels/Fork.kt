@@ -5,6 +5,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.launch
 
+/**
+ * Creates two output channels with the same messages as in the input.
+ */
 suspend fun <T> CoroutineScope.fork(
 	channel: ReceiveChannel<T>,
 	outCapacity: Int = 4

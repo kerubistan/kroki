@@ -6,6 +6,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+/**
+ * Create a new channel with messages from the input channel but delayed with a calculated amount of milliseconds.
+ */
 fun <T> CoroutineScope.delay(channel: Channel<T>, capacity: Int = 1024, delayMillis: (T) -> Long): Channel<T> {
 
 	val jobs = Channel<Job>(capacity)

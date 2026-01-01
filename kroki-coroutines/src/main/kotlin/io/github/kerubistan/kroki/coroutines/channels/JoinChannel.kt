@@ -48,6 +48,9 @@ internal class SortedList<T>(private val comparator: Comparator<T>) {
 
 }
 
+/**
+ * Creates a channel with the messages from all input channels.
+ */
 fun <T> CoroutineScope.joinChannels(
 	inputChannels: List<ReceiveChannel<T>>,
 	outChannelCapacity: Int = 128,
