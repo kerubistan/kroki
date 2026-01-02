@@ -31,7 +31,6 @@
 		<dokka.skip>false</dokka.skip>
 		<coroutines.api.version>1.8.1</coroutines.api.version>
 		<jackson.version>2.13.4</jackson.version>
-		<junit.version>4.13.2</junit.version>
 	</properties>
 
 	<scm>
