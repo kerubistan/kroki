@@ -35,12 +35,6 @@
 			<version>1.26-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.nhaarman</groupId>
 			<artifactId>mockito-kotlin</artifactId>
 		</dependency>
