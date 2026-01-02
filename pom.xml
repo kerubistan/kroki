@@ -27,7 +27,7 @@
 		<kotlin.version>1.9.25</kotlin.version>
 		<kotlin.code.style>official</kotlin.code.style>
 		<junit.jupiter.version>5.9.1</junit.jupiter.version>
-		<dokka.version>1.9.20</dokka.version>
+		<dokka.version>2.0.0</dokka.version>
 		<dokka.skip>false</dokka.skip>
 		<coroutines.api.version>1.8.1</coroutines.api.version>
 		<jackson.version>2.13.4</jackson.version>
