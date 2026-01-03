@@ -1,7 +1,8 @@
 package io.github.kerubistan.kroki.flyweight
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.KotlinFeature
+import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.github.kerubistan.kroki.flyweight.annotations.IgnoreFlyWeight
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -102,7 +103,8 @@ class FlyWeightKtTest {
 
 	}
 
-	private fun objectMapper() = ObjectMapper().registerModule(KotlinModule(strictNullChecks = true))
+	private fun objectMapper() =
+		ObjectMapper().registerModule(kotlinModule { this.enable(KotlinFeature.StrictNullChecks) })
 
 	enum class Status {
 		TODO,

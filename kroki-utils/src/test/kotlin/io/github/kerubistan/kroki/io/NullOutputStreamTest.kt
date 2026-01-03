@@ -4,7 +4,7 @@ import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.size.MB
 import org.junit.jupiter.api.Test
 
-internal class NullOutputStreamTest {
+class NullOutputStreamTest {
 
 	@Test
 	fun write() {

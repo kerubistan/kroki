@@ -5,7 +5,7 @@ import java.util.UUID.randomUUID
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class FilesKtTest {
+class FilesKtTest {
 
 	@Test
 	fun divOperator() {

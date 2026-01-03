@@ -9,7 +9,7 @@ import kotlin.concurrent.thread
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-internal class ConcurrencyKtTest {
+class ConcurrencyKtTest {
 
 	@Test
 	fun threadLocalTest() {

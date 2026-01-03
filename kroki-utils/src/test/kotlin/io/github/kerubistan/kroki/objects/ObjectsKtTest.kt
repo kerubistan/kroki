@@ -1,9 +1,9 @@
 package io.github.kerubistan.kroki.objects
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-internal class ObjectsKtTest {
+class ObjectsKtTest {
 	data class Folder(
 		val name: String,
 		val subFolders: List<Folder> = listOf()

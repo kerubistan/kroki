@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.math.BigInteger
 
-internal class NumbersKtTest {
+class NumbersKtTest {
 
 	@Test
 	fun times() {

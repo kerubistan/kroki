@@ -30,7 +30,7 @@
 		<dokka.version>2.0.0</dokka.version>
 		<dokka.skip>false</dokka.skip>
 		<coroutines.api.version>1.10.2</coroutines.api.version>
-		<jackson.version>2.13.4</jackson.version>
+		<jackson.version>2.19.1</jackson.version>
 	</properties>
 
 	<scm>
@@ -101,6 +101,11 @@
 				<artifactId>junit-jupiter</artifactId>
 				<version>${junit.jupiter.version}</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.platform</groupId>
+				<artifactId>junit-platform-launcher</artifactId>
+				<version>1.12.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.nhaarman</groupId>

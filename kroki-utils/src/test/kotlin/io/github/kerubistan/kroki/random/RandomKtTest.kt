@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import kotlin.test.assertTrue
 
-internal class RandomKtTest {
+class RandomKtTest {
 
 	@Test
 	fun genPassword() {

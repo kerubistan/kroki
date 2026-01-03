@@ -43,6 +43,10 @@
 			<artifactId>junit-jupiter-engine</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-launcher</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-test-junit</artifactId>
 			<version>${kotlin.version}</version>

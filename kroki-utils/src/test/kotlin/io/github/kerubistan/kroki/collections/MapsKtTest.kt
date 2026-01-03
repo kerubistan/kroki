@@ -3,7 +3,7 @@ package io.github.kerubistan.kroki.collections
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-internal class MapsKtTest {
+class MapsKtTest {
 
 	@Test
 	fun upsert() {

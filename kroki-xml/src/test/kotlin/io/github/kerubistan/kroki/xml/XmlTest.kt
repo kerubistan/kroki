@@ -1,6 +1,6 @@
 package io.github.kerubistan.kroki.xml
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.ByteArrayOutputStream
 import kotlin.test.assertEquals
