@@ -15,13 +15,17 @@ fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache): T
 	when {
 		this is String ->
 			this.intern()
+
 		this.javaClass.kotlin.isData ->
 			flyWeightDataInstance(instanceCache)
+
 		this is Set<*> ->
 			this.map { it?.flyWeight(instanceCache) }.toSet()
+
 		this is List<*> -> {
 			this.map { it?.flyWeight(instanceCache) }
 		}
+
 		this is Map<*, *> -> {
 			HashMap<Any?, Any?>(this.size).apply {
 				this@flyWeight.forEach { key, value ->
@@ -29,6 +33,7 @@ fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache): T
 				}
 			}
 		}
+
 		else -> this
 	} as T
 
@@ -80,5 +85,5 @@ private val noFlyWeightTypes = setOf(
  */
 private fun noFlyWeightType(componentValue: Any) =
 	componentValue.javaClass.isEnum
-			|| componentValue.javaClass.kotlin in noFlyWeightTypes
-			|| componentValue.javaClass.annotations.any { it is IgnoreFlyWeight }
+		|| componentValue.javaClass.kotlin in noFlyWeightTypes
+		|| componentValue.javaClass.annotations.any { it is IgnoreFlyWeight }

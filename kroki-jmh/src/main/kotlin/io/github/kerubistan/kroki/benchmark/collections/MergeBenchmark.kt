@@ -7,7 +7,7 @@ import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
-import java.util.*
+import java.util.UUID
 import java.util.UUID.randomUUID
 
 @State(Scope.Benchmark)

@@ -9,7 +9,8 @@ class CloseableKtTest {
 	@Test
 	fun useIt() {
 
-		assertEquals("blah",
+		assertEquals(
+			"blah",
 			StringWriter().useIt {
 				write("blah")
 				toString()

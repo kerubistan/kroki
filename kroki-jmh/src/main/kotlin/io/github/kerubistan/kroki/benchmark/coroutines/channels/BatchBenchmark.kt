@@ -14,10 +14,10 @@ import org.openjdk.jmh.annotations.State
 open class BatchBenchmark {
 
 	@Param("1", "4", "16", "32", "64", "128", "256", "512", "1024")
-	var size : Int = 1
+	var size: Int = 1
 
 	@Param("256", "512", "1024")
-	var count : Int = 1
+	var count: Int = 1
 
 	@OptIn(ExperimentalCoroutinesApi::class)
 	@Benchmark

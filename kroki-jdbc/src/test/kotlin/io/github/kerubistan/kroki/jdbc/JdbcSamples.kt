@@ -1,18 +1,9 @@
 package io.github.kerubistan.kroki.jdbc
 
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.eq
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
-import org.junit.jupiter.api.Test
 import java.sql.Connection
 import java.sql.Date
-import java.sql.PreparedStatement
 import java.sql.ResultSet
 import javax.sql.DataSource
-import kotlin.test.assertEquals
 
 class JdbcSamples {
 	fun dataSourceUseSample(dataSource: DataSource) {

@@ -2,9 +2,8 @@ package io.github.kerubistan.kroki.coroutines.channels
 
 import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 class ShuffleKtTest {
 

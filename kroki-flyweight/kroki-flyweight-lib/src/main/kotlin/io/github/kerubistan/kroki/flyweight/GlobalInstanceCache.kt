@@ -1,6 +1,6 @@
 package io.github.kerubistan.kroki.flyweight
 
-import java.util.*
+import java.util.WeakHashMap
 import kotlin.reflect.KClass
 
 /**

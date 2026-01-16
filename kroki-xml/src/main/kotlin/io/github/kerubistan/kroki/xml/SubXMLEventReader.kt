@@ -36,6 +36,7 @@ class SubXMLEventReader(private val original: XMLEventReader, val startElement: 
 					open = false
 				}
 			}
+
 			is StartElement -> {
 				depth++
 			}

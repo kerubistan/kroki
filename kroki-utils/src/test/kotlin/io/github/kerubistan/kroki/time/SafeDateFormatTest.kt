@@ -2,7 +2,8 @@ package io.github.kerubistan.kroki.time
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.util.*
+import java.util.Calendar
+import java.util.GregorianCalendar
 import kotlin.test.assertEquals
 
 class SafeDateFormatTest {

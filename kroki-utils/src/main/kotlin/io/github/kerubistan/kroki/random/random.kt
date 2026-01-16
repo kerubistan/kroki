@@ -1,12 +1,12 @@
 package io.github.kerubistan.kroki.random
 
-import java.util.*
+import java.util.Random
 
 private val pwdCharacters = (
-		('a'..'z').toList() +
-				('A'..'Z').toList() +
-				('0'..'9').toList() +
-				listOf('_', '-', '.')).toCharArray()
+	('a'..'z').toList() +
+		('A'..'Z').toList() +
+		('0'..'9').toList() +
+		listOf('_', '-', '.')).toCharArray()
 
 private val globalRandom = Random()
 

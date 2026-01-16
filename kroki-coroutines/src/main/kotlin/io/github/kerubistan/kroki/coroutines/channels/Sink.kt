@@ -13,5 +13,5 @@ suspend fun <T> CoroutineScope.sink(channel: ReceiveChannel<T>) {
 		while (iterator.hasNext()) {
 			iterator.next()
 		}
-    }
+	}
 }
