@@ -28,7 +28,7 @@ fun <T : Any> T.flyWeight(instanceCache: InstanceCache = GlobalInstanceCache): T
 
 		this is Map<*, *> -> {
 			HashMap<Any?, Any?>(this.size).apply {
-				this@flyWeight.forEach { key, value ->
+				this@flyWeight.forEach { (key, value) ->
 					this[key?.flyWeight(instanceCache)] = value?.flyWeight(instanceCache)
 				}
 			}
