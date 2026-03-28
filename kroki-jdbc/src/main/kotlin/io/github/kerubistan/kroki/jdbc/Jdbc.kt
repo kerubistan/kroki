@@ -121,13 +121,11 @@ const val JDBC_NULL = "NULL"
 class QueryBuilder {
 	val params = mutableListOf<Any>()
 
-	fun param(value: Any?): String {
-		if (value == null) {
-			return JDBC_NULL
-		} else {
-			params.add(value)
-			return JDBC_PARAMETER_PLACEHOLDER
-		}
+	fun param(value: Any?): String = if (value == null) {
+		JDBC_NULL
+	} else {
+		params.add(value)
+		JDBC_PARAMETER_PLACEHOLDER
 	}
 
 	/**
