@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 /**
  * Creates two output channels with the same messages as in the input.
  */
-suspend fun <T> CoroutineScope.fork(
+fun <T> CoroutineScope.fork(
 	channel: ReceiveChannel<T>,
 	outCapacity: Int = 4
 ): Pair<ReceiveChannel<T>, ReceiveChannel<T>> {
