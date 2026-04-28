@@ -24,10 +24,10 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<kotlin.version>2.1.0</kotlin.version>
+		<kotlin.version>2.3.10</kotlin.version>
 		<kotlin.code.style>official</kotlin.code.style>
 		<junit.jupiter.version>5.12.2</junit.jupiter.version>
-		<dokka.version>2.0.0</dokka.version>
+		<dokka.version>2.2.0</dokka.version>
 		<dokka.skip>false</dokka.skip>
 		<coroutines.api.version>1.10.2</coroutines.api.version>
 		<jackson.version>2.19.1</jackson.version>

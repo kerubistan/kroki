@@ -69,6 +69,7 @@
 		<javac.target>17</javac.target>
 		<jmh.generator>default</jmh.generator>
 		<uberjar.name>benchmarks</uberjar.name>
+		<dokka.skip>true</dokka.skip>
 	</properties>
 
 	<build>
