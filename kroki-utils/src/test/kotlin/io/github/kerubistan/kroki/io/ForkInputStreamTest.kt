@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Test
 import kotlin.text.Charsets.UTF_8
 
-internal class ForkInputStreamTest {
+class ForkInputStreamTest {
 
 	private val text = """shalalla-hallala """.repeat(4096).trimIndent()
 

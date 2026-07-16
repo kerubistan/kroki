@@ -20,6 +20,7 @@ class StaxXmlBuilder(outputStream: OutputStream, formatMode: FormatMode = Format
 				FOUR_SPACES
 			)
 		}
+
 		FormatMode.PRETTY_SMALL_SPACE_NAZI -> PrettyXmlStreamWriter(
 			xmlOutputFactory.createXMLStreamWriter(outputStream),
 			TWO_SPACES

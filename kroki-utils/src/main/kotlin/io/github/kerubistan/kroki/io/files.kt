@@ -7,7 +7,7 @@ import java.io.File
  * For example userHome / ".ssh" is less brain overload than File(userHome, ".ssh").
  * @sample io.github.kerubistan.kroki.io.FilesSamples.easyNavigationWithDivOperator
  */
-operator fun File.div(name : String) = File(this, name)
+operator fun File.div(name: String) = File(this, name)
 
 /**
  * The user home directory.

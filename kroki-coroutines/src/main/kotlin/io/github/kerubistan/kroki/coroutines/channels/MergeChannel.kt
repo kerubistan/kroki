@@ -8,13 +8,14 @@ import kotlinx.coroutines.launch
 fun <T, K> CoroutineScope.mergeChannel(
 	channel: ReceiveChannel<T>,
 	key: (T) -> K,
-	outChannelCapacity : Int = 1024,
-	merge: (T, T) -> T): ReceiveChannel<T> {
-    val output = Channel<T>(capacity = outChannelCapacity)
+	outChannelCapacity: Int = 1024,
+	merge: (T, T) -> T
+): ReceiveChannel<T> {
+	val output = Channel<T>(capacity = outChannelCapacity)
 
-    launch {
-        var last: T? = null
-        for (message in channel) {
+	launch {
+		var last: T? = null
+		for (message in channel) {
 			last = if (last == null) {
 				message
 			} else {
@@ -25,12 +26,12 @@ fun <T, K> CoroutineScope.mergeChannel(
 					message
 				}
 			}
-        }
-        if (last != null) {
-            output.send(last)
-        }
-        output.close()
-    }
+		}
+		if (last != null) {
+			output.send(last)
+		}
+		output.close()
+	}
 
-    return output
+	return output
 }

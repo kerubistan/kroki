@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertThrows
 import java.io.StringReader
 import kotlin.test.assertEquals
 
-internal class ResourcesKtTest {
+class ResourcesKtTest {
 
 	@Test
 	fun resourceToString() {

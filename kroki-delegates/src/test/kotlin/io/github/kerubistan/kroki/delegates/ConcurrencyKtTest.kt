@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.lang.Thread.yield
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 import kotlin.concurrent.thread
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-internal class ConcurrencyKtTest {
+class ConcurrencyKtTest {
 
 	@Test
 	fun threadLocalTest() {

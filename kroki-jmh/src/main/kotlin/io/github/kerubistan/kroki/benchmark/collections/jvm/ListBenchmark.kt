@@ -14,17 +14,17 @@ open class ListBenchmark {
 	@Param("1", "2", "4", "16", "32", "64", "128", "256")
 	var arraySize = 1
 
-	@Param("array","linked")
+	@Param("array", "linked")
 	var implementation = "array"
 
-	var insertIndex : Int = 0
+	var insertIndex: Int = 0
 
-	lateinit var list : MutableList<String>
+	lateinit var list: MutableList<String>
 
 	@Setup
 	fun setup() {
 		val data = (0..arraySize).map { "item-$it" }.toList()
-		list = when(implementation) {
+		list = when (implementation) {
 			"array" -> ArrayList(data)
 			"linked" -> LinkedList(data)
 			else -> throw IllegalArgumentException("no-no")
@@ -45,7 +45,7 @@ open class ListBenchmark {
 	}
 
 	@Benchmark
-	fun iterate(hole : Blackhole) {
+	fun iterate(hole: Blackhole) {
 		list.forEach {
 			hole.consume(it)
 		}

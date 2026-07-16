@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import kotlin.test.assertTrue
 
-internal class ComparablesKtTest {
+class ComparablesKtTest {
 	@Test
 	fun comparator() {
 		val input = listOf("foo", "bar", "baz")

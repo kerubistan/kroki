@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 import java.io.InputStream
 import java.nio.charset.StandardCharsets.UTF_8
 
-internal class IostreamsKtTest {
+class IostreamsKtTest {
 
 	@Test
 	fun peekSample() {

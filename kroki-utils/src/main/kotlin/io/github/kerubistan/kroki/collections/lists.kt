@@ -76,18 +76,18 @@ inline fun <R : Any, L, reified SUB : R, reified P> List<R>.mergeInstancesWith(
 	val rightValuesByProp = this.filterIsInstance<SUB>().associateBy(rightValue)
 
 	return leftValuesByProp.filterKeys { it !in rightValuesByProp.keys }.mapNotNull { (_, v) -> missLeft(v) } +
-			this.mapNotNull { item ->
-				if (item is SUB) {
-					val rightCounterpart = leftValuesByProp[rightValue(item)]
-					if (rightCounterpart != null) {
-						merge(item, rightCounterpart)
-					} else {
-						miss(item)
-					}
+		this.mapNotNull { item ->
+			if (item is SUB) {
+				val rightCounterpart = leftValuesByProp[rightValue(item)]
+				if (rightCounterpart != null) {
+					merge(item, rightCounterpart)
 				} else {
-					item
+					miss(item)
 				}
+			} else {
+				item
 			}
+		}
 }
 
 /**

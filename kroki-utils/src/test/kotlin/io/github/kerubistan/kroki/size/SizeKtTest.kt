@@ -3,7 +3,7 @@ package io.github.kerubistan.kroki.size
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-internal class SizeKtTest {
+class SizeKtTest {
 	@Test
 	fun checkSizes() {
 		assertEquals(1.KB, 1024.toBigInteger())

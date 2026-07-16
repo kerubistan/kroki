@@ -4,12 +4,13 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.StringWriter
 
-internal class CloseableKtTest {
+class CloseableKtTest {
 
 	@Test
 	fun useIt() {
 
-		assertEquals("blah",
+		assertEquals(
+			"blah",
 			StringWriter().useIt {
 				write("blah")
 				toString()

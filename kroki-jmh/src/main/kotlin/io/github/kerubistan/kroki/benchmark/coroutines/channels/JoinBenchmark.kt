@@ -1,12 +1,12 @@
 package io.github.kerubistan.kroki.benchmark.coroutines.channels
 
+import io.github.kerubistan.kroki.coroutines.channels.joinChannels
 import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.runBlocking
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.Param
 import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.State
-import io.github.kerubistan.kroki.coroutines.channels.joinChannels
 import org.openjdk.jmh.infra.Blackhole
 
 @State(Scope.Benchmark)
@@ -31,7 +31,7 @@ open class JoinBenchmark {
 			}
 		}
 		val joined = joinChannels(jobs, capacity, String::compareTo)
-		for(message in joined) {
+		for (message in joined) {
 			hole.consume(message)
 		}
 	}

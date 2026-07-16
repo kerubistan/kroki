@@ -1,12 +1,12 @@
 package io.github.kerubistan.kroki.strings
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.util.UUID.randomUUID
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class StringsKtTest {
+class StringsKtTest {
 	@Test
 	fun isUUID() {
 		assertTrue(randomUUID().toString().isUUID())

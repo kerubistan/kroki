@@ -5,8 +5,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
 
+/**
+ * Creates a channel with the input messages in batches.
+ */
 @OptIn(ExperimentalCoroutinesApi::class)
-suspend fun <T> CoroutineScope.batch(channel: ReceiveChannel<T>, chunkSize: Int): ReceiveChannel<List<T>> =
+fun <T> CoroutineScope.batch(channel: ReceiveChannel<T>, chunkSize: Int): ReceiveChannel<List<T>> =
 	produce {
 		var list = ArrayList<T>(chunkSize)
 		for (message in channel) {

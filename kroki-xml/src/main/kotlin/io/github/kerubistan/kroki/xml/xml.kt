@@ -121,14 +121,14 @@ class SingleTagEventStreamReader(
 			when (val event = events.nextEvent()) {
 				is StartElement -> {
 					depth++
-					if(event.name.localPart == tag) {
+					if (event.name.localPart == tag) {
 						reader.read(SubXMLEventReader(events, event))
 					}
 				}
 
 				is EndElement -> {
 					depth--
-					if(depth == 0)
+					if (depth == 0)
 						return
 				}
 			}
@@ -149,14 +149,15 @@ class MultipleTagsEventStreamReader(private val tags: Map<String, XmlEventStream
 				is StartElement -> {
 					val tagName = event.name.localPart
 					depth++
-					if(tagName in tags.keys) {
+					if (tagName in tags.keys) {
 						tags.getValue(tagName)
 							.read(SubXMLEventReader(events, event))
 					}
 				}
+
 				is EndElement -> {
 					depth--
-					if(depth == 0)
+					if (depth == 0)
 						return
 				}
 			}
@@ -203,6 +204,7 @@ internal class XmlEventStreamTagParserBuilderImpl : XmlEventStreamTagParserBuild
 				val tagName = tagMap.keys.single()
 				SingleTagEventStreamReader(tagName, tagMap.getValue(tagName).build())
 			}
+
 			else -> MultipleTagsEventStreamReader(tagMap.mapValues { it.value.build() })
 		}
 }

@@ -5,7 +5,6 @@ import io.github.kerubistan.kroki.objects.isLessThan
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
-import java.util.*
 
 internal data class Node<T>(val item: T, var next: Node<T>?)
 
@@ -19,9 +18,9 @@ internal class SortedList<T>(private val comparator: Comparator<T>) {
 		}
 	}
 
-	fun isNotEmpty() : Boolean = first != null
+	fun isNotEmpty(): Boolean = first != null
 
-	fun isEmpty() : Boolean = first == null
+	fun isEmpty(): Boolean = first == null
 	fun removeFirst(): T {
 		return first?.let {
 			val item = it.item
@@ -34,8 +33,10 @@ internal class SortedList<T>(private val comparator: Comparator<T>) {
 		when {
 			first == null ->
 				first = Node(element, null)
+
 			first!!.item.isLessThan(element, comparator) ->
 				first = Node(element, first)
+
 			else -> {
 				var seek = first!!
 				while (seek.next != null && seek.next!!.item.isGreaterThan(element, comparator)) {
@@ -48,13 +49,17 @@ internal class SortedList<T>(private val comparator: Comparator<T>) {
 
 }
 
+/**
+ * Creates a channel with the messages from all input channels.
+ */
 fun <T> CoroutineScope.joinChannels(
 	inputChannels: List<ReceiveChannel<T>>,
 	outChannelCapacity: Int = 128,
 	comparator: Comparator<T>
 ): ReceiveChannel<T> = produce(capacity = outChannelCapacity) {
 
-	val inputIterators = SortedList(inputChannels
+	val inputIterators = SortedList(
+		inputChannels
 		.map { it.iterator() }
 		.filter { it.hasNext() }
 		.map {

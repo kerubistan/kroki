@@ -11,9 +11,9 @@ import org.openjdk.jmh.infra.Blackhole
 @State(Scope.Benchmark)
 open class RangeByBenchmark {
 
-	@Param("2","4","8","16","32","64","128","256","512","1024")
+	@Param("2", "4", "8", "16", "32", "64", "128", "256", "512", "1024")
 	var size = "2"
-	lateinit var list : List<Int>
+	lateinit var list: List<Int>
 
 	@Setup
 	fun setup() {
@@ -21,13 +21,13 @@ open class RangeByBenchmark {
 	}
 
 	@Benchmark
-	fun minAndMax(hole : Blackhole) {
+	fun minAndMax(hole: Blackhole) {
 		hole.consume(list.minBy { it })
 		hole.consume(list.maxBy { it })
 	}
 
 	@Benchmark
-	fun rangeByOrNull(hole : Blackhole) {
+	fun rangeByOrNull(hole: Blackhole) {
 		hole.consume(list.rangeByOrNull { it })
 	}
 }

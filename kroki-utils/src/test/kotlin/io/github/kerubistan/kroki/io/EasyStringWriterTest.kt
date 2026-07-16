@@ -3,7 +3,7 @@ package io.github.kerubistan.kroki.io
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-internal class EasyStringWriterTest {
+class EasyStringWriterTest {
 
 	@Test
 	fun write() {

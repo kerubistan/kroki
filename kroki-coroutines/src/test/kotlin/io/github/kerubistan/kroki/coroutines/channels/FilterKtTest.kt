@@ -18,10 +18,10 @@ class FilterKtTest {
 				it % 2 == 0
 			}
 			val results = mutableListOf<Int>()
-			for(message in filtered) {
+			for (message in filtered) {
 				results.add(message)
 			}
-			assertEquals(listOf(2,4,6,8,10), results)
+			assertEquals(listOf(2, 4, 6, 8, 10), results)
 		}
 	}
 }

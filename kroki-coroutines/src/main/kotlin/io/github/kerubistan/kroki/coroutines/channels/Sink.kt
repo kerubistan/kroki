@@ -4,11 +4,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.launch
 
-suspend fun <T> CoroutineScope.sink(channel: ReceiveChannel<T>) {
+/**
+ * Consumes all messages from the input channel.
+ */
+fun <T> CoroutineScope.sink(channel: ReceiveChannel<T>) {
 	launch {
 		val iterator = channel.iterator()
 		while (iterator.hasNext()) {
 			iterator.next()
 		}
-    }
+	}
 }

@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>kroki</artifactId>
 		<groupId>io.github.kerubistan.kroki</groupId>
@@ -79,10 +80,11 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jmh.version>1.21</jmh.version>
-		<javac.target>1.8</javac.target>
+		<jmh.version>1.37</jmh.version>
+		<javac.target>17</javac.target>
 		<jmh.generator>default</jmh.generator>
 		<uberjar.name>benchmarks</uberjar.name>
+		<dokka.skip>true</dokka.skip>
 	</properties>
 
 	<build>
@@ -197,7 +199,8 @@
 						<configuration>
 							<finalName>${uberjar.name}</finalName>
 							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>org.openjdk.jmh.Main</mainClass>
 								</transformer>
 							</transformers>
