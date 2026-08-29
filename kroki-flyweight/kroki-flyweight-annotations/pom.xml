@@ -6,6 +6,8 @@
 		<groupId>io.github.kerubistan.kroki</groupId>
 		<version>1.29-SNAPSHOT</version>
 	</parent>
+	<name>${artifactId}</name>
+	<description>${artifactId}</description>
 
 	<modelVersion>4.0.0</modelVersion>
 
