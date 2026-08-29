@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>kroki</artifactId>
 		<groupId>io.github.kerubistan.kroki</groupId>
-		<version>1.29-SNAPSHOT</version>
+		<version>1.29</version>
 	</parent>
 	<name>${artifactId}</name>
 	<description>${artifactId}</description>
@@ -34,7 +34,7 @@
 		<dependency>
 			<artifactId>kroki-utils</artifactId>
 			<groupId>io.github.kerubistan.kroki</groupId>
-			<version>1.29-SNAPSHOT</version>
+			<version>1.29</version>
 		</dependency>
 		<dependency>
 			<groupId>com.nhaarman</groupId>
