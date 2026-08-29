@@ -259,7 +259,9 @@
 		<module>kroki-collection-utils</module>
 		-->
 		<module>kroki-utils</module>
+		<!--
 		<module>kroki-jmh</module>
+		-->
 		<module>kroki-coroutines</module>
 		<module>kroki-collections</module>
 <!--		<module>kroki-collections-jackson-module</module>-->
