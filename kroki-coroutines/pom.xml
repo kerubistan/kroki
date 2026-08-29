@@ -8,6 +8,8 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
+	<name>${artifactId}</name>
+	<description>${artifactId}</description>
 
 	<artifactId>kroki-coroutines</artifactId>
 	<version>1.28-SNAPSHOT</version>

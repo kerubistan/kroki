@@ -7,6 +7,9 @@
 	<version>1.28-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<name>kroki root pom</name>
+	<description>${name}</description>
+
 	<licenses>
 		<license>
 			<url>https://apache.org/licenses/LICENSE-2.0.txt</url>

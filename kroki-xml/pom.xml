@@ -6,6 +6,8 @@
 		<artifactId>kroki</artifactId>
 		<version>1.28-SNAPSHOT</version>
 	</parent>
+	<name>${artifactId}</name>
+	<description>${artifactId}</description>
 
 	<modelVersion>4.0.0</modelVersion>
 
