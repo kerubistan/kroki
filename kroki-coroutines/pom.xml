@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>kroki</artifactId>
 		<groupId>io.github.kerubistan.kroki</groupId>
-		<version>1.30-SNAPSHOT</version>
+		<version>1.30</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -12,7 +12,7 @@
 	<description>${artifactId}</description>
 
 	<artifactId>kroki-coroutines</artifactId>
-	<version>1.30-SNAPSHOT</version>
+	<version>1.30</version>
 	<packaging>jar</packaging>
 
 	<licenses>
@@ -55,7 +55,7 @@
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-utils</artifactId>
-			<version>1.30-SNAPSHOT</version>
+			<version>1.30</version>
 		</dependency>
 
 	</dependencies>
