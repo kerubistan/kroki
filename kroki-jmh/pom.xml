@@ -28,32 +28,32 @@
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-utils</artifactId>
-			<version>${parent.version}</version>
+			<version>1.30-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-collections</artifactId>
-			<version>${parent.version}</version>
+			<version>1.30-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-coroutines</artifactId>
-			<version>${parent.version}</version>
+			<version>1.30-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-flyweight-lib</artifactId>
-			<version>${parent.version}</version>
+			<version>1.30-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-xml</artifactId>
-			<version>${parent.version}</version>
+			<version>1.30-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-delegates</artifactId>
-			<version>${parent.version}</version>
+			<version>1.30-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
