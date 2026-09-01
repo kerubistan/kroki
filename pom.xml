@@ -4,7 +4,7 @@
 
 	<groupId>io.github.kerubistan.kroki</groupId>
 	<artifactId>kroki</artifactId>
-	<version>1.30-SNAPSHOT</version>
+	<version>1.31-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>kroki root pom</name>
