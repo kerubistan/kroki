@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>io.github.kerubistan.kroki</groupId>
 		<artifactId>kroki</artifactId>
-		<version>1.33-SNAPSHOT</version>
+		<version>1.33</version>
 	</parent>
 	<name>${artifactId}</name>
 	<description>${artifactId}</description>
@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>io.github.kerubistan.kroki</groupId>
 			<artifactId>kroki-utils</artifactId>
-			<version>1.33-SNAPSHOT</version>
+			<version>1.33</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

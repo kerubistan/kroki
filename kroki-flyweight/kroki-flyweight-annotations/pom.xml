@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>kroki-flyweight</artifactId>
 		<groupId>io.github.kerubistan.kroki</groupId>
-		<version>1.33-SNAPSHOT</version>
+		<version>1.33</version>
 	</parent>
 	<name>${artifactId}</name>
 	<description>${artifactId}</description>

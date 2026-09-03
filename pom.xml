@@ -4,7 +4,7 @@
 
 	<groupId>io.github.kerubistan.kroki</groupId>
 	<artifactId>kroki</artifactId>
-	<version>1.33-SNAPSHOT</version>
+	<version>1.33</version>
 	<packaging>pom</packaging>
 
 	<name>kroki root pom</name>
@@ -39,7 +39,7 @@
 		<connection>scm:git:ssh://git@github.com/kerubistan/kroki</connection>
 		<developerConnection>scm:git:ssh://git@github.com/kerubistan/kroki</developerConnection>
 		<url>https://github.com/kerubistan/kroki</url>
-		<tag>HEAD</tag>
+		<tag>kroki-1.33</tag>
 	</scm>
 
 	<developers>
