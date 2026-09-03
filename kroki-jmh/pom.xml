@@ -84,7 +84,7 @@
 		<javac.target>17</javac.target>
 		<jmh.generator>default</jmh.generator>
 		<uberjar.name>benchmarks</uberjar.name>
-		<dokka.skip>true</dokka.skip>
+		<dokka.skip>false</dokka.skip>
 	</properties>
 
 	<build>
@@ -182,6 +182,25 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.jetbrains.dokka</groupId>
+				<artifactId>dokka-maven-plugin</artifactId>
+				<configuration>
+					<includes>
+						<file>../packages.md</file>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>dokka</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
