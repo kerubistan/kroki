@@ -6,6 +6,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>kroki-jmh</artifactId>
+	<name>${artifactId}</name>
 	<packaging>jar</packaging>
 
 	<licenses>
