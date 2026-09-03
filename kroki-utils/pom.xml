@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>kroki</artifactId>
 		<groupId>io.github.kerubistan.kroki</groupId>
-		<version>1.33</version>
+		<version>1.34-SNAPSHOT</version>
 	</parent>
 
 	<name>${artifactId}</name>
