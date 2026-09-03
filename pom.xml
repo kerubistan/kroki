@@ -159,9 +159,6 @@
 					</executions>
 					<configuration>
 						<cacheRoot>default</cacheRoot>
-						<includes>
-							<file>packages.md</file>
-						</includes>
 						<skip>${dokka.skip}</skip>
 						<samples>${project.build.testSourceDirectory}</samples>
 						<dokkaPlugins>

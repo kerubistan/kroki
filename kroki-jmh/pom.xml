@@ -186,11 +186,6 @@
 			<plugin>
 				<groupId>org.jetbrains.dokka</groupId>
 				<artifactId>dokka-maven-plugin</artifactId>
-				<configuration>
-					<includes>
-						<file>../packages.md</file>
-					</includes>
-				</configuration>
 				<executions>
 					<execution>
 						<phase>package</phase>
