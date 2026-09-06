@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>io.github.kerubistan.kroki</groupId>
 	<artifactId>kroki</artifactId>
-	<version>1.26-SNAPSHOT</version>
+	<version>1.34-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
+	<name>kroki root pom</name>
+	<description>${name}</description>
 
 	<licenses>
 		<license>
@@ -157,9 +159,6 @@
 					</executions>
 					<configuration>
 						<cacheRoot>default</cacheRoot>
-						<includes>
-							<file>packages.md</file>
-						</includes>
 						<skip>${dokka.skip}</skip>
 						<samples>${project.build.testSourceDirectory}</samples>
 						<dokkaPlugins>
@@ -262,6 +261,8 @@
 		<module>kroki-utils</module>
 		<module>kroki-jmh</module>
 		<module>kroki-coroutines</module>
+		<module>kroki-collections</module>
+<!--		<module>kroki-collections-jackson-module</module>-->
 		<module>kroki-xml</module>
 		<module>kroki-flyweight</module>
 		<module>kroki-jdbc</module>

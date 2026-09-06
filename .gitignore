@@ -5,3 +5,7 @@
 **/.attach*
 **/*.log
 **/pom.xml.releaseBackup
+
+release.properties
+**/pom.xml.versionsBackup
+**/pom.xml.releaseBackup
