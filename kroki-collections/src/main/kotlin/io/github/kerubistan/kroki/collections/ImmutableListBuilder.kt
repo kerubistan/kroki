@@ -1,7 +1,7 @@
 package io.github.kerubistan.kroki.collections
 
 class ImmutableListBuilder<T : Any> {
-	private var increment : Int = 128
+	private var increment : Int = 16
 	private var size : Int = 0
 	private var items : Array<Any?> = arrayOfNulls(increment)
 
