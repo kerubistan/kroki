@@ -43,7 +43,7 @@ class ImmutableListBuilder<T : Any> {
 				ImmutableArrayList(items as Array<T>)
 			}
 			else -> {
-				ImmutableArrayList((items.copyOf(size)) as Array<T>)
+				ImmutableSubArrayList(0, size, items as Array<T>)
 			}
 		}
 }
