@@ -17,7 +17,7 @@ open class ImmutableArrayListBenchmark {
 	@Param("1", "16", "1024", "4096")
 	var size: Int = 0
 
-	@Param("arraylist", "unmodifiableList", "immutablearraylist", "guava")
+	@Param("arraylist", "unmodifiableList", "immutablearraylist", "guava", "kotlin")
 	var type: String = "arraylist"
 
 	lateinit var list: List<String>
@@ -32,6 +32,9 @@ open class ImmutableArrayListBenchmark {
 		when (type) {
 			"arraylist" -> {
 				list = ArrayList(rawList)
+			}
+			"kotlin" -> {
+				list = rawList.toList()
 			}
 			"unmodifiableList" -> {
 				list = Collections.unmodifiableList(rawList)
