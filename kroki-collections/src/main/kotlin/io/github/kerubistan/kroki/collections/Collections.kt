@@ -4,6 +4,7 @@ fun <T : Any> immutableListOf(vararg items: T): List<T> =
 	when (items.size) {
 		0 -> emptyList()
 		1 -> listOf(items.single())
+		2 -> ImmutableList2(items[0], items[1])
 		else -> ImmutableArrayList(items)
 	}
 
@@ -25,8 +26,8 @@ fun <T : Comparable<T>> List<T>.immutableSorted(): List<T> =
 		else -> this.sorted()
 	}
 
-inline fun <reified T : Any> buildList(builder: ImmutableListBuilder<T>.() -> Unit) =
-	ImmutableListBuilder<T>().apply(builder).build()
+inline fun <reified T : Any> buildList(increment: Int = 16, builder: ImmutableListBuilder<T>.() -> Unit) =
+	ImmutableListBuilder<T>(increment).apply(builder).build()
 
 fun <K, V> immutableMapOf(): Map<K, V> = emptyMap()
 
