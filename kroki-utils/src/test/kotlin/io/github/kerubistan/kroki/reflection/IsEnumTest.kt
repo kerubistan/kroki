@@ -17,7 +17,9 @@ class IsEnumTest {
 	fun isEnum() {
 		assertTrue { MyEnum::class.isEnum }
 		assertFalse { String::class.isEnum }
-		assertTrue { Blah::class.isEnum }
+		assertFalse { Blah::class.isEnum }
+		assertFalse { Int::class.isEnum }
+		assertFalse { ByteArray::class.isEnum }
 	}
 
 }
